@@ -1,0 +1,33 @@
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/searchBar" >
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/searchText"
+            android:textColor="#000000"
+            android:textColorHint="#D3D3D3"
+            android:hint="Search For Respondents" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:id="@+id/btnSearch"
+            android:background="@drawable/ic_action_action_search" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>
