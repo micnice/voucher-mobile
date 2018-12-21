@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+tools:context="morris.com.voucher.fragment.RegisterClientFragment"
+android:background="#ffffff"
+android:alpha="0.95"
+    android:layout_below="@id/dashboard_tabs">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/firstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Client Name" />
+
+            <EditText
+                android:id="@+id/lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstName"
+                android:hint="Enter Client Last Name" />
+
+            <EditText
+                android:id="@+id/maritalStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lastName"
+                android:hint="Enter Client Marital Status" />
+
+
+            <EditText
+                android:id="@+id/educationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/birthDate"
+                android:hint="Enter Education Status" />
+
+            <EditText
+                android:id="@+id/identificationNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/educationStatus"
+                android:hint="Enter Client ID Number" />
+
+            <EditText
+                android:id="@+id/lmp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/identificationNumber"
+                android:hint="Enter Client LMP" />
+
+            <EditText
+                android:id="@+id/parity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lmp"
+                android:hint="Enter Client Parity"
+                android:inputType="number|phone" />
+
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/parity"
+                android:hint="Loading Latitude" />
+
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/latitude"
+                android:hint="Loading Latitude" />
+
+            <EditText
+                android:id="@+id/birthDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/maritalStatus"
+                android:hint="Select Birth Date" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</FrameLayout>

@@ -6,7 +6,7 @@
     android:id="@+id/content_dashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="morris.com.voucher.DashActivity"
+    tools:context="morris.com.voucher.activity.DashboardActivity"
     tools:showIn="@layout/app_bar_dashboard">
 
     <android.support.design.widget.TabLayout
@@ -16,6 +16,35 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_marginTop="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sv_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
+
+    <LinearLayout
+        android:id="@+id/register_client_holder"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#26967e" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
