@@ -1,12 +1,21 @@
 package morris.com.voucher.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,10 +25,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.RegisterClientFragment;
+import morris.com.voucher.location.LocationSettings;
+import morris.com.voucher.location.LocationTracker;
+
+import static morris.com.voucher.util.Tools.hasPermissions;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     TabLayout dashboardTabs;
@@ -27,12 +41,22 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public static Context context;
     public static Activity activity;
     public static DashboardActivity dashboardActivity;
+    public static boolean gpsOn = false;
+    private Intent locationIntent;
+    static LocationManager locationManager;
+    static LocationListener locationListener;
+    LocationManager manager = null;
+    LocationSettings locationSettings = new LocationSettings(this);
     public VoucherDataBase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        locationIntent = new Intent(getApplicationContext(), LocationTracker.class);
+
+        checkGPS();
 
      Toolbar toolbar =  findViewById(R.id.toolbar);
        toolbar.setContentInsetStartWithNavigation(0);
@@ -90,6 +114,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (locationSettings.locationServiceRunning()) {
+            stopService(locationIntent);
+        }
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -120,5 +152,64 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     }
 
+    public void checkGPS() {
+        int PERMISSION_ALL = 1122;
+        String[] PERMISSIONS = {
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        if (!hasPermissions(getApplicationContext(), PERMISSIONS)) {
+            ActivityCompat.requestPermissions(DashboardActivity.this, PERMISSIONS, PERMISSION_ALL);
+            return;
+        }
+        //Check if Gps is On
+        PackageManager packageManager = this.getPackageManager();
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+            manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                new AlertDialog.Builder(this).setTitle("GPS Message").setMessage("Data Entry Requires Turning On GPS " +
+                        "Are you going to do Data Entry?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
+                        System.out.println("$$$$$$$$$$__IF-");
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+            } else {
+                gpsOn= true;
+                startService(locationIntent);
+                System.out.println("$$$$$$$$$$__ELSE-");
+            }
+        } else {
+            Toast.makeText(context, "Your phone seems not to have gps location.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 12344) {
+            try {
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    gpsOn = false;
+                } else {
+                    gpsOn = true;
+                    startService(locationIntent);
+                }
+
+            } catch (Exception ex) {
+                gpsOn = false;
+            }
+        }
+    }
+    @SuppressLint("MissingPermission")
+    public static void configureLocationManager() {
+        locationManager.requestLocationUpdates("gps", 1000, 0, locationListener);
+    }
 
 }

@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "1063296303510",
+    "firebase_url": "https://oneall-64026.firebaseio.com",
+    "project_id": "oneall-64026",
+    "storage_bucket": "oneall-64026.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063296303510:android:2b9d00b449b2d491",
+        "android_client_info": {
+          "package_name": "com.jimtech.oneall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063296303510-947993141sbgf1fvtmtk3ad8138qvbb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwYHh7kwtpLfpQMGDcccqnYIHMYDRbnyw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063296303510:android:9efb157a2c18fc3a",
+        "android_client_info": {
+          "package_name": "hitrac.co.zw.oneall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063296303510-i3hvp36fkmsbi5rf19tganonv1ut8i4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hitrac.co.zw.oneall",
+            "certificate_hash": "f4eeb4f3452844e700d99b3bbd5928dd70fedb1b"
+          }
+        },
+        {
+          "client_id": "1063296303510-947993141sbgf1fvtmtk3ad8138qvbb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwYHh7kwtpLfpQMGDcccqnYIHMYDRbnyw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063296303510-947993141sbgf1fvtmtk3ad8138qvbb6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

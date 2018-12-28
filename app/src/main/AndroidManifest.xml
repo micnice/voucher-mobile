@@ -14,6 +14,12 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCws3JbROyoxcwHB6Vgp0lYJDXTYQ62Z2A" />
+    <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="f6a09c04f43f2ddea156c5086bc670bff675fc1b" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -32,6 +38,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".location.LocationTracker"
+            android:theme="@style/AlertDialog.AppCompat" />
     </application>
 
 </manifest>
