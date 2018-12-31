@@ -13,20 +13,26 @@ public class IdentificationData {
 
     @PrimaryKey(autoGenerate = true)
     int id;
-    private Date lmp;
+    private String lmp;
+    private String createdBy;
+    private String dateRegistered;
     private String firstName;
     private String lastName;
     private String maritalStatus;
-    private Date birthDate;
+    private String birthDate;
     private String educationStatus;
     private Long parity;
+    private String idFromServer;
     private String identificationNumber;
     private String latitude;
     private String longitude;
+    private Boolean assessed = Boolean.FALSE;
     private boolean sentToServer=Boolean.FALSE;
 
-    public IdentificationData(Date lmp, String firstName, String lastName, String maritalStatus,
-                              Date birthDate, String educationStatus, Long parity,
+    public IdentificationData(){};
+
+    public IdentificationData(String lmp, String firstName, String lastName, String maritalStatus,
+                              String birthDate, String educationStatus, Long parity,
                               String identificationNumber, String latitude, String longitude) {
         this.lmp = lmp;
         this.firstName = firstName;
@@ -48,11 +54,11 @@ public class IdentificationData {
         this.id = id;
     }
 
-    public Date getLmp() {
+    public String getLmp() {
         return lmp;
     }
 
-    public void setLmp(Date lmp) {
+    public void setLmp(String lmp) {
         this.lmp = lmp;
     }
 
@@ -80,11 +86,11 @@ public class IdentificationData {
         this.maritalStatus = maritalStatus;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -134,5 +140,37 @@ public class IdentificationData {
 
     public void setSentToServer(boolean sentToServer) {
         this.sentToServer = sentToServer;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Boolean getAssessed() {
+        return assessed;
+    }
+
+    public void setAssessed(Boolean assessed) {
+        this.assessed = assessed;
+    }
+
+    public String getIdFromServer() {
+        return idFromServer;
+    }
+
+    public void setIdFromServer(String idFromServer) {
+        this.idFromServer = idFromServer;
+    }
+
+    public String getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(String dateRegistered) {
+        this.dateRegistered = dateRegistered;
     }
 }

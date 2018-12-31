@@ -19,6 +19,8 @@ android:alpha="0.95"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <EditText
                 android:id="@+id/firstName"
                 android:layout_width="match_parent"
@@ -32,20 +34,29 @@ android:alpha="0.95"
                 android:layout_below="@id/firstName"
                 android:hint="Enter Client Last Name" />
 
-            <EditText
-                android:id="@+id/maritalStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lastName"
-                android:hint="Enter Client Marital Status" />
+
+                <Space
+                    android:id="@+id/spce"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
 
 
-            <EditText
-                android:id="@+id/educationStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/birthDate"
-                android:hint="Enter Education Status" />
+                <Spinner
+                    android:id="@+id/maritalStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spce"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
+                <Spinner
+                    android:id="@+id/educationStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/maritalStatus"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
+
+
 
             <EditText
                 android:id="@+id/identificationNumber"
@@ -53,13 +64,22 @@ android:alpha="0.95"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/educationStatus"
                 android:hint="Enter Client ID Number" />
+            <Button
+                android:id="@+id/lmpPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/identificationNumber"
+                android:layout_marginTop="10dp"
+                android:text="@string/lmp_date_set" />
 
             <EditText
                 android:id="@+id/lmp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/identificationNumber"
-                android:hint="Enter Client LMP" />
+                android:enabled="false"
+                android:hint="Set Client LMP" />
 
             <EditText
                 android:id="@+id/parity"
@@ -91,12 +111,33 @@ android:alpha="0.95"
                 android:layout_below="@id/latitude"
                 android:hint="Loading Latitude" />
 
+            <Button
+                android:id="@+id/dobPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/longitude"
+                android:layout_marginTop="10dp"
+                android:text="@string/date_button_set" />
+
             <EditText
                 android:id="@+id/birthDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/maritalStatus"
-                android:hint="Select Birth Date" />
+                android:layout_below="@id/dobPicker"
+                android:enabled="false"
+                android:hint="Set Birth Date" />
+
+            <Button
+                android:id="@+id/saveData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/birthDate"
+                android:layout_marginTop="10dp"
+                android:text="SAVE" />
         </LinearLayout>
 
 

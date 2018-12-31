@@ -138,7 +138,7 @@ public class LocationTracker extends Service {
                         int statusCode = ((ApiException) e).getStatusCode();
                         if (statusCode == LocationSettingsStatusCodes.RESOLUTION_REQUIRED){
 
-                            Toast.makeText(getApplicationContext(), "Enable GPS to get location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Enable GPS to get location", Toast.LENGTH_LONG).show();
                         }
 //                        updateLocationUI();
                     }
@@ -146,9 +146,6 @@ public class LocationTracker extends Service {
     }
 
     public void updateLocationUI(){
-        System.out.println("##########---LONG--"+mCurrentLocation.getLongitude());
-        System.out.println("##########---LATI--"+mCurrentLocation.getLongitude());
-
         lastKnownLocationIntent = new Intent("last_known_location");
         lastKnownLocationIntent.putExtra("longitude", mCurrentLocation.getLongitude());
         lastKnownLocationIntent.putExtra("latitude", mCurrentLocation.getLatitude());

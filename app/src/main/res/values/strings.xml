@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Voucher</string>
+    <string name="date_button_set">Set D.O.B</string>
+    <string name="lmp_date_set">Set LMP DATE</string>
+    <string name="part1_label">How many regular meals a day (With sadza/rice/potatoes or any other source of starch) does the household typically eat?</string>
+    <string name="part2_label">What are the main sources of livelihood for the household?</string>
+    <string name="part3_label">What is the average monthly remittances the household received from relatives or others during the last 12 months ?</string>
+    <string name="part4_label">What percentage of your income goes to rent and rates?</string>
+    <string name="part5_label">Is your water disconnected?</string>
+    <string name="part6_label">Is your electricity disconnected?</string>
+    <string name="part7_label">How many rooms are used for sleeping?</string>
+    <string name="part8_label">What type of fuel does your household normally use for cooking?</string>
+    <string name="part9_label">Main material of the house walls(Observe)S</string>
+    <string name="part10_label">What is the tenure status of the household?</string>
+    <string name="part9_1">Natural or rudimentary (pole and dagga, makeshift,wood, cardboard, or metal?</string>
+    <string name="part9_0">Finished wall (brick /stone with cement/lime?</string>
+    <string name="part11_label">Does the household possess any of the following assets:Radio,television,refrigerator,bicycle,motorcycle,car or truck?</string>
 </resources>
