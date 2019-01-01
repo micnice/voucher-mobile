@@ -59,8 +59,6 @@ public class FormsByUserFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         Bundle bundle;
-        ////recyclerView.setItemAnimator(new DefaultItemAnimator());
-       // recyclerView.setNestedScrollingEnabled(false);
         database = VoucherDataBase.getDatabase(context);
         bundle = getArguments();
        if(bundle.getString("item")!=null &&bundle.getString("item").equals("assessment")){
@@ -69,6 +67,7 @@ public class FormsByUserFragment extends BaseFragment {
            dataList = database.identificationDataDAO().getAll();
        }
         adapter = new FormsByUserAdapter(dataList);
+        adapter.setBundleFromPreviousPage(bundle);
         recyclerView.setAdapter(adapter);
 
         formsByUserFragment = this;

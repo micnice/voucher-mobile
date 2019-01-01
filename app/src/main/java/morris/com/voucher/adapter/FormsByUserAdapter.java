@@ -31,6 +31,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
 
     List<IdentificationData> items = new ArrayList<>();
     Bundle bundle = new Bundle();
+    Bundle bundleFromPreviousPage;
 
 
 
@@ -48,10 +49,10 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             holder.firstName.setText(items.get(position).getFirstName());
             holder.lastName.setText(items.get(position).getLastName());
             holder.idNumber.setText(items.get(position).getIdentificationNumber());
-            holder.dob.setText(items.get(position).getBirthDate());
             bundle.putString("clientId",items.get(position).getIdFromServer());
             bundle.putString("fname",holder.firstName.getText().toString());
             bundle.putString("lname",holder.lastName.getText().toString());
+            bundle.putString("idNumber",holder.idNumber.getText().toString());
 
         }catch (Exception e){
             e.printStackTrace();
@@ -77,7 +78,6 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         public final TextView firstName;
         public final TextView lastName;
         public final TextView idNumber;
-        public final TextView dob;
         public final Button assess;
         public IdentificationData mItem;
 
@@ -89,15 +89,23 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             firstName = view.findViewById(R.id.recycler_fname);
             lastName = view.findViewById(R.id.recycler_lname);
             idNumber = view.findViewById(R.id.recycler_idnum);
-            dob = view.findViewById(R.id.recycler_dob);
             assess= view.findViewById(R.id.assessClient);
+            Bundle savedInstance = getBundleFromPreviousPage();
+
+            if(savedInstance==null){
+                assess.setVisibility(View.GONE);
+            }else if(savedInstance.getString("item")==null ||!savedInstance.getString("item").equals("assessment")){
+                assess.setVisibility(View.GONE);
+
+            }else{
+
+            }
 
             assess.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Fragment fragment= new AssessClientFragment();
-
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager.popBackStackImmediate();
@@ -116,5 +124,13 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public Bundle getBundleFromPreviousPage() {
+        return bundleFromPreviousPage;
+    }
+
+    public void setBundleFromPreviousPage(Bundle bundleFromPreviousPage) {
+        this.bundleFromPreviousPage = bundleFromPreviousPage;
     }
 }

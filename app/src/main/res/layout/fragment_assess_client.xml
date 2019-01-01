@@ -17,21 +17,43 @@ android:alpha="0.95"
             android:id="@+id/clientFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
+            />
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
              />
         <TextView
             android:id="@+id/clientLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
             />
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+        />
         <TextView
             android:id="@+id/clientIdNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
             />
 
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,13 +69,15 @@ android:alpha="0.95"
                 android:id="@+id/part1_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part1_label" />
 
             <RadioGroup
                 android:id="@+id/part1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
             <RadioButton
@@ -61,14 +85,12 @@ android:alpha="0.95"
                 android:id="@+id/part1_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="No meal or one meal" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part1_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Two or more meals" />
             </RadioGroup>
 
@@ -76,13 +98,15 @@ android:alpha="0.95"
                 android:id="@+id/part2_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part2_label" />
 
             <RadioGroup
                 android:id="@+id/part2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -90,27 +114,27 @@ android:alpha="0.95"
                     android:id="@+id/part2_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Begging or piece work" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part2_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Formal/Informal Employment" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part3_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part3_label" />
 
             <RadioGroup
                 android:id="@+id/part3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -118,27 +142,27 @@ android:alpha="0.95"
                     android:id="@+id/part3_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Less than $50" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part3_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="$50 or more" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part4_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part4_label" />
 
             <RadioGroup
                 android:id="@+id/part4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -146,14 +170,12 @@ android:alpha="0.95"
                     android:id="@+id/part4_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="75% and above" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part4_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="below 75%" />
             </RadioGroup>
 
@@ -161,13 +183,15 @@ android:alpha="0.95"
                 android:id="@+id/part5_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part5_label" />
 
             <RadioGroup
                 android:id="@+id/part5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -175,27 +199,27 @@ android:alpha="0.95"
                     android:id="@+id/part5_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Is disconnected" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part5_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="not disconnected" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part6_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part6_label" />
 
             <RadioGroup
                 android:id="@+id/part6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -203,27 +227,27 @@ android:alpha="0.95"
                     android:id="@+id/part6_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="is disconnected" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part6_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="not disconnected" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part7_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part7_label" />
 
             <RadioGroup
                 android:id="@+id/part7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -231,27 +255,27 @@ android:alpha="0.95"
                     android:id="@+id/part7_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Two and below" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part7_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="more than 2" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part8_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part8_label" />
 
             <RadioGroup
                 android:id="@+id/part8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -259,27 +283,29 @@ android:alpha="0.95"
                     android:id="@+id/part8_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
                     android:text="firewood or waste" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part8_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="electricity,coal,gas or paraffin" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part9_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part9_label" />
 
             <RadioGroup
                 android:id="@+id/part9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -287,27 +313,27 @@ android:alpha="0.95"
                     android:id="@+id/part9_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/part9_1" />
+                    android:text="Natural or rudimentary (pole and dagga, makeshift,wood, cardboard, or metal" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part9_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/part9_0" />
+                    android:text="Finished wall (brick /stone with cement/lime" />
             </RadioGroup>
             <TextView
                 android:id="@+id/part10_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part10_label" />
 
             <RadioGroup
                 android:id="@+id/part10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -315,27 +341,27 @@ android:alpha="0.95"
                     android:id="@+id/part10_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Rent" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part10_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Own/Tied accommodation/Other " />
             </RadioGroup>
             <TextView
                 android:id="@+id/part11_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="@string/part11_label" />
 
             <RadioGroup
                 android:id="@+id/part11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <RadioButton
@@ -343,14 +369,12 @@ android:alpha="0.95"
                     android:id="@+id/part11_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="No" />
                 <RadioButton
                     android:layout_margin="5dp"
                     android:id="@+id/part11_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="Yes" />
             </RadioGroup>
 
@@ -364,11 +388,12 @@ android:alpha="0.95"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/part11"
                 android:layout_marginTop="10dp"
-                android:text="SAVE" />
+                android:text="ASSESS" />
         </LinearLayout>
 
 
     </ScrollView>
+    </LinearLayout>
 
 
 </FrameLayout>

@@ -54,6 +54,7 @@ public class AssessClientFragment extends BaseFragment {
         toolbar = view.findViewById(R.id.toolbar);
         database = VoucherDataBase.getDatabase(context);
         ClientAssessment assessment = new ClientAssessment();
+        bundle =getArguments();
 
         part1 = view.findViewById(R.id.part1);
         part2 = view.findViewById(R.id.part2);
@@ -251,20 +252,25 @@ public class AssessClientFragment extends BaseFragment {
                 }
             }
 
+
         });
+        clientLastName.setText(bundle.getString("lname"));
+        clientFirstName.setText(bundle.getString("fname"));
+        clientIdNumber.setText(bundle.getString("idNumber"));
 
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            bundle =getArguments();
+
                 Date date = Calendar.getInstance().getTime();
             assessment.setClientId(bundle.getString("clientId"));
             assessment.setDateAssesed(date.toString());
             assessment.setFname(bundle.getString("fname"));
             assessment.setLname(bundle.getString("lname"));
             database.clientAssessmentDAO().saveClientAssessmentData(assessment);
-            IdentificationData data = database.identificationDataDAO().getByClientId(assessment.getClientId());
+            IdentificationData data = database.identificationDataDAO().getByClientId(bundle.getString("clientId"));
             data.setAssessed(Boolean.TRUE);
+            database.identificationDataDAO().updateIdentificationData(data);
                 Bundle bundle = new Bundle();
                 Fragment fragment= new FormsByUserFragment();
                 bundle.putString("item","assessment");
@@ -275,6 +281,7 @@ public class AssessClientFragment extends BaseFragment {
 
             }
         });
+
 
 
         return view;

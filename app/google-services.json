@@ -41,7 +41,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1063296303510:android:9efb157a2c18fc3a",
         "android_client_info": {
-          "package_name": "hitrac.co.zw.oneall"
+          "package_name": "morris.com.voucher"
         }
       },
       "oauth_client": [
@@ -49,7 +49,7 @@
           "client_id": "1063296303510-i3hvp36fkmsbi5rf19tganonv1ut8i4m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "hitrac.co.zw.oneall",
+            "package_name": "morris.com.voucher",
             "certificate_hash": "f4eeb4f3452844e700d99b3bbd5928dd70fedb1b"
           }
         },
