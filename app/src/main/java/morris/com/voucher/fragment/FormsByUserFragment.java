@@ -3,6 +3,7 @@ package morris.com.voucher.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 
@@ -33,7 +35,7 @@ public class FormsByUserFragment extends BaseFragment {
 
    public  static FormsByUserFragment formsByUserFragment;
     private RecyclerView recyclerView;
-   //private int mColumnCount = 4;
+    Button addNew;
     private List<IdentificationData> dataList = new ArrayList<>();
     FormsByUserAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -58,11 +60,13 @@ public class FormsByUserFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        addNew = view.findViewById(R.id.addNew);
         Bundle bundle;
         database = VoucherDataBase.getDatabase(context);
         bundle = getArguments();
-       if(bundle.getString("item")!=null &&bundle.getString("item").equals("assessment")){
+       if(bundle!=null && bundle.getString("item")!=null &&bundle.getString("item").equals("assessment")){
            dataList = database.identificationDataDAO().getAllNotAssessed();
+           addNew.setVisibility(View.GONE);
        }else {
            dataList = database.identificationDataDAO().getAll();
        }
@@ -71,6 +75,18 @@ public class FormsByUserFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         formsByUserFragment = this;
+
+        addNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                android.support.v4.app.Fragment fragment= new RegisterClientFragment();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStackImmediate();
+                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).commit();
+            }
+        });
 
 
         return view;

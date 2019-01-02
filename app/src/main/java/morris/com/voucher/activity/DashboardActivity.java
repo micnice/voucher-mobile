@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.fragment.AccountingFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
 import morris.com.voucher.fragment.RegisterClientFragment;
 import morris.com.voucher.location.LocationSettings;
@@ -75,9 +76,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         activity = DashboardActivity.this;
         dashboardActivity = this;
         database = VoucherDataBase.getDatabase(this);
-
-
-
+        Fragment formsByUserFragment = new FormsByUserFragment();
+        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
         dashboardTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             public void onTabSelected(TabLayout.Tab tab) {
@@ -88,8 +88,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 int stab = tab.getPosition();
 
                 if (stab == 0) {
-                    Fragment registerClient = new RegisterClientFragment();
-                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, registerClient).commit();
+                    Fragment formsByUserFragment = new FormsByUserFragment();
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                     return;
                 } else if (stab == 1) {
                     Bundle bundle = new Bundle();
@@ -99,7 +99,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
 
                 }else {
-
+                    Fragment accountingFragment = new AccountingFragment();
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
                 }
             }
 

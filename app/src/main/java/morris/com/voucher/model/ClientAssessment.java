@@ -17,6 +17,7 @@ public class ClientAssessment {
     String lname;
     String idNumber;
     String dateAssesed;
+    String idFromServer;
     Boolean part1 =Boolean.FALSE;
     Boolean part2 = Boolean.FALSE;
     Boolean part3 = Boolean.FALSE;
@@ -172,5 +173,13 @@ public class ClientAssessment {
 
     public void setDateAssesed(String dateAssesed) {
         this.dateAssesed = dateAssesed;
+    }
+
+    public String getIdFromServer() {
+        return idFromServer;
+    }
+
+    public void setIdFromServer(String idFromServer) {
+        this.idFromServer = idFromServer;
     }
 }

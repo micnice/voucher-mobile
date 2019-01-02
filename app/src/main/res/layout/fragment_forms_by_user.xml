@@ -7,6 +7,19 @@
     android:orientation="vertical"
     android:name="morris.com.voucher.fragment.FormsByUserFragment"
     tools:context="morris.com.voucher.fragment.FormsByUserFragment">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/addNew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Add New" />
+
+
+    </LinearLayout>
 
 
 <TextView
@@ -17,7 +30,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginRight="4dp"
     android:shadowColor="@color/colorPrimary"
-    android:text="FORMS BY USER"
+    android:text="REGISTRATION FORMS"
     android:textAllCaps="true"
     android:textColor="@color/colorPrimary"
     android:textSize="18dp"
