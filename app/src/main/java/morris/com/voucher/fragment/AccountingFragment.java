@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,7 +40,13 @@ public class AccountingFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu,inflater);
+    menu.clear();
     }
 
 
@@ -50,6 +58,7 @@ public class AccountingFragment extends BaseFragment {
 
         sellVoucher = view.findViewById(R.id.sellVoucher);
         claimVoucher = view.findViewById(R.id.claimVoucher);
+       getActivity().findViewById(R.id.search).setVisibility(View.GONE);
 
         accountingFragment = this;
 

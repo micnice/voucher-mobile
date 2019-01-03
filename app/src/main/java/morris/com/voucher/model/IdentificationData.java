@@ -173,4 +173,34 @@ public class IdentificationData {
     public void setDateRegistered(String dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IdentificationData that = (IdentificationData) o;
+
+        if (id != that.id) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
+            return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null)
+            return false;
+        if (maritalStatus != null ? !maritalStatus.equals(that.maritalStatus) : that.maritalStatus != null)
+            return false;
+        if (birthDate != null ? !birthDate.equals(that.birthDate) : that.birthDate != null)
+            return false;
+        return identificationNumber != null ? identificationNumber.equals(that.identificationNumber) : that.identificationNumber == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (identificationNumber != null ? identificationNumber.hashCode() : 0);
+        return result;
+    }
 }

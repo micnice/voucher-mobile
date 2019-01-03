@@ -1,6 +1,7 @@
 package morris.com.voucher.fragment;
 
 import android.app.Fragment;
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -8,8 +9,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +52,9 @@ public class FormsByUserFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +75,20 @@ public class FormsByUserFragment extends BaseFragment {
        }else {
            dataList = database.identificationDataDAO().getAll();
        }
+
+       if(bundle!= null && bundle.getString("current")!=null && bundle.getString("searchQuery")!=null){
+           List<IdentificationData> searchList = new ArrayList<>();
+         String search=  bundle.getString("searchQuery").trim();
+         for(IdentificationData data:dataList){
+           if(data.getIdentificationNumber().toLowerCase().contains(search.toLowerCase())
+                   || data.getFirstName().toLowerCase().contains(search.toLowerCase())
+                   || data.getLastName().toLowerCase().contains(search.toLowerCase())) {
+               searchList.add(data);
+           }
+         }
+         dataList =searchList;
+       }
+
         adapter = new FormsByUserAdapter(dataList);
         adapter.setBundleFromPreviousPage(bundle);
         recyclerView.setAdapter(adapter);
@@ -90,6 +109,8 @@ public class FormsByUserFragment extends BaseFragment {
 
 
         return view;
+
+
     }
 
 

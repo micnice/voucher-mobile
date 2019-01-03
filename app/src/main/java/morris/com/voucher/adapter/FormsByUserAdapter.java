@@ -34,9 +34,6 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
     Bundle bundleFromPreviousPage;
 
 
-
-
-
     public FormsByUserAdapter(List<IdentificationData> dataList) {
         this.items = dataList;
 

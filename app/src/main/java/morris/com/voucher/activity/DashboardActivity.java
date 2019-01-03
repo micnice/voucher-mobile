@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +19,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -39,11 +43,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     ActionBar actionBar;
     public static Context context;
     public static Activity activity;
+    public Menu topMenu;
+    public static SearchView searchView;
     public static DashboardActivity dashboardActivity;
     public static boolean gpsOn = false;
     private Intent locationIntent;
-    static LocationManager locationManager;
-    static LocationListener locationListener;
+    private Bundle currentFragmentBundle;
     LocationManager manager = null;
     LocationSettings locationSettings = new LocationSettings(this);
     public VoucherDataBase database;
@@ -57,15 +62,15 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         checkGPS();
 
-     Toolbar toolbar =  findViewById(R.id.toolbar);
-       toolbar.setContentInsetStartWithNavigation(0);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
         this.actionBar = this.getSupportActionBar();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        dashboardTabs =  findViewById(R.id.dashboard_tabs);
+        dashboardTabs = findViewById(R.id.dashboard_tabs);
 
 
         dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
@@ -77,28 +82,36 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         dashboardActivity = this;
         database = VoucherDataBase.getDatabase(this);
         Fragment formsByUserFragment = new FormsByUserFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("current","registration");
+        formsByUserFragment.setArguments(bundle);
+        setCurrentFragmentBundle(bundle);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
         dashboardTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             public void onTabSelected(TabLayout.Tab tab) {
 
 
-
-
                 int stab = tab.getPosition();
 
                 if (stab == 0) {
+                    Bundle bundle = new Bundle();
                     Fragment formsByUserFragment = new FormsByUserFragment();
+                    bundle.putString("current","registration");
+                    formsByUserFragment.setArguments(bundle);
+                    setCurrentFragmentBundle(bundle);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                     return;
                 } else if (stab == 1) {
                     Bundle bundle = new Bundle();
                     bundle.putString("item", "assessment");
+                    bundle.putString("current","assessment");
+                    setCurrentFragmentBundle(bundle);
                     FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
                     formsByUserFragment.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
 
-                }else {
+                } else {
                     Fragment accountingFragment = new AccountingFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
                 }
@@ -118,6 +131,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -151,8 +165,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
-    public void setItemsFragment(Fragment fragment1, Fragment fragment2, Fragment fragment3){
-        if(fragment1 != null)
+    public void setItemsFragment(Fragment fragment1, Fragment fragment2, Fragment fragment3) {
+        if (fragment1 != null)
             getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, fragment1).commit();
 
     }
@@ -184,7 +198,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     }
                 }).show();
             } else {
-                gpsOn= true;
+                gpsOn = true;
                 startService(locationIntent);
 
             }
@@ -192,6 +206,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Toast.makeText(context, "Your phone seems not to have gps location.", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -210,9 +225,53 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         }
     }
-    @SuppressLint("MissingPermission")
-    public static void configureLocationManager() {
-        locationManager.requestLocationUpdates("gps", 1000, 0, locationListener);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_dashboard, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setIconifiedByDefault(true);
+        topMenu = menu;
+
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getSearchbarQuery();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+
+            }
+        });
+        return true;
+    }
+    public String getSearchbarQuery() {
+        String query = searchView.getQuery().toString();
+        showSearchFragment(query);
+        return query;
+    }
+    public void showSearchFragment(String searchQuery) {
+        FormsByUserFragment searchResultsFragment = new FormsByUserFragment();
+        Bundle bundle = getCurrentFragmentBundle();
+        bundle.putString("searchQuery", searchQuery);
+        searchResultsFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+
     }
 
+    public Bundle getCurrentFragmentBundle() {
+        return currentFragmentBundle;
+    }
+
+    public void setCurrentFragmentBundle(Bundle currentFragmentBundle) {
+        this.currentFragmentBundle = currentFragmentBundle;
+    }
 }
