@@ -34,7 +34,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
     List<AssessmentDataFromServer> serverList = new ArrayList<>();
     Bundle bundle = new Bundle();
     Bundle bundleFromPreviousPage;
-
+    public  Button assess,edit;
 
     public FormsByUserAdapter(List<IdentificationData> dataList) {
         this.items = dataList;
@@ -58,6 +58,8 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.lastName.setText(serverList.get(position).getLname());
                 holder.idNumber.setText(serverList.get(position).getIdNumber());
                 bundle.putString("clientId",serverList.get(position).getClientId());
+                edit.setVisibility(View.GONE);
+
             }else {
 
                 holder.mItem = items.get(position);
@@ -65,11 +67,23 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.lastName.setText(items.get(position).getLastName());
                 holder.idNumber.setText(items.get(position).getIdentificationNumber());
                 bundle.putString("clientId",items.get(position).getIdFromServer());
+                if(items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()){
+                    holder.status.setText("F");
+                }else if(!items.get(position).isMarkAsFinalised()){
+                    holder.status.setText("NF");
+                }else{
+                    holder.status.setText("STS");
+                }
+                if(!items.get(position).isMarkAsFinalised()){
+                    //TODO Use If SentTo Server Instead
+                    edit.setVisibility(View.GONE);
+                }
             }
 
             bundle.putString("fname",holder.firstName.getText().toString());
             bundle.putString("lname",holder.lastName.getText().toString());
             bundle.putString("idNumber",holder.idNumber.getText().toString());
+
 
         }catch (Exception e){
             e.printStackTrace();
@@ -83,6 +97,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         View v =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_form_recycler_view, parent, false);
 
+
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -95,9 +110,10 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         public final TextView firstName;
         public final TextView lastName;
         public final TextView idNumber;
-        public final Button assess;
+        public final TextView status;
         public IdentificationData mItem;
         public AssessmentDataFromServer mItem1;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -108,13 +124,14 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             lastName = view.findViewById(R.id.recycler_lname);
             idNumber = view.findViewById(R.id.recycler_idnum);
             assess= view.findViewById(R.id.assessClient);
+            edit = view.findViewById(R.id.edit);
+            status = view.findViewById(R.id.status);
             Bundle savedInstance = getBundleFromPreviousPage();
 
             if(savedInstance==null){
                 assess.setVisibility(View.GONE);
-            }else if(savedInstance.getString("item")==null ||!savedInstance.getString("item").equals("assessment")){
+            }else if((savedInstance.getString("item")==null)||!savedInstance.getString("item").equals("assessment")){
                 assess.setVisibility(View.GONE);
-
             }else{
 
             }

@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -64,12 +65,10 @@ public class RegisterClientFragment extends BaseFragment  {
     Spinner maritalStatus;
     Spinner educationStatus;
     Button setDOB,saveData,lmpDatePicker;
+    CheckBox markAsFinalised;
     private Calendar calendar;
     private int year, month, day;
     public VoucherDataBase database;
-
-
-
     LocationSettings locationSettings;
 
     public RegisterClientFragment() {
@@ -115,6 +114,7 @@ public class RegisterClientFragment extends BaseFragment  {
         lmpDatePicker = view.findViewById(R.id.lmpPicker);
         setDOB = view.findViewById(R.id.dobPicker);
         saveData = view.findViewById(R.id.saveData);
+        markAsFinalised = view.findViewById(R.id.markAsFinalised);
 
 
         maritalStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getMaritalStatuses()));
@@ -207,16 +207,14 @@ public class RegisterClientFragment extends BaseFragment  {
 
         Date currentDate = Calendar.getInstance().getTime();
         identificationData.setDateRegistered(currentDate.toString());
+        if(markAsFinalised.isChecked()){
+            identificationData.setMarkAsFinalised(Boolean.TRUE);
+        }
 
         database.identificationDataDAO().saveIdentificationData(identificationData);
 
         List<IdentificationData> data = database.identificationDataDAO().getAll();
         //TODO REMOVE AND GET ID DIRECTLY FROM SERVER
-       for(IdentificationData id:data){
-           id.setSentToServer(Boolean.TRUE);
-           id.setIdFromServer(Integer.toString(id.getId()));
-           database.identificationDataDAO().updateIdentificationData(id);
-       }
         Bundle bundle = new Bundle();
         Fragment fragment= new FormsByUserFragment();
          fragment.setArguments(bundle);

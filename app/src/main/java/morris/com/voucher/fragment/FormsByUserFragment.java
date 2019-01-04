@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -55,6 +56,7 @@ public class FormsByUserFragment extends BaseFragment {
     FormsByUserAdapter adapter;
     private LinearLayoutManager layoutManager;
     public VoucherDataBase database;
+    private TextView statusHeader;
     private int itemSaved;
 
     public FormsByUserFragment() {
@@ -79,6 +81,7 @@ public class FormsByUserFragment extends BaseFragment {
         addNew = view.findViewById(R.id.addNew);
         getData = view.findViewById(R.id.getForms);
         syncData = view.findViewById(R.id.syncData);
+        statusHeader = view.findViewById(R.id.statusHeader);
         myAssessments = view.findViewById(R.id.myAssessments);
 
 
@@ -88,6 +91,7 @@ public class FormsByUserFragment extends BaseFragment {
        if(bundle!=null && bundle.getString("item")!=null &&bundle.getString("item").equals("assessment")){
            serverList = database.assessmentDataFromServerDAO().getAllNotAssessed();
            addNew.setVisibility(View.GONE);
+           statusHeader.setVisibility(View.GONE);
            syncData.setVisibility(View.GONE);
            adapter = new FormsByUserAdapter(serverList,bundle);
 
@@ -172,9 +176,11 @@ public class FormsByUserFragment extends BaseFragment {
                                             assessmentDataFromServer.setIdNumber(data.identificationNumber());
                                             assessmentDataFromServer.setLname(data.lastName());
                                             database.assessmentDataFromServerDAO().saveAssessmentDataFromServer(assessmentDataFromServer);
-                                            itemSaved =itemSaved++;
+                                            itemSaved =itemSaved+1;
+                                            System.out.println("%%%%%%%%"+itemSaved);
                                         }
                                     }
+                                    System.out.println("%%%%===OOH WHAT A MISS%%%"+itemSaved);
                                     if(itemSaved!=0){
                                         Bundle bundle = new Bundle();
                                         bundle.putString("item", "assessment");

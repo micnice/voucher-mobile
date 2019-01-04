@@ -377,8 +377,40 @@ android:alpha="0.95"
                     android:layout_height="wrap_content"
                     android:text="Yes" />
             </RadioGroup>
+            <Spinner
+                android:id="@+id/pregnancyStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown" />
 
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_bg"
+                android:enabled="false"
+                android:layout_marginTop="10dp"
+                android:text=" Loading Latitude..."
+                android:layout_below="@id/parity"
+                android:hint="Loading Latitude" />
 
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_bg"
+                android:enabled="false"
+                android:layout_marginTop="10dp"
+                android:text="loading Longitude..."
+                android:layout_below="@id/latitude"
+                android:hint="Loading Latitude" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mark As Finalised"
+                android:id="@+id/markAsFinalised"    />
 
             <Button
                 android:id="@+id/saveData"

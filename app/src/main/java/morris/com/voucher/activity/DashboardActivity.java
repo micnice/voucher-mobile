@@ -193,8 +193,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
             manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                new AlertDialog.Builder(this).setTitle("GPS Message").setMessage("Data Entry Requires Turning On GPS " +
-                        "Are you going to do Data Entry?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setTitle("GPS Message").setMessage("Data Entry or Assessment Requires Turning On GPS." +
+                        "Are you going to do any of the two?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
