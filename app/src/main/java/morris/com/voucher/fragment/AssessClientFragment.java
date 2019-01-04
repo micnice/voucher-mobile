@@ -17,6 +17,7 @@ import java.util.Date;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.IdentificationData;
 
@@ -268,9 +269,11 @@ public class AssessClientFragment extends BaseFragment {
             assessment.setFname(bundle.getString("fname"));
             assessment.setLname(bundle.getString("lname"));
             database.clientAssessmentDAO().saveClientAssessmentData(assessment);
-            IdentificationData data = database.identificationDataDAO().getByClientId(bundle.getString("clientId"));
-            data.setAssessed(Boolean.TRUE);
-            database.identificationDataDAO().updateIdentificationData(data);
+                AssessmentDataFromServer assessmentDataFromServer =
+                        database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
+                     assessmentDataFromServer.setAssessed(Boolean.TRUE);
+                database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
+
                 Bundle bundle = new Bundle();
                 Fragment fragment= new FormsByUserFragment();
                 bundle.putString("item","assessment");

@@ -1,0 +1,8 @@
+query allIdentificationDataQuery{
+identificationList{
+ id
+  firstName
+  lastName
+  identificationNumber
+}
+}

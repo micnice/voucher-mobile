@@ -18,18 +18,21 @@ public class ClientAssessment {
     String idNumber;
     String dateAssesed;
     String idFromServer;
-    Boolean part1 =Boolean.FALSE;
-    Boolean part2 = Boolean.FALSE;
-    Boolean part3 = Boolean.FALSE;
-    Boolean part4 = Boolean.FALSE;
-    Boolean part5 = Boolean.FALSE;
-    Boolean part6 =Boolean.FALSE;
-    Boolean part7 =Boolean.FALSE;
-    Boolean part8 =Boolean.FALSE;
-    Boolean part9 =Boolean.FALSE;
-    Boolean part10 =Boolean.FALSE;
-    Boolean part11 =Boolean.FALSE;
-    Boolean sentToServer=Boolean.FALSE;
+    private String latitude;
+    private String longitude;
+    boolean markAsFinalised = Boolean.FALSE;
+    boolean part1 =Boolean.FALSE;
+    boolean part2 = Boolean.FALSE;
+    boolean part3 = Boolean.FALSE;
+    boolean part4 = Boolean.FALSE;
+    boolean part5 = Boolean.FALSE;
+    boolean part6 =Boolean.FALSE;
+    boolean part7 =Boolean.FALSE;
+    boolean part8 =Boolean.FALSE;
+    boolean part9 =Boolean.FALSE;
+    boolean part10 =Boolean.FALSE;
+    boolean part11 =Boolean.FALSE;
+    boolean sentToServer=Boolean.FALSE;
 
     public int getId() {
         return id;
@@ -47,97 +50,7 @@ public class ClientAssessment {
         this.clientId = clientId;
     }
 
-    public Boolean getPart1() {
-        return part1;
-    }
 
-    public void setPart1(Boolean part1) {
-        this.part1 = part1;
-    }
-
-    public Boolean getPart2() {
-        return part2;
-    }
-
-    public void setPart2(Boolean part2) {
-        this.part2 = part2;
-    }
-
-    public Boolean getPart3() {
-        return part3;
-    }
-
-    public void setPart3(Boolean part3) {
-        this.part3 = part3;
-    }
-
-    public Boolean getPart4() {
-        return part4;
-    }
-
-    public void setPart4(Boolean part4) {
-        this.part4 = part4;
-    }
-
-    public Boolean getPart5() {
-        return part5;
-    }
-
-    public void setPart5(Boolean part5) {
-        this.part5 = part5;
-    }
-
-    public Boolean getPart6() {
-        return part6;
-    }
-
-    public void setPart6(Boolean part6) {
-        this.part6 = part6;
-    }
-
-    public Boolean getPart7() {
-        return part7;
-    }
-
-    public void setPart7(Boolean part7) {
-        this.part7 = part7;
-    }
-
-    public Boolean getPart8() {
-        return part8;
-    }
-
-    public void setPart8(Boolean part8) {
-        this.part8 = part8;
-    }
-
-    public Boolean getPart9() {
-        return part9;
-    }
-
-    public void setPart9(Boolean part9) {
-        this.part9 = part9;
-    }
-
-    public Boolean getPart10() {
-        return part10;
-    }
-
-    public void setPart10(Boolean part10) {
-        this.part10 = part10;
-    }
-
-    public Boolean getPart11() {
-        return part11;
-    }
-
-    public void setPart11(Boolean part11) {
-        this.part11 = part11;
-    }
-
-    public Boolean getSentToServer() {
-        return sentToServer;
-    }
 
     public String getFname() {
         return fname;
@@ -163,10 +76,6 @@ public class ClientAssessment {
         this.idNumber = idNumber;
     }
 
-    public void setSentToServer(Boolean sentToServer) {
-        this.sentToServer = sentToServer;
-    }
-
     public String getDateAssesed() {
         return dateAssesed;
     }
@@ -181,5 +90,125 @@ public class ClientAssessment {
 
     public void setIdFromServer(String idFromServer) {
         this.idFromServer = idFromServer;
+    }
+
+    public boolean isMarkAsFinalised() {
+        return markAsFinalised;
+    }
+
+    public void setMarkAsFinalised(boolean markAsFinalised) {
+        this.markAsFinalised = markAsFinalised;
+    }
+
+    public boolean isPart1() {
+        return part1;
+    }
+
+    public void setPart1(boolean part1) {
+        this.part1 = part1;
+    }
+
+    public boolean isPart2() {
+        return part2;
+    }
+
+    public void setPart2(boolean part2) {
+        this.part2 = part2;
+    }
+
+    public boolean isPart3() {
+        return part3;
+    }
+
+    public void setPart3(boolean part3) {
+        this.part3 = part3;
+    }
+
+    public boolean isPart4() {
+        return part4;
+    }
+
+    public void setPart4(boolean part4) {
+        this.part4 = part4;
+    }
+
+    public boolean isPart5() {
+        return part5;
+    }
+
+    public void setPart5(boolean part5) {
+        this.part5 = part5;
+    }
+
+    public boolean isPart6() {
+        return part6;
+    }
+
+    public void setPart6(boolean part6) {
+        this.part6 = part6;
+    }
+
+    public boolean isPart7() {
+        return part7;
+    }
+
+    public void setPart7(boolean part7) {
+        this.part7 = part7;
+    }
+
+    public boolean isPart8() {
+        return part8;
+    }
+
+    public void setPart8(boolean part8) {
+        this.part8 = part8;
+    }
+
+    public boolean isPart9() {
+        return part9;
+    }
+
+    public void setPart9(boolean part9) {
+        this.part9 = part9;
+    }
+
+    public boolean isPart10() {
+        return part10;
+    }
+
+    public void setPart10(boolean part10) {
+        this.part10 = part10;
+    }
+
+    public boolean isPart11() {
+        return part11;
+    }
+
+    public void setPart11(boolean part11) {
+        this.part11 = part11;
+    }
+
+    public boolean isSentToServer() {
+        return sentToServer;
+    }
+
+    public void setSentToServer(boolean sentToServer) {
+        this.sentToServer = sentToServer;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

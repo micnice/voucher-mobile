@@ -27,11 +27,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import javax.annotation.Nonnull;
+
+import morris.com.voucher.AllIdentificationDataQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.AccountingFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
 import morris.com.voucher.fragment.RegisterClientFragment;
+import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.location.LocationSettings;
 import morris.com.voucher.location.LocationTracker;
 import morris.com.voucher.model.IdentificationData;
@@ -266,6 +274,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
 
     }
+
 
     public Bundle getCurrentFragmentBundle() {
         return currentFragmentBundle;

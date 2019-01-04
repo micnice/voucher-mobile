@@ -18,6 +18,7 @@ import java.util.List;
 import morris.com.voucher.R;
 import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.IdentificationData;
 
 /**
@@ -66,6 +67,7 @@ public class AccountingFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
             //TODO ADD VOUCHER SELL CODE
+
             }
         });
 

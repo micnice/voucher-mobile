@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import morris.com.voucher.R;
 import morris.com.voucher.fragment.AssessClientFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
+import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.IdentificationData;
 
 /**
@@ -30,6 +31,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
 
 
     List<IdentificationData> items = new ArrayList<>();
+    List<AssessmentDataFromServer> serverList = new ArrayList<>();
     Bundle bundle = new Bundle();
     Bundle bundleFromPreviousPage;
 
@@ -38,15 +40,33 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         this.items = dataList;
 
     }
+    public FormsByUserAdapter(List<AssessmentDataFromServer> dataList,Bundle bundle) {
+        this.serverList = dataList;
+        this.bundle =bundle;
+
+    }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         try {
-            holder.mItem = items.get(position);
-            holder.firstName.setText(items.get(position).getFirstName());
-            holder.lastName.setText(items.get(position).getLastName());
-            holder.idNumber.setText(items.get(position).getIdentificationNumber());
-            bundle.putString("clientId",items.get(position).getIdFromServer());
+
+            if((bundle!=null&&bundle.getString("item")!=null
+                    && bundle.getString("item").equals("assessment"))||(bundle!=null && bundle.getString("current")!=null
+                    &&bundle.getString("current").equals("assessment"))){
+                holder.mItem1 = serverList.get(position);
+                holder.firstName.setText(serverList.get(position).getFname());
+                holder.lastName.setText(serverList.get(position).getLname());
+                holder.idNumber.setText(serverList.get(position).getIdNumber());
+                bundle.putString("clientId",serverList.get(position).getClientId());
+            }else {
+
+                holder.mItem = items.get(position);
+                holder.firstName.setText(items.get(position).getFirstName());
+                holder.lastName.setText(items.get(position).getLastName());
+                holder.idNumber.setText(items.get(position).getIdentificationNumber());
+                bundle.putString("clientId",items.get(position).getIdFromServer());
+            }
+
             bundle.putString("fname",holder.firstName.getText().toString());
             bundle.putString("lname",holder.lastName.getText().toString());
             bundle.putString("idNumber",holder.idNumber.getText().toString());
@@ -77,6 +97,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         public final TextView idNumber;
         public final Button assess;
         public IdentificationData mItem;
+        public AssessmentDataFromServer mItem1;
 
         public ViewHolder(View view) {
             super(view);
@@ -120,6 +141,10 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
     }
     @Override
     public int getItemCount() {
+       if( bundle!=null&&bundle.getString("item")!=null
+                && bundle.getString("item").equals("assessment")){
+            return serverList.size();
+        }
         return items.size();
     }
 

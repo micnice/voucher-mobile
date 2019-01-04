@@ -5,6 +5,9 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
+import morris.com.voucher.enums.EducationStatus;
+import morris.com.voucher.enums.MaritalStatus;
+
 /**
  * Created by morris on 2018/12/17.
  */
@@ -26,8 +29,8 @@ public class IdentificationData {
     private String identificationNumber;
     private String latitude;
     private String longitude;
-    private Boolean assessed = Boolean.FALSE;
     private boolean sentToServer=Boolean.FALSE;
+    private boolean markAsFinalised = Boolean.FALSE;
 
     public IdentificationData(){};
 
@@ -78,13 +81,6 @@ public class IdentificationData {
         this.lastName = lastName;
     }
 
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
 
     public String getBirthDate() {
         return birthDate;
@@ -92,6 +88,15 @@ public class IdentificationData {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 
     public String getEducationStatus() {
@@ -150,12 +155,12 @@ public class IdentificationData {
         this.createdBy = createdBy;
     }
 
-    public Boolean getAssessed() {
-        return assessed;
+    public boolean isMarkAsFinalised() {
+        return markAsFinalised;
     }
 
-    public void setAssessed(Boolean assessed) {
-        this.assessed = assessed;
+    public void setMarkAsFinalised(boolean markAsFinalised) {
+        this.markAsFinalised = markAsFinalised;
     }
 
     public String getIdFromServer() {
@@ -174,33 +179,6 @@ public class IdentificationData {
         this.dateRegistered = dateRegistered;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        IdentificationData that = (IdentificationData) o;
 
-        if (id != that.id) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
-            return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null)
-            return false;
-        if (maritalStatus != null ? !maritalStatus.equals(that.maritalStatus) : that.maritalStatus != null)
-            return false;
-        if (birthDate != null ? !birthDate.equals(that.birthDate) : that.birthDate != null)
-            return false;
-        return identificationNumber != null ? identificationNumber.equals(that.identificationNumber) : that.identificationNumber == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (maritalStatus != null ? maritalStatus.hashCode() : 0);
-        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        result = 31 * result + (identificationNumber != null ? identificationNumber.hashCode() : 0);
-        return result;
-    }
 }

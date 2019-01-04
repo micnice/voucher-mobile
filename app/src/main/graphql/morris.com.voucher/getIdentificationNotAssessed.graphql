@@ -1,0 +1,8 @@
+query identificationNotAssessedQuery{
+identificationNotAssessed{
+ id
+  firstName
+  lastName
+  identificationNumber
+}
+}
