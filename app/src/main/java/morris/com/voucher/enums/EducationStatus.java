@@ -38,13 +38,35 @@ public enum EducationStatus {
             case 4:
                 return HIGHER_NATIONAL_DIPLOMA;
             case 5:
-                return NATIONAL_DIPLOMA;
-            case 6:
                 return DEGREE;
+            case 6:
+                return MASTERS;
             case 7:
                 return PHD;
             default:
                 throw new IllegalArgumentException("Illegal parameter passed to method :" + code);
+        }
+    }
+    public static EducationStatus get(String name) {
+        switch (name) {
+            case "O Level":
+                return O_LEVEL;
+            case "A Level":
+                return A_LEVEL;
+            case "National Certificate":
+                return NATIONAL_CERTIFICATE;
+            case "National Diploma":
+                return NATIONAL_DIPLOMA;
+            case "Higher National Diploma":
+                return HIGHER_NATIONAL_DIPLOMA;
+            case "Degree":
+                return DEGREE;
+            case "Masters":
+                return DEGREE;
+            case "PHD":
+                return PHD;
+            default:
+                throw new IllegalArgumentException("Illegal parameter passed to method :" + name);
         }
     }
 

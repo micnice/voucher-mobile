@@ -34,6 +34,20 @@ public enum MaritalStatus {
                 throw new IllegalArgumentException("Illegal parameter passed to method :" + code);
         }
     }
+    public static MaritalStatus get(String name) {
+        switch (name) {
+            case "Married":
+                return MARRIED;
+            case "Single":
+                return SINGLE;
+            case "Divorced":
+                return DIVORCED;
+            case "Widowed":
+                return WIDOWED;
+            default:
+                throw new IllegalArgumentException("Illegal parameter passed to method :" + name);
+        }
+    }
 
     public static EnumMap<MaritalStatus,String> getEnumMap(){
 

@@ -34,7 +34,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
     List<AssessmentDataFromServer> serverList = new ArrayList<>();
     Bundle bundle = new Bundle();
     Bundle bundleFromPreviousPage;
-    public  Button assess,edit;
+    public  Button assess,edit,sts;
 
     public FormsByUserAdapter(List<IdentificationData> dataList) {
         this.items = dataList;
@@ -59,6 +59,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.idNumber.setText(serverList.get(position).getIdNumber());
                 bundle.putString("clientId",serverList.get(position).getClientId());
                 edit.setVisibility(View.GONE);
+                sts.setVisibility(View.GONE);
 
             }else {
 
@@ -69,15 +70,18 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 bundle.putString("clientId",items.get(position).getIdFromServer());
                 if(items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()){
                     holder.status.setText("F");
+                    edit.setVisibility(View.VISIBLE);
+                    sts.setVisibility(View.GONE);
                 }else if(!items.get(position).isMarkAsFinalised()){
+                    edit.setVisibility(View.VISIBLE);
                     holder.status.setText("NF");
+                    sts.setVisibility(View.GONE);
                 }else{
                     holder.status.setText("STS");
-                }
-                if(!items.get(position).isMarkAsFinalised()){
-                    //TODO Use If SentTo Server Instead
                     edit.setVisibility(View.GONE);
+
                 }
+
             }
 
             bundle.putString("fname",holder.firstName.getText().toString());
@@ -126,6 +130,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             assess= view.findViewById(R.id.assessClient);
             edit = view.findViewById(R.id.edit);
             status = view.findViewById(R.id.status);
+            sts = view.findViewById(R.id.sentToServer);
             Bundle savedInstance = getBundleFromPreviousPage();
 
             if(savedInstance==null){

@@ -335,7 +335,7 @@ public class AssessClientFragment extends BaseFragment {
         EnumMap<PregnancyStatus,String> pregnancyStatusMap = PregnancyStatus.getEnumMap();
 
         String[] pregnancyStatus = new String[pregnancyStatusMap.size()+1];
-        pregnancyStatus[0] = "Select Marital Status";
+        pregnancyStatus[0] = "Select Pregnancy Status";
         for(int i = 0; i<pregnancyStatusMap.size();i++){
 
             pregnancyStatus[i+1] =pregnancyStatusMap.get(PregnancyStatus.get(i));

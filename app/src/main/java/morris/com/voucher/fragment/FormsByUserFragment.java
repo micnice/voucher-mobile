@@ -217,6 +217,15 @@ public class FormsByUserFragment extends BaseFragment {
             }
         });
 
+        myAssessments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AssessmentsByUserFragment assessmentsByUserFragment = new AssessmentsByUserFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, assessmentsByUserFragment).commit();
+
+            }
+        });
+
 
         return view;
 
