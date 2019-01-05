@@ -34,11 +34,11 @@ public enum PregnancyStatus {
     }
     public static PregnancyStatus get(String name) {
         switch (name) {
-            case "PREGNANT":
+            case "YES":
                 return YES;
-            case "NOT PREGNANT":
+            case "NO":
                 return NO;
-            case "NOT APPLICABLE":
+            case "N/A":
                 return NA;
             default:
                 throw new IllegalArgumentException("Illegal parameter passed to method :" + name);
@@ -50,9 +50,9 @@ public enum PregnancyStatus {
 
         EnumMap<PregnancyStatus, String> enumMap = new EnumMap<>(PregnancyStatus.class);
 
-        enumMap.put(PregnancyStatus.YES,"PREGNANT");
-        enumMap.put(PregnancyStatus.NO,"NOT PREGNANT");
-        enumMap.put(PregnancyStatus.NA,"NOT APPLICABLE");
+        enumMap.put(PregnancyStatus.YES,"YES");
+        enumMap.put(PregnancyStatus.NO,"NO");
+        enumMap.put(PregnancyStatus.NA,"N/A");
 
         return enumMap;
     }

@@ -35,8 +35,6 @@ public class ClientAssessment {
     boolean part10 =Boolean.FALSE;
     boolean part11 =Boolean.FALSE;
     boolean sentToServer=Boolean.FALSE;
-    @Ignore
-    private int povertyScore;
 
     public int getId() {
         return id;
@@ -224,42 +222,5 @@ public class ClientAssessment {
         this.pregnancyStatus = pregnancyStatus;
     }
 
-    public int getPovertyScore() {
-        if(part1){
-            povertyScore = povertyScore++;
-        }
-        if(part2){
-            povertyScore = povertyScore++;
-        }
-        if(part3){
-            povertyScore = povertyScore++;
-        }
-        if(part4){
-            povertyScore = povertyScore++;
-        }
-        if(part5){
-            povertyScore = povertyScore++;
-        }
-        if(part6){
-            povertyScore = povertyScore++;
-        }
-        if(part7){
-            povertyScore = povertyScore++;
-        }
-        if(part8){
-            povertyScore = povertyScore++;
-        }
-        if(part9){
-            povertyScore = povertyScore++;
-        }
-        if(part10){
-            povertyScore = povertyScore++;
-        }
-        if(part11){
-            povertyScore = povertyScore++;
-        }
 
-
-        return povertyScore;
-    }
 }

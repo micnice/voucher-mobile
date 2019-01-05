@@ -19,6 +19,7 @@ import morris.com.voucher.fragment.AssessClientFragment;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.IdentificationData;
+import morris.com.voucher.util.CalculationsUtil;
 
 /**
  * Created by morris on 2018/12/29.
@@ -43,8 +44,13 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
             holder.mItem = items.get(position);
             holder.name.setText(items.get(position).getFname()+" "+items.get(position).getLname());
             holder.prenancyStatus.setText(items.get(position).getPregnancyStatus());
-            holder.povertyScore.setText(items.get(position).getPovertyScore());
+            holder.povertyScore.setText(Integer.toString(CalculationsUtil.getPovertyScore(items.get(position))));
 
+            System.out.println("###--"+items.get(position).isPart2());
+
+            if(!items.get(position).isPart2()){
+                System.out.println("###HOHOHOHO");
+            }
             if (items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()) {
                 holder.status.setText("F");
                 edit.setVisibility(View.VISIBLE);
@@ -98,8 +104,8 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
             prenancyStatus = view.findViewById(R.id.recycler_pregnancy);
             edit = view.findViewById(R.id.editAssessment);
             status = view.findViewById(R.id.assessment_status);
-            sts = view.findViewById(R.id.sentToAssessmentServer);
-            povertyScore = view.findViewById(R.id.povertyScore);
+            sts = view.findViewById(R.id.sentAssessmentToServer);
+            povertyScore = view.findViewById(R.id.recycler_score);
 
 
             edit.setOnClickListener(new View.OnClickListener() {

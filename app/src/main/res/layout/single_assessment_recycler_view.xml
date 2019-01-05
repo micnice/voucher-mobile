@@ -25,20 +25,12 @@
                 android:textColor="@color/colorBlack" />
 
             <TextView
-                android:id="@+id/recycler_score"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:gravity="left"
-                android:textColor="@color/colorBlack" />
-            <TextView
                 android:id="@+id/recycler_pregnancy"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:gravity="left"
                 android:textColor="@color/colorBlack" />
-
             <TextView
                 android:id="@+id/assessment_status"
                 android:layout_weight="1"
@@ -47,13 +39,22 @@
                 android:gravity="center"
                 android:textColor="@color/colorAccent"/>
 
+            <TextView
+                android:id="@+id/recycler_score"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="right"
+                android:textColor="@color/colorBlack" />
+
+
             <Button
                 android:id="@+id/editAssessment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="edit" />
             <Button
-                android:id="@+id/sentToAssessmentServer"
+                android:id="@+id/sentAssessmentToServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="STS" />
