@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import morris.com.voucher.CreateBeneficiaryAssessmentMutation;
 import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.adapter.AssessmentsByUserAdapter;
@@ -30,6 +31,7 @@ import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.IdentificationData;
+import morris.com.voucher.type.PregnancyStatus;
 
 /**
  * Created by morris on 2018/12/29.
@@ -106,6 +108,53 @@ public class AssessmentsByUserFragment extends BaseFragment {
         syncData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                List<ClientAssessment> assessments = database.clientAssessmentDAO().getAllFinalisedNotSentToServer();
+
+                if(assessments.isEmpty()){
+                    Toast.makeText(context, "No Finalised Forms Available", Toast.LENGTH_LONG).show();
+                }else{
+               for(ClientAssessment data:assessments){
+                   GraphQL.getApolloClient().mutate(CreateBeneficiaryAssessmentMutation.builder()
+                   .beneficiaryIdentityId(data.getClientId())
+                           //TODO FORMAT DATE OF DATA COLLECTION AND SAVE
+                   //.dateAssessed(data.getDateAssesed())
+                    .latitude(data.getLatitude())
+                    .longitude(data.getLongitude())
+                     .pat1(data.isPart1())
+                      .pat2(data.isPart2())
+                      .pat3(data.isPart3())
+                      .pat4(data.isPart4())
+                      .pat5(data.isPart5())
+                      .pat6(data.isPart6())
+                      .pat7(data.isPart7())
+                      .pat8(data.isPart8())
+                      .pat9(data.isPart9())
+                      .pat10(data.isPart10())
+                      .pat11(data.isPart11())
+                      .pregnancyStatus(PregnancyStatus.valueOf(morris.com.voucher.enums.PregnancyStatus.get(data.getPregnancyStatus()).toString()))
+                       .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryAssessmentMutation.Data>() {
+                       @Override
+                       public void onResponse(@Nonnull Response<CreateBeneficiaryAssessmentMutation.Data> response) {
+                           getActivity().runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                 data.setIdFromServer(response.data().createPovertyBeneficiaryAssessmentTool().beneficiaryIdentityId());
+                                 data.setSentToServer(Boolean.TRUE);
+                                 database.clientAssessmentDAO().updateClientAssessmentData(data);
+                               }
+                           });
+                       }
+
+                       @Override
+                       public void onFailure(@Nonnull ApolloException e) {
+                           Toast.makeText(context, "No Connection To Server.", Toast.LENGTH_LONG).show();
+                       }
+                   });
+               }
+
+                }
+
                 //TODO REMEMBER TO SET SENT TO SERVER TRUE AND ID FROM SERVER ON SAVE
             }
         });

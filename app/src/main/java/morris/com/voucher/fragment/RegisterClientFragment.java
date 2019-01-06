@@ -196,6 +196,7 @@ public class RegisterClientFragment extends BaseFragment  {
     void saveLocalInstance(){
         IdentificationData identificationData = new IdentificationData();
         identificationData.setBirthDate(birthDate.getText().toString());
+        //TODO USE LOGGED IN USER
         identificationData.setCreatedBy("mbaradza");
         identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
         identificationData.setFirstName(firstName.getText().toString());
@@ -204,6 +205,8 @@ public class RegisterClientFragment extends BaseFragment  {
         identificationData.setIdentificationNumber(identificationNumber.getText().toString());
         identificationData.setLatitude(latitude.getText().toString());
         identificationData.setLongitude(longitude.getText().toString());
+        identificationData.setLmp(lmp.getText().toString());
+        identificationData.setParity(Long.valueOf(parity.getText().toString()));
 
         Date currentDate = Calendar.getInstance().getTime();
         identificationData.setDateRegistered(currentDate.toString());
@@ -214,7 +217,6 @@ public class RegisterClientFragment extends BaseFragment  {
         database.identificationDataDAO().saveIdentificationData(identificationData);
 
         List<IdentificationData> data = database.identificationDataDAO().getAll();
-        //TODO REMOVE AND GET ID DIRECTLY FROM SERVER
         Bundle bundle = new Bundle();
         Fragment fragment= new FormsByUserFragment();
          fragment.setArguments(bundle);

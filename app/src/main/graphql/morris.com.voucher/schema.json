@@ -1694,6 +1694,18 @@
               "deprecationReason": null
             },
             {
+              "name": "dateAssesed",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "pat1",
               "description": "----------------------------------------------------------",
               "args": [],
@@ -2331,6 +2343,16 @@
             },
             {
               "name": "longitude",
+              "description": "",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "dateAssesed",
               "description": "",
               "type": {
                 "kind": "SCALAR",

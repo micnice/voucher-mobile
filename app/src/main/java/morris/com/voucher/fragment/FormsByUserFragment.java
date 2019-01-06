@@ -34,6 +34,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import morris.com.voucher.CreateBeneficiaryIdentificationMutation;
 import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.adapter.FormsByUserAdapter;
@@ -41,6 +42,8 @@ import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.IdentificationData;
+import morris.com.voucher.type.EducationStatus;
+import morris.com.voucher.type.MaritalStatus;
 
 /**
  * Created by morris on 2018/12/29.
@@ -213,9 +216,69 @@ public class FormsByUserFragment extends BaseFragment {
         syncData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO REMEMBER TO SET SENT TO SERVER TRUE AND ID FROM SERVER ON SAVE
+
+            List<IdentificationData> syncDataList = database.identificationDataDAO().getAllFinalisedNotSetToServer();
+
+            if(syncDataList.isEmpty()){
+                Toast.makeText(context, "No Finalised Forms Available", Toast.LENGTH_LONG).show();
             }
-        });
+            else{
+
+                for(IdentificationData data:syncDataList){
+                   //TODO FORMAT DATE OF DATA COLLECTION AND SAVE
+                    GraphQL.getApolloClient().mutate(CreateBeneficiaryIdentificationMutation.builder()
+                    .firstName(data.getFirstName())
+                     .lastName(data.getLastName())
+                     .birthDate(data.getBirthDate())
+                     .lmp(data.getLmp())
+                      .educationStatus(EducationStatus.valueOf(morris.com.voucher.enums.EducationStatus.get(data.getEducationStatus()).toString()))
+                      .maritalStatus(MaritalStatus.valueOf(morris.com.voucher.enums.MaritalStatus.get(data.getMaritalStatus()).toString()))
+                       .identificationNumber(data.getIdentificationNumber())
+                            .parity(data.getParity())
+                            .longitude(data.getLongitude())
+                            .latitude(data.getLatitude())
+                            .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryIdentificationMutation.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<CreateBeneficiaryIdentificationMutation.Data> response) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                               data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
+                               data.setSentToServer(Boolean.TRUE);
+                               database.identificationDataDAO().updateIdentificationData(data);
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+                            Toast.makeText(context, "No Connection To Server.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+
+                    }
+
+                FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
+                Bundle newBundle = new Bundle();
+                formsByUserFragment.setArguments(newBundle);
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledFormsByUser).commit();
+
+
+            }
+
+
+
+
+            }
+
+
+
+
+                //TODO REMEMBER TO SET SENT TO SERVER TRUE AND ID FROM SERVER ON SAVE
+            });
 
         myAssessments.setOnClickListener(new View.OnClickListener() {
             @Override

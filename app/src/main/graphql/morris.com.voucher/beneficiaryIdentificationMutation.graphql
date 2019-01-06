@@ -1,0 +1,34 @@
+mutation createBeneficiaryIdentificationMutation(
+    $firstName: String
+    $lastName: String
+    $lmp: String
+    $birthDate: String
+    $maritalStatus: MaritalStatus
+    $educationStatus: EducationStatus
+    $identificationNumber: String
+    $parity: Long
+    $latitude: String
+    $longitude: String
+    $dataCollectionDate: String
+
+){createBeneficiaryIdentification(BeneficiaryIdentificationInput:{
+   firstName:$firstName
+   lastName:$lastName,
+   lmp:$lmp,
+   birthDate:$birthDate,
+   maritalStatus:$maritalStatus,
+   educationStatus:$educationStatus,
+   identificationNumber:$identificationNumber
+   parity:$parity,
+   latitude:$latitude,
+   longitude:$longitude
+   dataCollectionDate:$dataCollectionDate
+ }){
+   id
+   firstName
+   lastName
+   identificationNumber
+   birthDate
+   maritalStatus
+ }
+ }

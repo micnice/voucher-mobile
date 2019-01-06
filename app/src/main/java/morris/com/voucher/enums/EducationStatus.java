@@ -4,8 +4,8 @@ import java.util.EnumMap;
 
 public enum EducationStatus {
 
-    O_LEVEL(0),
-    A_LEVEL(1),
+    OLEVEL(0),
+    ALEVEL(1),
     NATIONAL_CERTIFICATE(2),
     NATIONAL_DIPLOMA(3),
     HIGHER_NATIONAL_DIPLOMA(4),
@@ -28,9 +28,9 @@ public enum EducationStatus {
     public static EducationStatus get(Integer code) {
         switch (code) {
             case 0:
-                return O_LEVEL;
+                return OLEVEL;
             case 1:
-                return A_LEVEL;
+                return ALEVEL;
             case 2:
                 return NATIONAL_CERTIFICATE;
             case 3:
@@ -50,9 +50,9 @@ public enum EducationStatus {
     public static EducationStatus get(String name) {
         switch (name) {
             case "O Level":
-                return O_LEVEL;
+                return OLEVEL;
             case "A Level":
-                return A_LEVEL;
+                return ALEVEL;
             case "National Certificate":
                 return NATIONAL_CERTIFICATE;
             case "National Diploma":
@@ -74,8 +74,8 @@ public enum EducationStatus {
 
         EnumMap<EducationStatus, String> enumMap = new EnumMap<>(EducationStatus.class);
 
-        enumMap.put(EducationStatus.O_LEVEL,"O Level");
-        enumMap.put(EducationStatus.A_LEVEL,"A Level");
+        enumMap.put(EducationStatus.OLEVEL,"O Level");
+        enumMap.put(EducationStatus.ALEVEL,"A Level");
         enumMap.put(EducationStatus.NATIONAL_CERTIFICATE,"National Certificate");
         enumMap.put(EducationStatus.NATIONAL_DIPLOMA,"National Diploma");
         enumMap.put(EducationStatus.HIGHER_NATIONAL_DIPLOMA,"Higher National Diploma");

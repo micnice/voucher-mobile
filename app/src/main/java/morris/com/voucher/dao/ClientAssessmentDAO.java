@@ -20,6 +20,8 @@ public interface ClientAssessmentDAO {
     @Query("select * from ClientAssessment")
     List<ClientAssessment> getAll();
 
+    @Query("select * from ClientAssessment where sentToServer=0 and markAsFinalised=1")
+    List<ClientAssessment> getAllFinalisedNotSentToServer();
     @Insert()
     void  saveClientAssessmentData(ClientAssessment data);
 

@@ -1,0 +1,43 @@
+mutation createBeneficiaryAssessmentMutation(
+  $beneficiaryIdentityId: String
+  $pregnancyStatus: PregnancyStatus
+  $pat1: Boolean
+  $pat2: Boolean
+  $pat3: Boolean
+  $pat4: Boolean
+  $pat5: Boolean
+  $pat6: Boolean
+  $pat7: Boolean
+  $pat8: Boolean
+  $pat9: Boolean
+  $pat10: Boolean
+  $pat11: Boolean
+  $latitude: String
+  $longitude: String
+  $dateAssessed:String
+
+
+
+
+){createPovertyBeneficiaryAssessmentTool(povertyBeneficiaryAssessmentToolInput:{
+  beneficiaryIdentityId:$beneficiaryIdentityId,
+   pregnancyStatus:$pregnancyStatus,
+ dateAssessed:$dateAssessed
+   pat1:$pat1,
+   pat2:$pat2,
+   pat3:$pat3,
+   pat4:$pat4,
+   pat5:$pat5
+   pat6:$pat6,
+   pat7:$pat7,
+   pat8:$pat8,
+   pat9:$pat9,
+   pat10:$pat10,
+   pat11:$pat11,
+   latitude:$latitude,
+   longitude:$longitude
+
+
+ }){
+   beneficiaryIdentityId
+ }}
