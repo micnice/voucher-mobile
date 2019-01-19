@@ -66,7 +66,9 @@ public class AccountingFragment extends BaseFragment {
         sellVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //TODO ADD VOUCHER SELL CODE
+                android.support.v4.app.Fragment fragment= new AccountingFormsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
             }
         });
@@ -74,7 +76,7 @@ public class AccountingFragment extends BaseFragment {
         claimVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO ADD VOUCHER CLAIM CODE
+            //TODO Put Working Code
             }
         });
 

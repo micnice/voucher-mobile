@@ -30,6 +30,9 @@ public interface AssessmentDataFromServerDAO {
     @Update
     void updateAssessmentDataFromServer(AssessmentDataFromServer data);
 
+    @Query("Delete from AssessmentDataFromServer where assessed=0")
+    void  deleteAllNotAssessed();
+
 
     @Delete
     void  deleteAssessmentDataFromServer(AssessmentDataFromServer data);

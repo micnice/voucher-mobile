@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:name="morris.com.voucher.fragment.AccountingFormsFragment"
+    tools:context="morris.com.voucher.fragment.AccountingFormsFragment">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/getFormAccountingData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Get Clients" />
+
+    </LinearLayout>
+
+
+<TextView
+    android:id="@+id/forms_by_user_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginRight="4dp"
+    android:shadowColor="@color/colorPrimary"
+    android:text="VOUCHER SALES CLIENT LIST"
+    android:textAllCaps="true"
+    android:textColor="@color/colorPrimary"
+    android:textSize="18dp"
+    android:textStyle="bold" />
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:stretchColumns="*"
+        android:layout_height="match_parent">
+
+    <TableRow
+        android:background="@color/colorPrimaryDark"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="First Name"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Last Name"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="ID Number"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="Poverty Score"
+            android:textColor="@android:color/white" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:text="Action"
+            android:textColor="@android:color/white" />
+    </TableRow>
+    </TableLayout>
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_accounting_clients"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="LinearLayoutManager"
+    tools:listitem="@layout/single_accounting_client_view" />
+
+</LinearLayout>

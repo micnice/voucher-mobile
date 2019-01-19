@@ -118,7 +118,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
                    GraphQL.getApolloClient().mutate(CreateBeneficiaryAssessmentMutation.builder()
                    .beneficiaryIdentityId(data.getClientId())
                            //TODO FORMAT DATE OF DATA COLLECTION AND SAVE
-                   //.dateAssessed(data.getDateAssesed())
+                    .dateAssessed(data.getDateAssesed())
                     .latitude(data.getLatitude())
                     .longitude(data.getLongitude())
                      .pat1(data.isPart1())
@@ -153,9 +153,15 @@ public class AssessmentsByUserFragment extends BaseFragment {
                    });
                }
 
+                    AssessmentsByUserFragment recycledAssessmentsByUser = new AssessmentsByUserFragment();
+                    Bundle newBundle = new Bundle();
+                    recycledAssessmentsByUser.setArguments(newBundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledAssessmentsByUser)
+                            .addToBackStack(null).commit();
+
+
                 }
 
-                //TODO REMEMBER TO SET SENT TO SERVER TRUE AND ID FROM SERVER ON SAVE
             }
         });
 

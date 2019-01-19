@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +23,13 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
 
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.enums.MaritalStatus;
 import morris.com.voucher.enums.PregnancyStatus;
@@ -301,7 +304,7 @@ public class AssessClientFragment extends BaseFragment {
 
                 Date date = Calendar.getInstance().getTime();
             assessment.setClientId(bundle.getString("clientId"));
-            assessment.setDateAssesed(date.toString());
+            assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
             assessment.setFname(bundle.getString("fname"));
             assessment.setLname(bundle.getString("lname"));
             assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
@@ -322,8 +325,7 @@ public class AssessClientFragment extends BaseFragment {
                 bundle.putString("item","assessment");
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStackImmediate();
-                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
             }
         });

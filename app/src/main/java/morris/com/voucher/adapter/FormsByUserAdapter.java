@@ -148,8 +148,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                     Fragment fragment= new AssessClientFragment();
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager.popBackStackImmediate();
-                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
                 }
             });
@@ -168,6 +167,15 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             return serverList.size();
         }
         return items.size();
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public Bundle getBundleFromPreviousPage() {

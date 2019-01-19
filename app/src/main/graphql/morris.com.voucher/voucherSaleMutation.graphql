@@ -1,0 +1,18 @@
+mutation createVoucherSaleMutation(
+ $beneficiaryIdentityId: ID
+ $voucherSet: ID
+ $saleDate: String
+ $soldBy: String
+){
+createSales(salesInput:{
+ beneficiaryIdentityId:$beneficiaryIdentityId,
+ voucherSet:$voucherSet,
+ soldBy:$soldBy,
+ saleDate:$saleDate
+}){
+id
+beneficiaryIdentityId
+}
+}
+
+

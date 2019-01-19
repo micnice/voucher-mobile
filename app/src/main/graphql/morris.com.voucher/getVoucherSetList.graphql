@@ -1,0 +1,6 @@
+query voucherListDataQuery{
+voucherSetList{
+     id
+     name
+   }
+}

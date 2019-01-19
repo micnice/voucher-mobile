@@ -7,9 +7,11 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import morris.com.voucher.converter.DateConverter;
+import morris.com.voucher.dao.AccountingClientDAO;
 import morris.com.voucher.dao.AssessmentDataFromServerDAO;
 import morris.com.voucher.dao.ClientAssessmentDAO;
 import morris.com.voucher.dao.IdentificationDataDAO;
+import morris.com.voucher.model.AccountingClient;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.IdentificationData;
@@ -18,7 +20,7 @@ import morris.com.voucher.model.IdentificationData;
  * Created by morris on 2018/12/17.
  */
 
-@Database(entities = {IdentificationData.class, ClientAssessment.class, AssessmentDataFromServer.class},version = 1,exportSchema = false)
+@Database(entities = {IdentificationData.class, ClientAssessment.class, AssessmentDataFromServer.class, AccountingClient.class},version = 1,exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class VoucherDataBase extends RoomDatabase {
     private  static  VoucherDataBase INSTANCE;
@@ -38,6 +40,8 @@ public abstract class VoucherDataBase extends RoomDatabase {
     public  abstract IdentificationDataDAO identificationDataDAO();
 
     public abstract ClientAssessmentDAO clientAssessmentDAO();
+
+    public  abstract AccountingClientDAO accountingClientDAO();
 
     public abstract AssessmentDataFromServerDAO assessmentDataFromServerDAO();
 }

@@ -1,0 +1,6 @@
+query cityDataListQuery{
+cityList{
+    id
+    name
+  }
+}

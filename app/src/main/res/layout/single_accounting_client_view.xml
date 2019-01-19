@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/rec_firstName"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/rec_lastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/rec_idNum"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="left"
+                android:textColor="@color/colorBlack" />
+            <TextView
+                android:id="@+id/rec_povertyScore"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:textColor="@color/colorBlack" />
+
+            <Button
+                android:id="@+id/makeSale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sell" />
+
+
+            <Button
+                android:id="@+id/saleMade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SM" />
+
+        </TableRow>
+    </TableLayout>
+    </ScrollView>
+</LinearLayout>

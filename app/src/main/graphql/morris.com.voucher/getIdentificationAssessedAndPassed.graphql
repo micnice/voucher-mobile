@@ -1,0 +1,9 @@
+query identificationAssessedAndPassedQuery{
+identificationAssessedAndPassed{
+  id
+  firstName
+  lastName
+  povertyScore
+  identificationNumber
+}
+}

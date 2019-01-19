@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+tools:context="morris.com.voucher.fragment.SaleVoucherFragment"
+android:background="#ffffff"
+android:alpha="0.95"
+    android:layout_below="@id/dashboard_tabs">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/clientFName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
+            />
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+             />
+        <TextView
+            android:id="@+id/clientLName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
+            />
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+        />
+        <TextView
+            android:id="@+id/clientIdNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/forest_green"
+            android:textSize="15dp"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <Spinner
+                android:id="@+id/voucherSets"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown" />
+
+
+            <Button
+                android:id="@+id/saveSaleData"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Process" />
+        </LinearLayout>
+
+
+    </ScrollView>
+    </LinearLayout>
+
+
+</FrameLayout>

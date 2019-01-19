@@ -283,8 +283,6 @@ android:alpha="0.95"
                     android:id="@+id/part8_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"
                     android:text="firewood or waste" />
                 <RadioButton
                     android:layout_margin="5dp"

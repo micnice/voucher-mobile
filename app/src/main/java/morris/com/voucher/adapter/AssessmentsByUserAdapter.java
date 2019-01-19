@@ -40,17 +40,11 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         try {
 
-
             holder.mItem = items.get(position);
             holder.name.setText(items.get(position).getFname()+" "+items.get(position).getLname());
             holder.prenancyStatus.setText(items.get(position).getPregnancyStatus());
             holder.povertyScore.setText(Integer.toString(CalculationsUtil.getPovertyScore(items.get(position))));
 
-            System.out.println("###--"+items.get(position).isPart2());
-
-            if(!items.get(position).isPart2()){
-                System.out.println("###HOHOHOHO");
-            }
             if (items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()) {
                 holder.status.setText("F");
                 edit.setVisibility(View.VISIBLE);
@@ -127,6 +121,15 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
     public int getItemCount() {
 
         return items.size();
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
 

@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ import javax.annotation.Nonnull;
 import morris.com.voucher.CreateBeneficiaryIdentificationMutation;
 import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
@@ -151,7 +153,8 @@ public class FormsByUserFragment extends BaseFragment {
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStackImmediate();
-                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment)
+                        .addToBackStack(null).commit();
             }
         });
 
@@ -168,6 +171,8 @@ public class FormsByUserFragment extends BaseFragment {
                             public void run() {
                                 List<IdentificationNotAssessedQuery.IdentificationNotAssessed> dataList= response.data().identificationNotAssessed();
                                 if(!dataList.isEmpty()) {
+                                    database.assessmentDataFromServerDAO().deleteAllNotAssessed();
+                                    System.out.println("#########---"+database.assessmentDataFromServerDAO().getAll().size());
                                     for (IdentificationNotAssessedQuery.IdentificationNotAssessed data : dataList) {
 
                                         if(database.assessmentDataFromServerDAO().getByIdFromServer(data.id().toString())!=null){
@@ -180,10 +185,9 @@ public class FormsByUserFragment extends BaseFragment {
                                             assessmentDataFromServer.setLname(data.lastName());
                                             database.assessmentDataFromServerDAO().saveAssessmentDataFromServer(assessmentDataFromServer);
                                             itemSaved =itemSaved+1;
-                                            System.out.println("%%%%%%%%"+itemSaved);
                                         }
                                     }
-                                    System.out.println("%%%%===OOH WHAT A MISS%%%"+itemSaved);
+                                    ;
                                     if(itemSaved!=0){
                                         Bundle bundle = new Bundle();
                                         bundle.putString("item", "assessment");
@@ -191,7 +195,8 @@ public class FormsByUserFragment extends BaseFragment {
 
                                         FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
                                         formsByUserFragment.setArguments(bundle);
-                                        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, formsByUserFragment)
+                                                .addToBackStack(null).commit();
 
                                     }else {
                                         Toast.makeText(context, "Phone DataBase Is Up To Date With Server.", Toast.LENGTH_LONG).show();
@@ -225,7 +230,7 @@ public class FormsByUserFragment extends BaseFragment {
             else{
 
                 for(IdentificationData data:syncDataList){
-                   //TODO FORMAT DATE OF DATA COLLECTION AND SAVE
+
                     GraphQL.getApolloClient().mutate(CreateBeneficiaryIdentificationMutation.builder()
                     .firstName(data.getFirstName())
                      .lastName(data.getLastName())
@@ -236,6 +241,7 @@ public class FormsByUserFragment extends BaseFragment {
                        .identificationNumber(data.getIdentificationNumber())
                             .parity(data.getParity())
                             .longitude(data.getLongitude())
+                            .dataCollectionDate(data.getDateRegistered())
                             .latitude(data.getLatitude())
                             .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryIdentificationMutation.Data>() {
                         @Override
@@ -258,13 +264,13 @@ public class FormsByUserFragment extends BaseFragment {
                     });
 
 
-
                     }
 
                 FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
                 Bundle newBundle = new Bundle();
-                formsByUserFragment.setArguments(newBundle);
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledFormsByUser).commit();
+                recycledFormsByUser.setArguments(newBundle);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, recycledFormsByUser)
+                        .addToBackStack(null).commit();
 
 
             }

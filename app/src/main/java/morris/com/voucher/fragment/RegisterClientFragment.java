@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
@@ -209,7 +210,7 @@ public class RegisterClientFragment extends BaseFragment  {
         identificationData.setParity(Long.valueOf(parity.getText().toString()));
 
         Date currentDate = Calendar.getInstance().getTime();
-        identificationData.setDateRegistered(currentDate.toString());
+        identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
         if(markAsFinalised.isChecked()){
             identificationData.setMarkAsFinalised(Boolean.TRUE);
         }
@@ -222,7 +223,8 @@ public class RegisterClientFragment extends BaseFragment  {
          fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.popBackStackImmediate();
-        fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment)
+                .addToBackStack(null).commit();
 
     }
 
