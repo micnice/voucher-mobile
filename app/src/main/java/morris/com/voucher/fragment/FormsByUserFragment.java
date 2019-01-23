@@ -74,6 +74,7 @@ public class FormsByUserFragment extends BaseFragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -172,7 +173,6 @@ public class FormsByUserFragment extends BaseFragment {
                                 List<IdentificationNotAssessedQuery.IdentificationNotAssessed> dataList= response.data().identificationNotAssessed();
                                 if(!dataList.isEmpty()) {
                                     database.assessmentDataFromServerDAO().deleteAllNotAssessed();
-                                    System.out.println("#########---"+database.assessmentDataFromServerDAO().getAll().size());
                                     for (IdentificationNotAssessedQuery.IdentificationNotAssessed data : dataList) {
 
                                         if(database.assessmentDataFromServerDAO().getByIdFromServer(data.id().toString())!=null){
@@ -192,7 +192,7 @@ public class FormsByUserFragment extends BaseFragment {
                                         Bundle bundle = new Bundle();
                                         bundle.putString("item", "assessment");
                                         bundle.putString("current","assessment");
-
+                                        Toast.makeText(context, itemSaved+" New Records Updated From Server.", Toast.LENGTH_LONG).show();
                                         FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
                                         formsByUserFragment.setArguments(bundle);
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, formsByUserFragment)
@@ -204,7 +204,7 @@ public class FormsByUserFragment extends BaseFragment {
 
                                 }
                                 else {
-                                    Toast.makeText(context, "DataBase Is Empty.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -252,6 +252,12 @@ public class FormsByUserFragment extends BaseFragment {
                                data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
                                data.setSentToServer(Boolean.TRUE);
                                database.identificationDataDAO().updateIdentificationData(data);
+
+                                    FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
+                                    Bundle newBundle = new Bundle();
+                                    recycledFormsByUser.setArguments(newBundle);
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, recycledFormsByUser)
+                                            .addToBackStack(null).commit();
                                 }
                             });
 
@@ -266,24 +272,13 @@ public class FormsByUserFragment extends BaseFragment {
 
                     }
 
-                FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
-                Bundle newBundle = new Bundle();
-                recycledFormsByUser.setArguments(newBundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, recycledFormsByUser)
-                        .addToBackStack(null).commit();
 
 
             }
 
-
-
-
             }
 
 
-
-
-                //TODO REMEMBER TO SET SENT TO SERVER TRUE AND ID FROM SERVER ON SAVE
             });
 
         myAssessments.setOnClickListener(new View.OnClickListener() {
@@ -300,7 +295,5 @@ public class FormsByUserFragment extends BaseFragment {
 
 
     }
-
-
 
 }

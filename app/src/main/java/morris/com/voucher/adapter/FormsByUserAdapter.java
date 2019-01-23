@@ -57,7 +57,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.firstName.setText(serverList.get(position).getFname());
                 holder.lastName.setText(serverList.get(position).getLname());
                 holder.idNumber.setText(serverList.get(position).getIdNumber());
-                bundle.putString("clientId",serverList.get(position).getClientId());
+                holder.clientId.setText(serverList.get(position).getClientId());
                 edit.setVisibility(View.GONE);
                 sts.setVisibility(View.GONE);
 
@@ -67,7 +67,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.firstName.setText(items.get(position).getFirstName());
                 holder.lastName.setText(items.get(position).getLastName());
                 holder.idNumber.setText(items.get(position).getIdentificationNumber());
-                bundle.putString("clientId",items.get(position).getIdFromServer());
+                holder.clientId.setText(items.get(position).getIdFromServer());
                 if(items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()){
                     holder.status.setText("F");
                     edit.setVisibility(View.VISIBLE);
@@ -83,10 +83,6 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 }
 
             }
-
-            bundle.putString("fname",holder.firstName.getText().toString());
-            bundle.putString("lname",holder.lastName.getText().toString());
-            bundle.putString("idNumber",holder.idNumber.getText().toString());
 
 
         }catch (Exception e){
@@ -115,6 +111,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
         public final TextView lastName;
         public final TextView idNumber;
         public final TextView status;
+        public final TextView clientId;
         public IdentificationData mItem;
         public AssessmentDataFromServer mItem1;
 
@@ -131,6 +128,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
             edit = view.findViewById(R.id.edit);
             status = view.findViewById(R.id.status);
             sts = view.findViewById(R.id.sentToServer);
+            clientId = view.findViewById(R.id.benIdStub);
             Bundle savedInstance = getBundleFromPreviousPage();
 
             if(savedInstance==null){
@@ -146,8 +144,15 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 public void onClick(View v) {
 
                     Fragment fragment= new AssessClientFragment();
+                    bundle.putString("clientId",clientId.getText().toString());
+                    bundle.putString("fname",firstName.getText().toString());
+                    bundle.putString("lname",lastName.getText().toString());
+                    bundle.putString("idNumber",idNumber.getText().toString());
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    System.out.println("###--$$-CID-"+fragment.getArguments().getString("clientId"));
+                    System.out.println("###--$$-LN-"+fragment.getArguments().getString("lname"));
+                    System.out.println("###--$$-IDNum-"+fragment.getArguments().getString("idNumber"));
                     fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
                 }

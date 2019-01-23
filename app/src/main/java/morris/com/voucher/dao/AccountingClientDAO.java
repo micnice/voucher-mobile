@@ -9,7 +9,6 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import morris.com.voucher.model.AccountingClient;
-import morris.com.voucher.model.ClientAssessment;
 
 /**
  * Created by morris on 2018/12/17.

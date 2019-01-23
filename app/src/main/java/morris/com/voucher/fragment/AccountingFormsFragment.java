@@ -112,6 +112,7 @@ public class AccountingFormsFragment extends BaseFragment {
 
                                     if(itemSaved!=0){
                                         Bundle bundle = new Bundle();
+                                        Toast.makeText(context, itemSaved+" New Forms Updated From Server.", Toast.LENGTH_LONG).show();
                                         AccountingFormsFragment accountingFormsFragment = new AccountingFormsFragment();
                                         accountingFormsFragment.setArguments(bundle);
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, accountingFormsFragment)
@@ -123,7 +124,7 @@ public class AccountingFormsFragment extends BaseFragment {
 
                                 }
                                 else {
-                                    Toast.makeText(context, "DataBase Is Empty.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
                                 }
                             }
                         });

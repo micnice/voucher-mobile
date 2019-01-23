@@ -1,0 +1,11 @@
+query voucherSaleIdentificationListQuery{
+  voucherSaleIdentificationDataList{
+    firstName
+    lastName
+    saleId
+    voucherSerialNumber
+    identificationNumber
+    beneficiaryIdentityId
+    packageName
+  }
+}

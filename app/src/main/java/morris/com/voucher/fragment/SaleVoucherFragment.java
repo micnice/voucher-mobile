@@ -76,10 +76,6 @@ public class SaleVoucherFragment extends BaseFragment {
         clientFirstName.setText(bundle.getString("accountingFName"));
         clientIdNumber.setText(bundle.getString("accountingIdNumber"));
 
-        System.out.println("#######LN-"+bundle.getString("accountingLName"));
-        System.out.println("#######FN-"+bundle.getString("accountingFName"));
-        System.out.println("#######AD-"+bundle.getString("accountingClientId"));
-
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

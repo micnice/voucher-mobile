@@ -132,7 +132,29 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                int stab = tab.getPosition();
 
+                if (stab == 0) {
+                    Bundle bundle = new Bundle();
+                    Fragment formsByUserFragment = new FormsByUserFragment();
+                    bundle.putString("current","registration");
+                    formsByUserFragment.setArguments(bundle);
+                    setCurrentFragmentBundle(bundle);
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                    return;
+                } else if (stab == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("item", "assessment");
+                    bundle.putString("current","assessment");
+                    setCurrentFragmentBundle(bundle);
+                    FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
+                    formsByUserFragment.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+
+                } else {
+                    Fragment accountingFragment = new AccountingFragment();
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+                }
             }
 
         });

@@ -1,5 +1,5 @@
 query allIdentificationDataQuery{
-identificationList{
+beneficiaryIdentificationList{ 
  id
   firstName
   lastName

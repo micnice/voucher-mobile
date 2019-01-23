@@ -136,12 +136,20 @@ public class AssessmentsByUserFragment extends BaseFragment {
                        .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryAssessmentMutation.Data>() {
                        @Override
                        public void onResponse(@Nonnull Response<CreateBeneficiaryAssessmentMutation.Data> response) {
+                           if(!response.errors().isEmpty()) {
+                               System.out.println("#####---" + response.errors().get(0).message());
+                           }
                            getActivity().runOnUiThread(new Runnable() {
                                @Override
                                public void run() {
                                  data.setIdFromServer(response.data().createPovertyBeneficiaryAssessmentTool().beneficiaryIdentityId());
                                  data.setSentToServer(Boolean.TRUE);
                                  database.clientAssessmentDAO().updateClientAssessmentData(data);
+                                   AssessmentsByUserFragment recycledAssessmentsByUser = new AssessmentsByUserFragment();
+                                   Bundle newBundle = new Bundle();
+                                   recycledAssessmentsByUser.setArguments(newBundle);
+                                   getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledAssessmentsByUser)
+                                           .addToBackStack(null).commit();
                                }
                            });
                        }
@@ -153,11 +161,6 @@ public class AssessmentsByUserFragment extends BaseFragment {
                    });
                }
 
-                    AssessmentsByUserFragment recycledAssessmentsByUser = new AssessmentsByUserFragment();
-                    Bundle newBundle = new Bundle();
-                    recycledAssessmentsByUser.setArguments(newBundle);
-                    getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledAssessmentsByUser)
-                            .addToBackStack(null).commit();
 
 
                 }

@@ -146,9 +146,11 @@ public class RegisterClientFragment extends BaseFragment  {
         });
 
 
+
         return view;
 
     }
+
     private DatePickerDialog.OnDateSetListener dobListener = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -300,6 +302,8 @@ public class RegisterClientFragment extends BaseFragment  {
             ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, PERMISSION_ALL);
         }
     }
+
+
 
 
 }

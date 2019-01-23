@@ -17,7 +17,7 @@
             >
 
             <TextView
-                android:id="@+id/recycler_fname"
+                android:id="@+id/sd_firstName"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
                 android:textColor="@color/colorBlack" />
 
             <TextView
-                android:id="@+id/recycler_lname"
+                android:id="@+id/sd_lastName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -33,44 +33,33 @@
                 android:textColor="@color/colorBlack" />
 
             <TextView
-                android:id="@+id/recycler_idnum"
+                android:id="@+id/sd_idNum"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:gravity="left"
                 android:textColor="@color/colorBlack" />
-
             <TextView
-                android:id="@+id/status"
+                android:id="@+id/sd_package"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:gravity="center"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorBlack" />
             <TextView
-                android:id="@+id/benIdStub"
+                android:id="@+id/saleIdStub"
                 android:layout_weight="0"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
 
-                />
+               />
 
             <Button
-                android:id="@+id/assessClient"
+                android:id="@+id/viewSale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="assess" />
+                android:text="View Client" />
 
-            <Button
-                android:id="@+id/edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="edit" />
-            <Button
-                android:id="@+id/sentToServer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="STS" />
 
         </TableRow>
     </TableLayout>

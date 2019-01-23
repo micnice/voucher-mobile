@@ -146,7 +146,6 @@ public class AssessClientFragment extends BaseFragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 try {
                     RadioButton radioButton = view.findViewById(part3.getCheckedRadioButtonId());
-                    System.out.println("########IDP3)"+radioButton.getId()+"----"+view.findViewById(R.id.part3_1).getId());
                     if (radioButton.getId()==view.findViewById(R.id.part3_1).getId()){
                         assessment.setPart3(Boolean.TRUE);
                     }
@@ -267,7 +266,6 @@ public class AssessClientFragment extends BaseFragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 try {
                     RadioButton radioButton = view.findViewById(part10.getCheckedRadioButtonId());
-                    System.out.println("########IDP10)"+radioButton.getId()+"----"+view.findViewById(R.id.part10_1).getId());
                     if (radioButton.getId()==view.findViewById(R.id.part10_1).getId()){
                         assessment.setPart10(Boolean.TRUE);
                     }
