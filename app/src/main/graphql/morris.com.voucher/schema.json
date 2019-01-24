@@ -320,6 +320,33 @@
               "deprecationReason": null
             },
             {
+              "name": "claimsBySaleId",
+              "description": "",
+              "args": [
+                {
+                  "name": "sales",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Claim",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "eductationStatusList",
               "description": "",
               "args": [],
@@ -954,6 +981,39 @@
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "ClaimInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Claim",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "redeemClaim",
+              "description": "",
+              "args": [
+                {
+                  "name": "serviceProvider",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1938,6 +1998,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "ServiceProvider",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "redeemed",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3320,11 +3392,11 @@
               "defaultValue": null
             },
             {
-              "name": "saleId",
+              "name": "pregnancyStatus",
               "description": "",
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "PregnancyStatus",
                 "ofType": null
               },
               "defaultValue": null

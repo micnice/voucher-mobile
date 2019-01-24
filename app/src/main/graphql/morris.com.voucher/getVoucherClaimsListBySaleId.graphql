@@ -1,0 +1,11 @@
+query voucherClaimsBySaleIdQuery(
+    $sales: ID
+){
+  claimsBySaleId(sales:$sales){
+   id
+    voucherType{
+      name
+    }
+    redeemed
+  }
+}

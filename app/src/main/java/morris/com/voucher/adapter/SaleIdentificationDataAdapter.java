@@ -11,13 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
+import morris.com.voucher.VoucherClaimsBySaleIdQuery;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.SaleVoucherFragment;
+import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AccountingClient;
+import morris.com.voucher.model.Claim;
 import morris.com.voucher.model.SaleIdentificationData;
 
 /**
@@ -97,19 +107,51 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
                 @Override
                 public void onClick(View v) {
 
-                    Fragment fragment= new SaleVoucherFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("saleId",saleId.getText().toString());
                     bundle.putString("sdFirstName", firstName.getText().toString());
                     bundle.putString("sdLastName",lastName.getText().toString() );
                     bundle.putString("sdIdNumber",idNumber.getText().toString() );
-                    bundle.putString("sdPackage",packageName.getText().toString());
-                    fragment.setArguments(bundle);
-                    System.out.println("######---SA-"+fragment.getArguments().getString("saleId"));
-                    System.out.println("######---FN-"+fragment.getArguments().getString("sdFirstName"));
-                    System.out.println("######---LN-"+fragment.getArguments().getString("sdLastName"));
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+                    database.claimDAO().deleteAll();
+                    GraphQL.getApolloClient().query(VoucherClaimsBySaleIdQuery.builder()
+                            .sales(saleId.getText().toString())
+                            .build()).enqueue(new ApolloCall.Callback<VoucherClaimsBySaleIdQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<VoucherClaimsBySaleIdQuery.Data> response) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    List<VoucherClaimsBySaleIdQuery.ClaimsBySaleId> responseList = response.data().claimsBySaleId();
+
+                                    if(!responseList.isEmpty()){
+                                        for(VoucherClaimsBySaleIdQuery.ClaimsBySaleId data:responseList) {
+                                            Claim claim = new Claim();
+                                            claim.setClaimId(data.id());
+                                            claim.setRedeemed(data.redeemed());
+                                            claim.setVoucherTypeName(data.voucherType().name());
+                                            database.claimDAO().saveClaim(claim);
+                                        }
+                                        //TODO START REAL FRAGMENT
+                                        Fragment fragment= new SaleVoucherFragment();
+                                        fragment.setArguments(bundle);
+                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                        fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+
+                                    }
+
+                                }
+                            });
+
+
+
+                        }
+
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+
+                        }
+                    });
+
+
 
                 }
             });
