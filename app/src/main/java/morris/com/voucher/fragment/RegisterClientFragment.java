@@ -40,6 +40,7 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
@@ -211,7 +212,7 @@ public class RegisterClientFragment extends BaseFragment  {
         identificationData.setLmp(lmp.getText().toString());
         identificationData.setParity(Long.valueOf(parity.getText().toString()));
 
-        Date currentDate = Calendar.getInstance().getTime();
+        Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
         identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
         if(markAsFinalised.isChecked()){
             identificationData.setMarkAsFinalised(Boolean.TRUE);

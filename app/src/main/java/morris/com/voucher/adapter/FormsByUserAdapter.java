@@ -150,9 +150,6 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                     bundle.putString("idNumber",idNumber.getText().toString());
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    System.out.println("###--$$-CID-"+fragment.getArguments().getString("clientId"));
-                    System.out.println("###--$$-LN-"+fragment.getArguments().getString("lname"));
-                    System.out.println("###--$$-IDNum-"+fragment.getArguments().getString("idNumber"));
                     fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
                 }

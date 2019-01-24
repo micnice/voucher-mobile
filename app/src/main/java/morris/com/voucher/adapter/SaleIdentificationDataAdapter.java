@@ -24,6 +24,7 @@ import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherClaimsBySaleIdQuery;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.fragment.RedeemClaimFragment;
 import morris.com.voucher.fragment.SaleVoucherFragment;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AccountingClient;
@@ -131,7 +132,7 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
                                             database.claimDAO().saveClaim(claim);
                                         }
                                         //TODO START REAL FRAGMENT
-                                        Fragment fragment= new SaleVoucherFragment();
+                                        Fragment fragment= new RedeemClaimFragment();
                                         fragment.setArguments(bundle);
                                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                                         fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();

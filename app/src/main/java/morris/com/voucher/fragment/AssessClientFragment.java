@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.TimeZone;
 
 import morris.com.voucher.R;
 import morris.com.voucher.activity.DashboardActivity;
@@ -300,7 +301,7 @@ public class AssessClientFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                Date date = Calendar.getInstance().getTime();
+                Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
             assessment.setClientId(bundle.getString("clientId"));
             assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
             assessment.setFname(bundle.getString("fname"));
