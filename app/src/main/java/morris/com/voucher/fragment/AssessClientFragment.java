@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -301,31 +305,34 @@ public class AssessClientFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-            assessment.setClientId(bundle.getString("clientId"));
-            assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
-            assessment.setFname(bundle.getString("fname"));
-            assessment.setLname(bundle.getString("lname"));
-            assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
-            assessment.setLatitude(latitude.getText().toString());
-            assessment.setLongitude(longitude.getText().toString());
-            if(markAsFinalised.isChecked()){
-                assessment.setMarkAsFinalised(Boolean.TRUE);
-            }
+                if (validate()) {
 
-            database.clientAssessmentDAO().saveClientAssessmentData(assessment);
-                AssessmentDataFromServer assessmentDataFromServer =
-                        database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
-                     assessmentDataFromServer.setAssessed(Boolean.TRUE);
-                database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
+                    Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+                    assessment.setClientId(bundle.getString("clientId"));
+                    assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
+                    assessment.setFname(bundle.getString("fname"));
+                    assessment.setLname(bundle.getString("lname"));
+                    assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
+                    assessment.setLatitude(latitude.getText().toString());
+                    assessment.setLongitude(longitude.getText().toString());
+                    if (markAsFinalised.isChecked()) {
+                        assessment.setMarkAsFinalised(Boolean.TRUE);
+                    }
 
-                Bundle bundle = new Bundle();
-                Fragment fragment= new FormsByUserFragment();
-                bundle.putString("item","assessment");
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+                    database.clientAssessmentDAO().saveClientAssessmentData(assessment);
+                    AssessmentDataFromServer assessmentDataFromServer =
+                            database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
+                    assessmentDataFromServer.setAssessed(Boolean.TRUE);
+                    database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
 
+                    Bundle bundle = new Bundle();
+                    Fragment fragment = new FormsByUserFragment();
+                    bundle.putString("item", "assessment");
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+
+                }
             }
         });
 
@@ -386,6 +393,112 @@ public class AssessClientFragment extends BaseFragment {
             ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, PERMISSION_ALL);
         }
     }
+    private Boolean validate() {
+        Drawable error_indicator;
+        int left = 0;
+        int top = 0;
+        error_indicator = getResources().getDrawable(android.R.drawable.ic_dialog_info);
+        int right = error_indicator.getIntrinsicHeight();
+        int bottom = error_indicator.getIntrinsicWidth();
+        try {
+            error_indicator.setBounds(new Rect(left, top, right, bottom));
+            if (pregnancyStatus.getSelectedItem().toString().equals("Select Pregnancy Status".trim())) {
+                pregnancyStatus.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Marital Status", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (latitude.getText().toString().trim().equals("Loading Latitude...".trim())) {
+                latitude.requestFocus();
+                latitude.setError("Please Check Locator Settings To Load Coordinates", error_indicator);
+                return false;
+            }
+            if (part1.getCheckedRadioButtonId() == -1) {
+                part1.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 1 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part2.getCheckedRadioButtonId() == -1) {
+                part2.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 2 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part3.getCheckedRadioButtonId() == -1) {
+                part3.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 3 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part4.getCheckedRadioButtonId() == -1) {
+                part4.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 4 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part5.getCheckedRadioButtonId() == -1) {
+                part5.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 5 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part6.getCheckedRadioButtonId() == -1) {
+                part6.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 6 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part7.getCheckedRadioButtonId() == -1) {
+                part7.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 7 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
 
+            if (part8.getCheckedRadioButtonId() == -1) {
+                part8.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 8 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part9.getCheckedRadioButtonId() == -1) {
+                part9.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 9 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part10.getCheckedRadioButtonId() == -1) {
+                part10.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 10 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if (part11.getCheckedRadioButtonId() == -1) {
+                part11.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 10 is Required", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return true;
+    }
 
 }

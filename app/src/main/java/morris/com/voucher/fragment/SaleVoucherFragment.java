@@ -1,8 +1,11 @@
 package morris.com.voucher.fragment;
 import android.content.Context;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
@@ -80,37 +84,40 @@ public class SaleVoucherFragment extends BaseFragment {
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO GET THE CURRENTLY LOGGED IN USER AND USE ON SOLD BY
-                Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-                System.out.println("$$$$$-----"+new SimpleDateFormat("d/M/yyyy").format(currentDate));
-                GraphQL.getApolloClient().mutate(CreateVoucherSaleMutation.builder()
-                        .beneficiaryIdentityId(bundle.getString("accountingClientId"))
-                        .saleDate(new SimpleDateFormat("d/M/yyyy").format(currentDate))
-                        .soldBy("mbaradza")
-                        .voucherSet(getVoucherSetFromName(voucherSetSpinner.getSelectedItem().toString()))
-                        .build()).enqueue(new ApolloCall.Callback<CreateVoucherSaleMutation.Data>(){
+                //TODO GET THE CURRENTLY LOGGED IN USER AND USE ON SOLD BY
+                if (validate()) {
 
-                    @Override
-                    public void onResponse(@Nonnull Response<CreateVoucherSaleMutation.Data> response) {
-                        AccountingClient client = database.accountingClientDAO().getByClientId(response.data().createSales().beneficiaryIdentityId());
-                        if(client!=null){
-                            client.setSaleMade(Boolean.TRUE);
-                            database.accountingClientDAO().updateAccountingData(client);
-                            android.support.v4.app.Fragment fragment= new AccountingFormsFragment();
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+                    Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+                    System.out.println("$$$$$-----" + new SimpleDateFormat("d/M/yyyy").format(currentDate));
+                    GraphQL.getApolloClient().mutate(CreateVoucherSaleMutation.builder()
+                            .beneficiaryIdentityId(bundle.getString("accountingClientId"))
+                            .saleDate(new SimpleDateFormat("d/M/yyyy").format(currentDate))
+                            .soldBy("mbaradza")
+                            .voucherSet(getVoucherSetFromName(voucherSetSpinner.getSelectedItem().toString()))
+                            .build()).enqueue(new ApolloCall.Callback<CreateVoucherSaleMutation.Data>() {
+
+                        @Override
+                        public void onResponse(@Nonnull Response<CreateVoucherSaleMutation.Data> response) {
+                            AccountingClient client = database.accountingClientDAO().getByClientId(response.data().createSales().beneficiaryIdentityId());
+                            if (client != null) {
+                                client.setSaleMade(Boolean.TRUE);
+                                database.accountingClientDAO().updateAccountingData(client);
+                                android.support.v4.app.Fragment fragment = new AccountingFormsFragment();
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+                            }
+
+
                         }
 
-
-                    }
-
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                    e.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+                            e.printStackTrace();
+                        }
+                    });
 
 
+                }
             }
         });
 
@@ -169,6 +176,26 @@ public class SaleVoucherFragment extends BaseFragment {
       return name;
     }
 
+    private Boolean validate() {
+      try{
+            if(voucherSetSpinner.getSelectedItem().toString().equals("Select Voucher Package".trim())){
+                voucherSetSpinner.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Voucher Package", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+
+
+
+        }catch (Exception ex){
+
+        }
+
+
+
+        return true;
+    }
 
 
 

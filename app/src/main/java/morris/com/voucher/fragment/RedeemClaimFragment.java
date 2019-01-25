@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,6 @@ public class RedeemClaimFragment extends BaseFragment {
     Toolbar toolbar;
     TextView clientFirstName;
     TextView clientLastName;
-    TextView clientIdNumber;
     Button saveData;
     Bundle bundle;
     Context context;
@@ -130,7 +130,6 @@ public class RedeemClaimFragment extends BaseFragment {
 
         clientFirstName = view.findViewById(R.id.claimFirstName);
         clientLastName = view.findViewById(R.id.claimLastName);
-        clientIdNumber = view.findViewById(R.id.claimIdNumber);
         citySpinner = view.findViewById(R.id.city);
         providerSpinner = view.findViewById(R.id.provider);
         saveData = view.findViewById(R.id.saveClaim);
@@ -140,7 +139,6 @@ public class RedeemClaimFragment extends BaseFragment {
 
         clientLastName.setText(bundle.getString("sdLastName"));
         clientFirstName.setText(bundle.getString("sdFirstName"));
-        clientIdNumber.setText(bundle.getString("sdIdNumber"));
 
         Animation anim = new AlphaAnimation(0.5f, 1.0f);
         anim.setDuration(2000); //You can manage the blinking time with this parameter
@@ -154,10 +152,7 @@ public class RedeemClaimFragment extends BaseFragment {
 
                 List<Claim> syncDataList = database.claimDAO().getAllRedeemed();
 
-                if(syncDataList.isEmpty()){
-                    Toast.makeText(context, "No Changes Discovered", Toast.LENGTH_LONG).show();
-                }
-                else{
+                if(validate(syncDataList)){
 
                     for(Claim data:syncDataList){
 
@@ -204,6 +199,7 @@ public class RedeemClaimFragment extends BaseFragment {
 
                try {
                    providerList = new ArrayList<>();
+                   providerSpinner.setSelection(0);
 
                 String cityId = getIdFromName(citySpinner.getSelectedItem().toString(),cityList);
 
@@ -315,6 +311,30 @@ public class RedeemClaimFragment extends BaseFragment {
         return name;
     }
 
+public Boolean validate(List<Claim> claims){
 
+    if(citySpinner.getSelectedItem().toString().equals("Select City".trim())){
+        citySpinner.requestFocus();
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select City", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        return false;
+    }
+    if(providerSpinner.getSelectedItem().toString().equals("Select Service Provider".trim())){
+        providerSpinner.requestFocus();
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Service Provider", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        return false;
+    }
+    if(claims.isEmpty()){
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select At Least One Service", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        return false;
+    }
+
+return  true;
+}
 
 }

@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class FormsByUserFragment extends BaseFragment {
    public  static FormsByUserFragment formsByUserFragment;
     private RecyclerView recyclerView;
     Button addNew,getData,syncData,myAssessments;
+    ProgressBar waiting;
     private List<IdentificationData> dataList = new ArrayList<>();
     private List<AssessmentDataFromServer> serverList = new ArrayList<>();
     FormsByUserAdapter adapter;
@@ -87,6 +89,8 @@ public class FormsByUserFragment extends BaseFragment {
         addNew = view.findViewById(R.id.addNew);
         getData = view.findViewById(R.id.getForms);
         syncData = view.findViewById(R.id.syncData);
+        waiting = view.findViewById(R.id.simpleProgressBar);
+        waiting.setVisibility(ProgressBar.GONE);
         statusHeader = view.findViewById(R.id.statusHeader);
         myAssessments = view.findViewById(R.id.myAssessments);
 
@@ -162,6 +166,7 @@ public class FormsByUserFragment extends BaseFragment {
         getData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                waiting.setVisibility(ProgressBar.VISIBLE);
                 GraphQL.getApolloClient().query(IdentificationNotAssessedQuery.builder().build()).enqueue(new ApolloCall.Callback<IdentificationNotAssessedQuery.Data>() {
 
 
@@ -198,13 +203,16 @@ public class FormsByUserFragment extends BaseFragment {
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, formsByUserFragment)
                                                 .addToBackStack(null).commit();
 
+                                        waiting.setVisibility(ProgressBar.GONE);
                                     }else {
                                         Toast.makeText(context, "Phone DataBase Is Up To Date With Server.", Toast.LENGTH_LONG).show();
+                                        waiting.setVisibility(ProgressBar.GONE);
                                     }
 
                                 }
                                 else {
                                     Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
+                                    waiting.setVisibility(ProgressBar.GONE);
                                 }
                             }
                         });
@@ -213,15 +221,17 @@ public class FormsByUserFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-
+                        waiting.setVisibility(ProgressBar.GONE);
                     }
                 });
+                waiting.setVisibility(ProgressBar.GONE);
             }
         });
         syncData.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
+                waiting.setVisibility(ProgressBar.VISIBLE);
             List<IdentificationData> syncDataList = database.identificationDataDAO().getAllFinalisedNotSetToServer();
 
             if(syncDataList.isEmpty()){
@@ -252,7 +262,6 @@ public class FormsByUserFragment extends BaseFragment {
                                data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
                                data.setSentToServer(Boolean.TRUE);
                                database.identificationDataDAO().updateIdentificationData(data);
-
                                     FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
                                     Bundle newBundle = new Bundle();
                                     recycledFormsByUser.setArguments(newBundle);
@@ -265,6 +274,7 @@ public class FormsByUserFragment extends BaseFragment {
 
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
+                            waiting.setVisibility(ProgressBar.GONE);
                             Toast.makeText(context, "No Connection To Server.", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -275,7 +285,7 @@ public class FormsByUserFragment extends BaseFragment {
 
 
             }
-
+                waiting.setVisibility(ProgressBar.GONE);
             }
 
 

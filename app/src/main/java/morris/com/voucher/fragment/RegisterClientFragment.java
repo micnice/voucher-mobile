@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,40 +200,41 @@ public class RegisterClientFragment extends BaseFragment  {
                 .append(month).append("/").append(year));
     }
 
-    void saveLocalInstance(){
-        IdentificationData identificationData = new IdentificationData();
-        identificationData.setBirthDate(birthDate.getText().toString());
-        //TODO USE LOGGED IN USER
-        identificationData.setCreatedBy("mbaradza");
-        identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
-        identificationData.setFirstName(firstName.getText().toString());
-        identificationData.setLastName(lastName.getText().toString());
-        identificationData.setMaritalStatus(maritalStatus.getSelectedItem().toString());
-        identificationData.setIdentificationNumber(identificationNumber.getText().toString());
-        identificationData.setLatitude(latitude.getText().toString());
-        identificationData.setLongitude(longitude.getText().toString());
-        identificationData.setLmp(lmp.getText().toString());
-        identificationData.setParity(Long.valueOf(parity.getText().toString()));
+    void saveLocalInstance() {
+        if (validate()) {
+            IdentificationData identificationData = new IdentificationData();
+            identificationData.setBirthDate(birthDate.getText().toString());
+            //TODO USE LOGGED IN USER
+            identificationData.setCreatedBy("mbaradza");
+            identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
+            identificationData.setFirstName(firstName.getText().toString());
+            identificationData.setLastName(lastName.getText().toString());
+            identificationData.setMaritalStatus(maritalStatus.getSelectedItem().toString());
+            identificationData.setIdentificationNumber(identificationNumber.getText().toString());
+            identificationData.setLatitude(latitude.getText().toString());
+            identificationData.setLongitude(longitude.getText().toString());
+            identificationData.setLmp(lmp.getText().toString());
+            identificationData.setParity(Long.valueOf(parity.getText().toString()));
 
-        Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-        identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
-        if(markAsFinalised.isChecked()){
-            identificationData.setMarkAsFinalised(Boolean.TRUE);
+            Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+            identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
+            if (markAsFinalised.isChecked()) {
+                identificationData.setMarkAsFinalised(Boolean.TRUE);
+            }
+
+            database.identificationDataDAO().saveIdentificationData(identificationData);
+
+            List<IdentificationData> data = database.identificationDataDAO().getAll();
+            Bundle bundle = new Bundle();
+            Fragment fragment = new FormsByUserFragment();
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.popBackStackImmediate();
+            fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment)
+                    .addToBackStack(null).commit();
+
         }
-
-        database.identificationDataDAO().saveIdentificationData(identificationData);
-
-        List<IdentificationData> data = database.identificationDataDAO().getAll();
-        Bundle bundle = new Bundle();
-        Fragment fragment= new FormsByUserFragment();
-         fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.popBackStackImmediate();
-        fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment)
-                .addToBackStack(null).commit();
-
     }
-
 
     private String[] getEducationalStatuses(){
 
@@ -304,7 +308,70 @@ public class RegisterClientFragment extends BaseFragment  {
         }
     }
 
+    private Boolean validate() {
+        Drawable error_indicator;
+        int left = 0;
+        int top = 0;
+        error_indicator = getResources().getDrawable(android.R.drawable.ic_dialog_info);
+        int right = error_indicator.getIntrinsicHeight();
+        int bottom = error_indicator.getIntrinsicWidth();
+        try{
+            error_indicator.setBounds(new Rect(left, top, right, bottom));
+            if(firstName.getText().toString().trim().isEmpty()){
+                firstName.requestFocus();
+                firstName.setError("Please Enter First Name",error_indicator);
+                return  false;
+            }
+            if(lastName.getText().toString().trim().isEmpty()){
+                lastName.requestFocus();
+                lastName.setError("Please Enter Last Name",error_indicator);
+                return false;
+            }
+            if(maritalStatus.getSelectedItem().toString().trim().equals("Select Marital Status".trim())){
+                maritalStatus.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Marital Status", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
+            if(educationStatus.getSelectedItem().toString().trim().equals("Select Education Status".trim())){
+              educationStatus.requestFocus();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Education Status", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return false;
+            }
 
+            if(identificationNumber.getText().toString().trim().isEmpty()){
+                identificationNumber.requestFocus();
+                identificationNumber.setError("Please Enter Client ID Number",error_indicator);
+                return false;
+            }
+            if(birthDate.getText().toString().trim().isEmpty()){
+                birthDate.requestFocus();
+                birthDate.setError("Please Enter Date Of Birth",error_indicator);
+                return false;
+            }
+            if(lmp.getText().toString().trim().isEmpty()){
+                lmp.requestFocus();
+                lmp.setError("Please Enter Date Of LMP",error_indicator);
+                return false;
+            }
+            if(longitude.getText().toString().trim().equals("Loading Longitude...".trim())){
+                longitude.requestFocus();
+                longitude.setError("Turn On Locator To Collect Coordinates",error_indicator);
+                return false;
+            }
+
+
+        }catch (Exception ex){
+
+        }
+
+
+
+        return true;
+    }
 
 
 }

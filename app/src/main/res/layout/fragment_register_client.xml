@@ -96,7 +96,7 @@ android:alpha="0.95"
                 android:background="@drawable/et_bg"
                 android:enabled="false"
                 android:layout_marginTop="10dp"
-                android:text=" Loading Latitude..."
+                android:text="Loading Latitude..."
                 android:layout_below="@id/parity"
                 android:hint="Loading Latitude" />
 
@@ -107,9 +107,9 @@ android:alpha="0.95"
                 android:background="@drawable/et_bg"
                 android:enabled="false"
                 android:layout_marginTop="10dp"
-                android:text="loading Longitude..."
+                android:text="Loading Longitude..."
                 android:layout_below="@id/latitude"
-                android:hint="Loading Latitude" />
+                android:hint="Loading Longitude" />
 
             <Button
                 android:id="@+id/dobPicker"

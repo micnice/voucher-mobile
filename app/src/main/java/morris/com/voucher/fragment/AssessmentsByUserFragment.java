@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
 
    public  static AssessmentsByUserFragment assessmentsByUserFragment;
     private RecyclerView recyclerView;
+    ProgressBar waiting;
     Button syncData;
     Bundle bundle;
     private List<ClientAssessment> dataList = new ArrayList<>();
@@ -68,6 +70,8 @@ public class AssessmentsByUserFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.recycler_assessments_by_user);
         recyclerView.setHasFixedSize(false);
         layoutManager = new LinearLayoutManager(context);
+        waiting = view.findViewById(R.id.assessmentProgressBar);
+        waiting.setVisibility(ProgressBar.GONE);
         recyclerView.setLayoutManager(layoutManager);
         syncData = view.findViewById(R.id.syncData);
         statusHeader = view.findViewById(R.id.statusHeader);
@@ -108,7 +112,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
         syncData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+             waiting.setVisibility(ProgressBar.VISIBLE);
                 List<ClientAssessment> assessments = database.clientAssessmentDAO().getAllFinalisedNotSentToServer();
 
                 if(assessments.isEmpty()){
@@ -136,9 +140,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
                        .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryAssessmentMutation.Data>() {
                        @Override
                        public void onResponse(@Nonnull Response<CreateBeneficiaryAssessmentMutation.Data> response) {
-                           if(!response.errors().isEmpty()) {
-                               System.out.println("#####---" + response.errors().get(0).message());
-                           }
+
                            getActivity().runOnUiThread(new Runnable() {
                                @Override
                                public void run() {
@@ -164,8 +166,9 @@ public class AssessmentsByUserFragment extends BaseFragment {
 
 
                 }
-
+                waiting.setVisibility(ProgressBar.GONE);
             }
+
         });
 
 
