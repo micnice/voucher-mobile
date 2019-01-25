@@ -48,6 +48,7 @@ public class AccountingClientsAdapter extends RecyclerView.Adapter<AccountingCli
             holder.firstName.setText(items.get(position).getFirstName());
             holder.lastName.setText(items.get(position).getLastName());
             holder.idNumber.setText(items.get(position).getIdNumber());
+            holder.clientId.setText(items.get(position).getClientId());
             holder.povertyScore.setText(Long.toString(items.get(position).getPovertyScore()));
 
             if (items.get(position).isSaleMade()) {
@@ -89,6 +90,7 @@ public class AccountingClientsAdapter extends RecyclerView.Adapter<AccountingCli
         public final TextView lastName;
         public final TextView idNumber;
         public final TextView povertyScore;
+        public final TextView clientId;
         public AccountingClient mItem;
 
 
@@ -100,6 +102,7 @@ public class AccountingClientsAdapter extends RecyclerView.Adapter<AccountingCli
             firstName = view.findViewById(R.id.rec_firstName);
             lastName = view.findViewById(R.id.rec_lastName);
             idNumber = view.findViewById(R.id.rec_idNum);
+            clientId = view.findViewById(R.id.clientIdStub);
             povertyScore = view.findViewById(R.id.rec_povertyScore);
             makeSale= view.findViewById(R.id.makeSale);
             sm = view.findViewById(R.id.saleMade);
@@ -110,12 +113,11 @@ public class AccountingClientsAdapter extends RecyclerView.Adapter<AccountingCli
                    Bundle bundle = new Bundle();
                    String nameLast =lastName.getText().toString();
                    String numberId = idNumber.getText().toString();
-                   AccountingClient client = database.accountingClientDAO().getByIdNumberAndLastName(numberId,nameLast);
 
                     bundle.putString("accountingFName", firstName.getText().toString());
                     bundle.putString("accountingLName",nameLast );
                     bundle.putString("accountingIdNumber",numberId );
-                    bundle.putString("accountingClientId",client.getClientId());
+                    bundle.putString("accountingClientId",clientId.getText().toString());
 
                     Fragment fragment= new SaleVoucherFragment();
                     fragment.setArguments(bundle);

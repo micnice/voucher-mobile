@@ -7,10 +7,23 @@
     tools:context="morris.com.voucher.fragment.RedeemClaimFragment"
     android:background="#ffffff"
     android:alpha="0.95"
-    android:layout_below="@id/dashboard_tabs">
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:id="@+id/staticData"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:padding="20dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -47,13 +60,31 @@
             android:textSize="15dp"
             />
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/saveClaim"
+            android:layout_width="match_parent"
+            android:background="@color/colorBack"
+            android:layout_gravity="right"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/colorWhite"
+            android:text="REDEEM CLAIM" />
+
+    </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_below="@id/staticData"
         android:orientation="vertical">
 
     <ScrollView
@@ -117,21 +148,14 @@
                 app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/single_claim_recycler_view" />
 
-        </LinearLayout>
 
+        </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-        <Button
-            android:id="@+id/saveClaim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="REDEEM CLAIM" />
+    </LinearLayout>
     </LinearLayout>
 
 

@@ -15,7 +15,8 @@ public class Claim {
     String claimId;
     String voucherTypeName;
     String providerId;
-    Boolean redeemed;
+    Boolean redeemed = Boolean.FALSE;
+    Boolean redeemStatusFromServer;
 
     public String getClaimId() {
         return claimId;
@@ -55,5 +56,13 @@ public class Claim {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Boolean getRedeemStatusFromServer() {
+        return redeemStatusFromServer;
+    }
+
+    public void setRedeemStatusFromServer(Boolean redeemStatusFromServer) {
+        this.redeemStatusFromServer = redeemStatusFromServer;
     }
 }

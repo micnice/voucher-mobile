@@ -127,11 +127,10 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
                                         for(VoucherClaimsBySaleIdQuery.ClaimsBySaleId data:responseList) {
                                             Claim claim = new Claim();
                                             claim.setClaimId(data.id());
-                                            claim.setRedeemed(data.redeemed());
+                                            claim.setRedeemStatusFromServer(data.redeemed());
                                             claim.setVoucherTypeName(data.voucherType().name());
                                             database.claimDAO().saveClaim(claim);
                                         }
-                                        //TODO START REAL FRAGMENT
                                         Fragment fragment= new RedeemClaimFragment();
                                         fragment.setArguments(bundle);
                                         FragmentManager fragmentManager = activity.getSupportFragmentManager();

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.Nonnull;
 
@@ -80,8 +81,8 @@ public class SaleVoucherFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
             //TODO GET THE CURRENTLY LOGGED IN USER AND USE ON SOLD BY
-                Date currentDate = Calendar.getInstance().getTime();
-
+                Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+                System.out.println("$$$$$-----"+new SimpleDateFormat("d/M/yyyy").format(currentDate));
                 GraphQL.getApolloClient().mutate(CreateVoucherSaleMutation.builder()
                         .beneficiaryIdentityId(bundle.getString("accountingClientId"))
                         .saleDate(new SimpleDateFormat("d/M/yyyy").format(currentDate))

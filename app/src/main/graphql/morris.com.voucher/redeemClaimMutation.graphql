@@ -1,0 +1,9 @@
+mutation redeemVoucherClaimMutation(
+ $serviceProvider: ID
+ $id: ID
+){
+redeemClaim(serviceProvider:$serviceProvider,id:$id)
+{
+id
+}
+}

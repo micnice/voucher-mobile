@@ -1,0 +1,8 @@
+query providerListByCityIdQuery(
+    $city: ID
+){
+serviceProviderByCity(city:$city){
+      name
+      id
+    }
+}

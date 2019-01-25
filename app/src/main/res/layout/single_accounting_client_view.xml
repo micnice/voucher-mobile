@@ -46,6 +46,13 @@
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:textColor="@color/colorBlack" />
+            <TextView
+                android:id="@+id/clientIdStub"
+                android:layout_weight="0"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+
+                />
 
             <Button
                 android:id="@+id/makeSale"
