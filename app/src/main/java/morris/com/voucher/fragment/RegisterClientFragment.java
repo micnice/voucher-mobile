@@ -20,6 +20,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +54,9 @@ import morris.com.voucher.enums.MaritalStatus;
 import morris.com.voucher.location.LocationSettings;
 import morris.com.voucher.location.LocationTracker;
 import morris.com.voucher.model.IdentificationData;
+import morris.com.voucher.util.Tools;
 
+import static morris.com.voucher.util.Tools.getDateFromString;
 import static morris.com.voucher.util.Tools.hasPermissions;
 
 /**
@@ -71,6 +75,7 @@ public class RegisterClientFragment extends BaseFragment  {
     Spinner educationStatus;
     Button setDOB,saveData,lmpDatePicker;
     CheckBox markAsFinalised;
+    String age,lmpAge;
     private Calendar calendar;
     private int year, month, day;
     public VoucherDataBase database;
@@ -192,12 +197,14 @@ public class RegisterClientFragment extends BaseFragment  {
 
             birthDate.setText(new StringBuilder().append(day).append("/")
                     .append(month).append("/").append(year));
+            setAge(Tools.setAge(year,month,day,new Date()));
         }
 
     private void showLMP(int year, int month, int day) {
 
         lmp.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
+        setLmpAge(Tools.setAge(year,month,day,getDateFromString(birthDate.getText().toString())).replace("-","").trim());
     }
 
     void saveLocalInstance() {
@@ -329,14 +336,21 @@ public class RegisterClientFragment extends BaseFragment  {
             }
             if(maritalStatus.getSelectedItem().toString().trim().equals("Select Marital Status".trim())){
                 maritalStatus.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Marital Status", Toast.LENGTH_LONG);
+                String text ="Please Select Marital Status";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+
                 return false;
             }
             if(educationStatus.getSelectedItem().toString().trim().equals("Select Education Status".trim())){
               educationStatus.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Education Status", Toast.LENGTH_LONG);
+                String text ="Please Select Education Status";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
@@ -347,9 +361,31 @@ public class RegisterClientFragment extends BaseFragment  {
                 identificationNumber.setError("Please Enter Client ID Number",error_indicator);
                 return false;
             }
+
+            if(!identificationNumber.getText().toString().trim().matches(Tools.ZIMBABWE)){
+                identificationNumber.requestFocus();
+                identificationNumber.setError("Invalid Zimbabwe National ID");
+                return false;
+            }
             if(birthDate.getText().toString().trim().isEmpty()){
                 birthDate.requestFocus();
                 birthDate.setError("Please Enter Date Of Birth",error_indicator);
+                return false;
+            }
+            if(Tools.getDateFromString(birthDate.getText().toString()).after(new Date())){
+                birthDate.requestFocus();
+                birthDate.setError("D.O.B Can not Be A Future Date",error_indicator);
+                return false;
+            }
+             if(Integer.parseInt(age)<13){
+                birthDate.requestFocus();
+                birthDate.setError("Age Too Low Please Verify",error_indicator);
+                return false;
+            }
+
+            if(parity.getText().toString().trim().isEmpty()){
+                parity.requestFocus();
+                parity.setError("Please Enter Parity",error_indicator);
                 return false;
             }
             if(lmp.getText().toString().trim().isEmpty()){
@@ -357,6 +393,27 @@ public class RegisterClientFragment extends BaseFragment  {
                 lmp.setError("Please Enter Date Of LMP",error_indicator);
                 return false;
             }
+
+            System.out.println("#####-LMPAge--"+lmpAge);
+            if(Tools.getDateFromString(lmp.getText().toString()).after(new Date())){
+                lmp.requestFocus();
+                lmp.setError("LMP Can not Be A Future Date",error_indicator);
+                return false;
+            }
+
+            if(getDateFromString(lmp.getText().toString()).before(getDateFromString(birthDate.getText().toString()))){
+                lmp.requestFocus();
+                lmp.setError("LMP Can Not Be Before Birth Date",error_indicator);
+                return false;
+            }
+            if(Integer.parseInt(lmpAge)<13){
+                lmp.requestFocus();
+                lmp.setError("LMP Too Ridiculous compared To Age Please Verify",error_indicator);
+                return false;
+            }
+
+
+
             if(longitude.getText().toString().trim().equals("Loading Longitude...".trim())){
                 longitude.requestFocus();
                 longitude.setError("Turn On Locator To Collect Coordinates",error_indicator);
@@ -365,6 +422,7 @@ public class RegisterClientFragment extends BaseFragment  {
 
 
         }catch (Exception ex){
+            ex.printStackTrace();
 
         }
 
@@ -373,5 +431,19 @@ public class RegisterClientFragment extends BaseFragment  {
         return true;
     }
 
+    public String getAge() {
+        return age;
+    }
 
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getLmpAge() {
+        return lmpAge;
+    }
+
+    public void setLmpAge(String lmpAge) {
+        this.lmpAge = lmpAge;
+    }
 }

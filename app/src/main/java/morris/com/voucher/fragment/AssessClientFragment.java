@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -404,9 +406,14 @@ public class AssessClientFragment extends BaseFragment {
             error_indicator.setBounds(new Rect(left, top, right, bottom));
             if (pregnancyStatus.getSelectedItem().toString().equals("Select Pregnancy Status".trim())) {
                 pregnancyStatus.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Marital Status", Toast.LENGTH_LONG);
+                String text ="Please Select Pregnancy Status";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+
+
                 return false;
             }
             if (latitude.getText().toString().trim().equals("Loading Latitude...".trim())) {
@@ -416,49 +423,72 @@ public class AssessClientFragment extends BaseFragment {
             }
             if (part1.getCheckedRadioButtonId() == -1) {
                 part1.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 1 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 1 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+
+
                 return false;
             }
             if (part2.getCheckedRadioButtonId() == -1) {
                 part2.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 2 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 2 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part3.getCheckedRadioButtonId() == -1) {
                 part3.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 3 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 3 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part4.getCheckedRadioButtonId() == -1) {
                 part4.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 4 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 4 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part5.getCheckedRadioButtonId() == -1) {
                 part5.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 5 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 5 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part6.getCheckedRadioButtonId() == -1) {
                 part6.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 6 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 6 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part7.getCheckedRadioButtonId() == -1) {
                 part7.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 7 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 7 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
@@ -466,28 +496,40 @@ public class AssessClientFragment extends BaseFragment {
 
             if (part8.getCheckedRadioButtonId() == -1) {
                 part8.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 8 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 8 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part9.getCheckedRadioButtonId() == -1) {
                 part9.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 9 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 9 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part10.getCheckedRadioButtonId() == -1) {
                 part10.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 10 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 10 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;
             }
             if (part11.getCheckedRadioButtonId() == -1) {
                 part11.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Response For Question 10 is Required", Toast.LENGTH_LONG);
+                String text ="Response For Question 11 is Required";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;

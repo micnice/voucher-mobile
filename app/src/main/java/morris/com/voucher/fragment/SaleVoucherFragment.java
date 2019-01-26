@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -180,7 +182,10 @@ public class SaleVoucherFragment extends BaseFragment {
       try{
             if(voucherSetSpinner.getSelectedItem().toString().equals("Select Voucher Package".trim())){
                 voucherSetSpinner.requestFocus();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Voucher Package", Toast.LENGTH_LONG);
+                String text ="Please Select Voucher Package";
+                SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+                biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return false;

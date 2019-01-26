@@ -34,15 +34,15 @@
 
             <TextView
                 android:id="@+id/recycler_idnum"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:gravity="left"
+                android:gravity="right"
                 android:textColor="@color/colorBlack" />
 
             <TextView
                 android:id="@+id/status"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:gravity="center"

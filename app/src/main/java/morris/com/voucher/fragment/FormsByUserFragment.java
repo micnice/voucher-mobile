@@ -262,6 +262,7 @@ public class FormsByUserFragment extends BaseFragment {
                                data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
                                data.setSentToServer(Boolean.TRUE);
                                database.identificationDataDAO().updateIdentificationData(data);
+                                    waiting.setVisibility(ProgressBar.GONE);
                                     FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
                                     Bundle newBundle = new Bundle();
                                     recycledFormsByUser.setArguments(newBundle);
@@ -299,6 +300,7 @@ public class FormsByUserFragment extends BaseFragment {
 
             }
         });
+
 
 
         return view;

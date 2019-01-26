@@ -13,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -315,20 +317,30 @@ public Boolean validate(List<Claim> claims){
 
     if(citySpinner.getSelectedItem().toString().equals("Select City".trim())){
         citySpinner.requestFocus();
-        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select City", Toast.LENGTH_LONG);
+        String text ="Please Select City";
+        SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+        biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
         return false;
     }
     if(providerSpinner.getSelectedItem().toString().equals("Select Service Provider".trim())){
         providerSpinner.requestFocus();
-        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select Service Provider", Toast.LENGTH_LONG);
+        String text ="Please Select Service Provider";
+        SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+        biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+
         return false;
     }
     if(claims.isEmpty()){
-        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please Select At Least One Service", Toast.LENGTH_LONG);
+        String text ="Please Select At Least One Service";
+        SpannableStringBuilder biggerText = new SpannableStringBuilder(text);
+        biggerText.setSpan(new RelativeSizeSpan(1.35f), 0, text.length(), 0);
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),biggerText, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
         return false;

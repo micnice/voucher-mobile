@@ -64,13 +64,40 @@ android:alpha="0.95"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/educationStatus"
                 android:hint="Enter Client ID Number" />
+
+            <Button
+                android:id="@+id/dobPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/identificationNumber"
+                android:layout_marginTop="10dp"
+                android:text="@string/date_button_set" />
+
+            <EditText
+                android:id="@+id/birthDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dobPicker"
+                android:enabled="false"
+                android:hint="Set Birth Date" />
+
+            <EditText
+                android:id="@+id/parity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/birthDate"
+                android:hint="Enter Client Parity"
+                android:inputType="number|phone" />
+
             <Button
                 android:id="@+id/lmpPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/identificationNumber"
+                android:layout_below="@id/parity"
                 android:layout_marginTop="10dp"
                 android:text="@string/lmp_date_set" />
 
@@ -78,16 +105,10 @@ android:alpha="0.95"
                 android:id="@+id/lmp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/lmpPicker"
                 android:enabled="false"
                 android:hint="Set Client LMP" />
 
-            <EditText
-                android:id="@+id/parity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lmp"
-                android:hint="Enter Client Parity"
-                android:inputType="number|phone" />
 
             <EditText
                 android:id="@+id/latitude"
@@ -97,7 +118,7 @@ android:alpha="0.95"
                 android:enabled="false"
                 android:layout_marginTop="10dp"
                 android:text="Loading Latitude..."
-                android:layout_below="@id/parity"
+                android:layout_below="@id/lmp"
                 android:hint="Loading Latitude" />
 
             <EditText
@@ -111,23 +132,8 @@ android:alpha="0.95"
                 android:layout_below="@id/latitude"
                 android:hint="Loading Longitude" />
 
-            <Button
-                android:id="@+id/dobPicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/longitude"
-                android:layout_marginTop="10dp"
-                android:text="@string/date_button_set" />
 
-            <EditText
-                android:id="@+id/birthDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dobPicker"
-                android:enabled="false"
-                android:hint="Set Birth Date" />
+
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
