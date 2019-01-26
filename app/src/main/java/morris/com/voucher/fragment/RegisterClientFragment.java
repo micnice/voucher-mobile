@@ -69,6 +69,7 @@ public class RegisterClientFragment extends BaseFragment  {
     BroadcastReceiver lastKnownLocationReceiver;
     EditText lmp,firstName,lastName,birthDate,parity,
     identificationNumber,latitude,longitude;
+    Bundle bundle;
     Context context;
     Activity activity;
     Spinner maritalStatus;
@@ -80,6 +81,7 @@ public class RegisterClientFragment extends BaseFragment  {
     private int year, month, day;
     public VoucherDataBase database;
     LocationSettings locationSettings;
+    private IdentificationData updateData;
 
     public RegisterClientFragment() {
     }
@@ -102,8 +104,10 @@ public class RegisterClientFragment extends BaseFragment  {
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
         }
-            getLastKnownLocation();
 
+        if(bundle== null ||bundle.getString("updateClient")==null) {
+            getLastKnownLocation();
+        }
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 
@@ -125,6 +129,26 @@ public class RegisterClientFragment extends BaseFragment  {
         setDOB = view.findViewById(R.id.dobPicker);
         saveData = view.findViewById(R.id.saveData);
         markAsFinalised = view.findViewById(R.id.markAsFinalised);
+
+       bundle = getArguments();
+
+        if(bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+            updateData = database.identificationDataDAO().getByClientId(bundle.getString("idDataId"));
+            if(updateData!=null){
+                lmp.setText(updateData.getLmp());
+                firstName.setText(updateData.getFirstName());
+                lastName.setText(updateData.getLastName());
+                maritalStatus.setSelection(MaritalStatus.get(updateData.getMaritalStatus()).getCode()+1);
+                educationStatus.setSelection(EducationStatus.get(updateData.getMaritalStatus()).getCode()+1);
+                birthDate.setText(updateData.getBirthDate());
+                parity.setText(updateData.getParity().toString());
+                identificationNumber.setText(updateData.getIdentificationNumber());
+                latitude.setText(updateData.getLatitude());
+                longitude.setText(updateData.getLongitude());
+                markAsFinalised.setChecked(updateData.isMarkAsFinalised());
+            }
+        }
+
 
 
         maritalStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getMaritalStatuses()));
@@ -210,9 +234,20 @@ public class RegisterClientFragment extends BaseFragment  {
     void saveLocalInstance() {
         if (validate()) {
             IdentificationData identificationData = new IdentificationData();
+           if( bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+               identificationData = updateData;
+
+           }else {
+               Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+               identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
+
+               identificationData.setCreatedBy("mbaradza");
+           }
+
+
             identificationData.setBirthDate(birthDate.getText().toString());
             //TODO USE LOGGED IN USER
-            identificationData.setCreatedBy("mbaradza");
+
             identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
             identificationData.setFirstName(firstName.getText().toString());
             identificationData.setLastName(lastName.getText().toString());
@@ -222,23 +257,26 @@ public class RegisterClientFragment extends BaseFragment  {
             identificationData.setLongitude(longitude.getText().toString());
             identificationData.setLmp(lmp.getText().toString());
             identificationData.setParity(Long.valueOf(parity.getText().toString()));
-
-            Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-            identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
             if (markAsFinalised.isChecked()) {
                 identificationData.setMarkAsFinalised(Boolean.TRUE);
             }
 
-            database.identificationDataDAO().saveIdentificationData(identificationData);
+            if( bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+                database.identificationDataDAO().updateIdentificationData(identificationData);
+            }else {
 
-            List<IdentificationData> data = database.identificationDataDAO().getAll();
-            Bundle bundle = new Bundle();
+                database.identificationDataDAO().saveIdentificationData(identificationData);
+            }
+
+            Bundle newBundle = new Bundle();
             Fragment fragment = new FormsByUserFragment();
-            fragment.setArguments(bundle);
+            fragment.setArguments(newBundle);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.popBackStackImmediate();
             fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment)
                     .addToBackStack(null).commit();
+
+            bundle = new Bundle();
 
         }
     }
@@ -446,4 +484,6 @@ public class RegisterClientFragment extends BaseFragment  {
     public void setLmpAge(String lmpAge) {
         this.lmpAge = lmpAge;
     }
+
+
 }

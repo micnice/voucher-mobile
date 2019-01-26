@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import morris.com.voucher.R;
 import morris.com.voucher.fragment.AssessClientFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
+import morris.com.voucher.fragment.RegisterClientFragment;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.IdentificationData;
 
@@ -148,6 +149,20 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                     bundle.putString("fname",firstName.getText().toString());
                     bundle.putString("lname",lastName.getText().toString());
                     bundle.putString("idNumber",idNumber.getText().toString());
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
+
+                }
+            });
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment fragment = new RegisterClientFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("updateClient","updateIdData");
+                    bundle.putString("idDataId",clientId.getText().toString());
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();

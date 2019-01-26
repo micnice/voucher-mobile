@@ -61,6 +61,7 @@ public class AssessClientFragment extends BaseFragment {
     TextView clientIdNumber,longitude,latitude;
     Button saveData;
     Bundle bundle;
+    ClientAssessment clientAssessment;
     Context context;
     Spinner pregnancyStatus;
     CheckBox markAsFinalised;
@@ -93,7 +94,7 @@ public class AssessClientFragment extends BaseFragment {
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
         }
-        getLastKnownLocation();
+
 
         longitude = view.findViewById(R.id.longitude);
         latitude = view.findViewById(R.id.latitude);
@@ -118,190 +119,263 @@ public class AssessClientFragment extends BaseFragment {
         pregnancyStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getPregnancyStatuses()));
 
 
-        part1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part1.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part1_1).getId()){
-                     assessment.setPart1(Boolean.TRUE);
+
+        if(bundle!=null) {
+
+            if (bundle.getString("update") != null && bundle.getString("update").equals("update")) {
+                clientAssessment = database.clientAssessmentDAO().getByClientId(bundle.getString("assClientId"));
+                clientLastName.setText(clientAssessment.getLname());
+                clientFirstName.setText(clientAssessment.getFname());
+                clientIdNumber.setText(clientAssessment.getIdNumber());
+
+                if (clientAssessment.isPart1()) {
+                    view.findViewById(R.id.part1_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part1_0).setSelected(true);
+                }
+                if (clientAssessment.isPart2()) {
+                    view.findViewById(R.id.part2_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part2_0).setSelected(true);
+                }
+                if (clientAssessment.isPart3()) {
+                    view.findViewById(R.id.part3_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part3_0).setSelected(true);
+                }
+                if (clientAssessment.isPart4()) {
+                    view.findViewById(R.id.part4_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part4_0).setSelected(true);
+                }
+                if (clientAssessment.isPart5()) {
+                    view.findViewById(R.id.part5_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part5_0).setSelected(true);
+                }
+                if (clientAssessment.isPart6()) {
+                    view.findViewById(R.id.part6_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part6_0).setSelected(true);
+                }
+                if (clientAssessment.isPart7()) {
+                    view.findViewById(R.id.part7_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part7_0).setSelected(true);
+                }
+                if (clientAssessment.isPart8()) {
+                    view.findViewById(R.id.part8_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part8_0).setSelected(true);
+                }
+                if (clientAssessment.isPart9()) {
+                    view.findViewById(R.id.part9_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part9_0).setSelected(true);
+                }
+                if (clientAssessment.isPart10()) {
+                    view.findViewById(R.id.part10_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part10_0).setSelected(true);
+                }
+                if (clientAssessment.isPart11()) {
+                    view.findViewById(R.id.part11_1).setSelected(true);
+                } else {
+                    view.findViewById(R.id.part11_0).setSelected(true);
+                }
+                pregnancyStatus.setSelection(PregnancyStatus.get(clientAssessment.getPregnancyStatus()).getCode() + 1);
+                markAsFinalised.setChecked(clientAssessment.isMarkAsFinalised());
+                latitude.setText(clientAssessment.getLatitude());
+                longitude.setText(clientAssessment.getLongitude());
+            } else {
+                getLastKnownLocation();
+                clientLastName.setText(bundle.getString("lname"));
+                clientFirstName.setText(bundle.getString("fname"));
+                clientIdNumber.setText(bundle.getString("idNumber"));
+            }
+        }
+                part1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part1.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part1_1).getId()){
+                                assessment.setPart1(Boolean.TRUE);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part2.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part2_1).getId()){
+                                assessment.setPart2(Boolean.TRUE);
+                            }
 
-        });
-        part2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part2.getCheckedRadioButtonId());
-                   if (radioButton.getId()==view.findViewById(R.id.part2_1).getId()){
-                        assessment.setPart2(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part3.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part3_1).getId()){
+                                assessment.setPart3(Boolean.TRUE);
+                            }
 
-        });
-        part3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part3.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part3_1).getId()){
-                        assessment.setPart3(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part4.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part4_1).getId()){
+                                assessment.setPart4(Boolean.TRUE);
+                            }
 
-        });
-        part4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part4.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part4_1).getId()){
-                        assessment.setPart4(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part5.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part5_1).getId()){
+                                assessment.setPart5(Boolean.TRUE);
+                            }
 
-        });
-        part5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part5.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part5_1).getId()){
-                        assessment.setPart5(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part6.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part6_1).getId()){
+                                assessment.setPart6(Boolean.TRUE);
+                            }
 
-        });
-        part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part6.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part6_1).getId()){
-                        assessment.setPart6(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part6.getCheckedRadioButtonId());
+                            if (radioButton.getId()==R.id.part6_1){
+                                assessment.setPart6(Boolean.TRUE);
+                            }
 
-        });
-        part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part6.getCheckedRadioButtonId());
-                    if (radioButton.getId()==R.id.part6_1){
-                        assessment.setPart6(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part7.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part7.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part7_1).getId()){
+                                assessment.setPart7(Boolean.TRUE);
+                            }
 
-        });
-        part7.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part7.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part7_1).getId()){
-                        assessment.setPart7(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part8.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part8.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part8_1).getId()){
+                                assessment.setPart8(Boolean.TRUE);
+                            }
 
-        });
-        part8.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part8.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part8_1).getId()){
-                        assessment.setPart8(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part9.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part9.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part9_1).getId()){
+                                assessment.setPart9(Boolean.TRUE);
+                            }
 
-        });
-        part9.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part9.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part9_1).getId()){
-                        assessment.setPart9(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part10.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part10.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part10_1).getId()){
+                                assessment.setPart10(Boolean.TRUE);
+                            }
 
-        });
-        part10.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part10.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part10_1).getId()){
-                        assessment.setPart10(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                });
+                part11.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        try {
+                            RadioButton radioButton = view.findViewById(part11.getCheckedRadioButtonId());
+                            if (radioButton.getId()==view.findViewById(R.id.part11_1).getId()){
+                                assessment.setPart10(Boolean.TRUE);
+                            }
 
-        });
-        part11.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                try {
-                    RadioButton radioButton = view.findViewById(part11.getCheckedRadioButtonId());
-                    if (radioButton.getId()==view.findViewById(R.id.part11_1).getId()){
-                        assessment.setPart10(Boolean.TRUE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
+                });
 
-        });
-        clientLastName.setText(bundle.getString("lname"));
-        clientFirstName.setText(bundle.getString("fname"));
-        clientIdNumber.setText(bundle.getString("idNumber"));
 
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,23 +383,30 @@ public class AssessClientFragment extends BaseFragment {
 
                 if (validate()) {
 
-                    Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-                    assessment.setClientId(bundle.getString("clientId"));
-                    assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
-                    assessment.setFname(bundle.getString("fname"));
-                    assessment.setLname(bundle.getString("lname"));
-                    assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
-                    assessment.setLatitude(latitude.getText().toString());
-                    assessment.setLongitude(longitude.getText().toString());
+                    if (bundle.getString("update") == null || !bundle.getString("update").equals("update")) {
+
+                        Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
+                        assessment.setClientId(bundle.getString("clientId"));
+                        assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
+                        assessment.setFname(bundle.getString("fname"));
+                        assessment.setLname(bundle.getString("lname"));
+                        assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
+                        assessment.setLatitude(latitude.getText().toString());
+                        assessment.setLongitude(longitude.getText().toString());
+                    }
                     if (markAsFinalised.isChecked()) {
                         assessment.setMarkAsFinalised(Boolean.TRUE);
                     }
+                    if (bundle.getString("update") != null || bundle.getString("update").equals("update")) {
+                        database.clientAssessmentDAO().updateClientAssessmentData(assessment);
+                    } else {
 
-                    database.clientAssessmentDAO().saveClientAssessmentData(assessment);
-                    AssessmentDataFromServer assessmentDataFromServer =
-                            database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
-                    assessmentDataFromServer.setAssessed(Boolean.TRUE);
-                    database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
+                        database.clientAssessmentDAO().saveClientAssessmentData(assessment);
+                        AssessmentDataFromServer assessmentDataFromServer =
+                                database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
+                        assessmentDataFromServer.setAssessed(Boolean.TRUE);
+                        database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
+                    }
 
                     Bundle bundle = new Bundle();
                     Fragment fragment = new FormsByUserFragment();
@@ -336,8 +417,8 @@ public class AssessClientFragment extends BaseFragment {
 
                 }
             }
-        });
 
+        });
 
 
         return view;

@@ -16,6 +16,7 @@ import java.util.List;
 
 import morris.com.voucher.R;
 import morris.com.voucher.fragment.AssessClientFragment;
+import morris.com.voucher.fragment.RegisterClientFragment;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.IdentificationData;
@@ -44,6 +45,7 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
             holder.name.setText(items.get(position).getFname()+" "+items.get(position).getLname());
             holder.prenancyStatus.setText(items.get(position).getPregnancyStatus());
             holder.povertyScore.setText(Integer.toString(CalculationsUtil.getPovertyScore(items.get(position))));
+            holder.clientId.setText(items.get(position).getClientId());
 
             if (items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()) {
                 holder.status.setText("F");
@@ -86,6 +88,7 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
         public final TextView prenancyStatus;
         public final TextView status;
         public final TextView povertyScore;
+        private final TextView clientId;
         public ClientAssessment mItem;
 
 
@@ -100,13 +103,19 @@ public class AssessmentsByUserAdapter extends RecyclerView.Adapter<AssessmentsBy
             status = view.findViewById(R.id.assessment_status);
             sts = view.findViewById(R.id.sentAssessmentToServer);
             povertyScore = view.findViewById(R.id.recycler_score);
+            clientId = view.findViewById(R.id.clientAssIdStub);
 
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO Put Working Edit Code
-
+                    Fragment fragment = new AssessClientFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("update","update");
+                    bundle.putString("assClientId",clientId.getText().toString());
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
                 }
             });
 
