@@ -132,7 +132,7 @@ public class RegisterClientFragment extends BaseFragment  {
 
        bundle = getArguments();
 
-        if(bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+        if(bundle!= null &&bundle.getString("updateClient")!=null && bundle.getString("updateClient").equals("updateIdData")){
             updateData = database.identificationDataDAO().getByClientId(bundle.getString("idDataId"));
             if(updateData!=null){
                 lmp.setText(updateData.getLmp());
