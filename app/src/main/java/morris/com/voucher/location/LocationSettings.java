@@ -1,12 +1,8 @@
 package morris.com.voucher.location;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.location.LocationManager;
-import android.provider.Settings;
 
 /**
  * Created by morris on 22/12/18.

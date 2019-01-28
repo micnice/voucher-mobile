@@ -2,14 +2,12 @@ package morris.com.voucher.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -21,20 +19,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import morris.com.voucher.CreateBeneficiaryIdentificationMutation;
 import morris.com.voucher.IdentificationAssessedAndPassedQuery;
-import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.adapter.AccountingClientsAdapter;
-import morris.com.voucher.adapter.AssessmentsByUserAdapter;
-import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AccountingClient;
-import morris.com.voucher.model.AssessmentDataFromServer;
-import morris.com.voucher.model.IdentificationData;
-import morris.com.voucher.type.EducationStatus;
-import morris.com.voucher.type.MaritalStatus;
 
 /**
  * Created by morris on 2018/12/29.

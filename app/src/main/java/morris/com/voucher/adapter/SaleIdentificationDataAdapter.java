@@ -20,14 +20,11 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherClaimsBySaleIdQuery;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.RedeemClaimFragment;
-import morris.com.voucher.fragment.SaleVoucherFragment;
 import morris.com.voucher.graphql.GraphQL;
-import morris.com.voucher.model.AccountingClient;
 import morris.com.voucher.model.Claim;
 import morris.com.voucher.model.SaleIdentificationData;
 

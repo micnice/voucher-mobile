@@ -1,4 +1,5 @@
 package morris.com.voucher.fragment;
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,12 +8,12 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
@@ -36,15 +37,12 @@ import java.util.EnumMap;
 import java.util.TimeZone;
 
 import morris.com.voucher.R;
-import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
-import morris.com.voucher.enums.MaritalStatus;
 import morris.com.voucher.enums.PregnancyStatus;
 import morris.com.voucher.location.LocationSettings;
 import morris.com.voucher.location.LocationTracker;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
-import morris.com.voucher.model.IdentificationData;
 
 import static morris.com.voucher.util.Tools.hasPermissions;
 
@@ -61,6 +59,8 @@ public class AssessClientFragment extends BaseFragment {
     TextView clientIdNumber,longitude,latitude;
     Button saveData;
     Bundle bundle;
+    LocationManager manager = null;
+    private Intent locationIntent;
     ClientAssessment clientAssessment;
     Context context;
     Spinner pregnancyStatus;
@@ -82,18 +82,36 @@ public class AssessClientFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
 
+
+
         View  view = inflater.inflate(R.layout.fragment_assess_client, container, false);
         context = getContext();
+
         toolbar = view.findViewById(R.id.toolbar);
         database = VoucherDataBase.getDatabase(context);
         ClientAssessment assessment = new ClientAssessment();
-        locationSettings = new LocationSettings(getActivity().getApplicationContext());
+
         bundle =getArguments();
+
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
         }
+
+
+        if (bundle==null ||bundle.getString("update") == null) {
+            locationIntent = new Intent(getActivity().getApplicationContext(), LocationTracker.class);
+            checkGPS();
+        }
+
+
+
+
+        locationSettings = new LocationSettings(getActivity().getApplicationContext());
+
+
+
 
         bundle = getArguments();
         longitude = view.findViewById(R.id.longitude);
@@ -620,6 +638,48 @@ public class AssessClientFragment extends BaseFragment {
         }
 
         return true;
+    }
+    public void checkGPS() {
+        int PERMISSION_ALL = 1122;
+        String[] PERMISSIONS = {
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        if (!hasPermissions(getActivity().getApplicationContext(), PERMISSIONS)) {
+            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, PERMISSION_ALL);
+        }
+        //Check if Gps is On
+        PackageManager packageManager = getActivity().getPackageManager();
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+            manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
+
+                }
+                getActivity().startService(locationIntent);
+
+            }
+        }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 12344) {
+            try {
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                } else {
+
+                   getActivity(). startService(locationIntent);
+                }
+
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
 }

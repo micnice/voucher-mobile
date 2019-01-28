@@ -1,15 +1,7 @@
 package morris.com.voucher.fragment;
-import android.Manifest;
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +16,6 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,40 +24,20 @@ import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.annotation.Nonnull;
 
 import morris.com.voucher.CityDataListQuery;
-import morris.com.voucher.CreateBeneficiaryIdentificationMutation;
 import morris.com.voucher.ProviderListByCityIdQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.RedeemVoucherClaimMutation;
-import morris.com.voucher.VoucherListDataQuery;
-import morris.com.voucher.adapter.AccountingClientsAdapter;
 import morris.com.voucher.adapter.RedeemClaimAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.dto.GenericDto;
-import morris.com.voucher.dto.VoucherSetDto;
-import morris.com.voucher.enums.PregnancyStatus;
 import morris.com.voucher.graphql.GraphQL;
-import morris.com.voucher.location.LocationSettings;
-import morris.com.voucher.location.LocationTracker;
-import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.Claim;
-import morris.com.voucher.model.ClientAssessment;
-import morris.com.voucher.model.IdentificationData;
-import morris.com.voucher.model.SaleIdentificationData;
-import morris.com.voucher.type.EducationStatus;
-import morris.com.voucher.type.MaritalStatus;
-
-import static morris.com.voucher.util.Tools.hasPermissions;
 
 /**
  * Created by morris on 2019/1/24.

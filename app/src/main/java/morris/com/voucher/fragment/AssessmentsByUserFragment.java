@@ -2,7 +2,6 @@ package morris.com.voucher.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,15 +22,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import morris.com.voucher.CreateBeneficiaryAssessmentMutation;
-import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.adapter.AssessmentsByUserAdapter;
-import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
-import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.ClientAssessment;
-import morris.com.voucher.model.IdentificationData;
 import morris.com.voucher.type.PregnancyStatus;
 
 /**

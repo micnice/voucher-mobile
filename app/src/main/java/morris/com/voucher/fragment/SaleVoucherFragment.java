@@ -1,7 +1,6 @@
 package morris.com.voucher.fragment;
+
 import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +30,6 @@ import java.util.TimeZone;
 import javax.annotation.Nonnull;
 
 import morris.com.voucher.CreateVoucherSaleMutation;
-import morris.com.voucher.IdentificationAssessedAndPassedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherListDataQuery;
 import morris.com.voucher.database.VoucherDataBase;

@@ -11,12 +11,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -26,25 +24,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.TimeZone;
 
 import morris.com.voucher.R;
@@ -72,6 +63,8 @@ public class RegisterClientFragment extends BaseFragment  {
     Bundle bundle;
     Context context;
     Activity activity;
+    LocationManager manager = null;
+    private Intent locationIntent;
     Spinner maritalStatus;
     Spinner educationStatus;
     Button setDOB,saveData,lmpDatePicker;
@@ -105,7 +98,10 @@ public class RegisterClientFragment extends BaseFragment  {
             requestPermissions();
         }
 
+
         if(bundle== null ||bundle.getString("updateClient")==null) {
+            locationIntent = new Intent(getActivity().getApplicationContext(), LocationTracker.class);
+            checkGPS();
             getLastKnownLocation();
         }
         calendar = Calendar.getInstance();
@@ -489,5 +485,46 @@ public class RegisterClientFragment extends BaseFragment  {
         this.lmpAge = lmpAge;
     }
 
+    public void checkGPS() {
+        int PERMISSION_ALL = 1122;
+        String[] PERMISSIONS = {
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
 
+        if (!hasPermissions(getActivity().getApplicationContext(), PERMISSIONS)) {
+            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, PERMISSION_ALL);
+        }
+        //Check if Gps is On
+        PackageManager packageManager = getActivity().getPackageManager();
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+            manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
+
+            }
+            getActivity().startService(locationIntent);
+
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 12344) {
+            try {
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                } else {
+
+                    getActivity(). startService(locationIntent);
+                }
+
+            } catch (Exception ex) {
+
+            }
+        }
+    }
 }

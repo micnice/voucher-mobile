@@ -1,7 +1,6 @@
 package morris.com.voucher.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -9,8 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -18,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -27,22 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
-
-import javax.annotation.Nonnull;
-
-import morris.com.voucher.AllIdentificationDataQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.AccountingFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
-import morris.com.voucher.fragment.RegisterClientFragment;
-import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.location.LocationSettings;
 import morris.com.voucher.location.LocationTracker;
-import morris.com.voucher.model.IdentificationData;
 
 import static morris.com.voucher.util.Tools.hasPermissions;
 

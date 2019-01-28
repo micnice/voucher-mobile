@@ -1,6 +1,5 @@
 package morris.com.voucher.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,16 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import morris.com.voucher.R;
 import morris.com.voucher.fragment.AssessClientFragment;
-import morris.com.voucher.fragment.FormsByUserFragment;
 import morris.com.voucher.fragment.RegisterClientFragment;
 import morris.com.voucher.model.AssessmentDataFromServer;
 import morris.com.voucher.model.IdentificationData;

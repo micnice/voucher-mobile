@@ -6,7 +6,6 @@ import android.support.v4.app.ActivityCompat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,6 +68,6 @@ public class Tools {
         return ageS;
     }
 
-    public static String ZIMBABWE="^(\\d{2}-\\d{6,10}-\\w{1}-?\\d{2})$";
+    public static String ZIMBABWE="^(\\d{2}-\\d{6,10}-?\\w{1}-?\\d{2})$";
 
 }

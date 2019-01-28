@@ -3,11 +3,6 @@ package morris.com.voucher.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
-
-import morris.com.voucher.enums.EducationStatus;
-import morris.com.voucher.enums.MaritalStatus;
-
 /**
  * Created by morris on 2018/12/17.
  */

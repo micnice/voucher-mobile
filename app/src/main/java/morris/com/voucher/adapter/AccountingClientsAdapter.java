@@ -16,13 +16,8 @@ import java.util.List;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
-import morris.com.voucher.fragment.AssessClientFragment;
 import morris.com.voucher.fragment.SaleVoucherFragment;
 import morris.com.voucher.model.AccountingClient;
-import morris.com.voucher.model.AssessmentDataFromServer;
-import morris.com.voucher.model.ClientAssessment;
-import morris.com.voucher.model.IdentificationData;
-import morris.com.voucher.util.CalculationsUtil;
 
 /**
  * Created by morris on 2018/12/29.
