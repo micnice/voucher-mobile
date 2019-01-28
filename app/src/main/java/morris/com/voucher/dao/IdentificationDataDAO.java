@@ -22,8 +22,8 @@ public interface IdentificationDataDAO {
     @Query("select * from IdentificationData where sentToServer=0 and markAsFinalised=1 ORDER BY lastName,firstName DESC")
     List<IdentificationData> getAllFinalisedNotSetToServer();
 
-    @Query("select * from IdentificationData where idFromServer=:clientId")
-    IdentificationData getByClientId(String clientId);
+    @Query("select * from IdentificationData where id=:clientId")
+    IdentificationData getByClientId(int clientId);
 
 
     @Insert()

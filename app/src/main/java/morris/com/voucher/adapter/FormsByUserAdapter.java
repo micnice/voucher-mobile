@@ -68,7 +68,7 @@ public class FormsByUserAdapter  extends RecyclerView.Adapter<FormsByUserAdapter
                 holder.firstName.setText(items.get(position).getFirstName());
                 holder.lastName.setText(items.get(position).getLastName());
                 holder.idNumber.setText(items.get(position).getIdentificationNumber());
-                holder.clientId.setText(items.get(position).getIdFromServer());
+                holder.clientId.setText(String.valueOf(items.get(position).getId()));
                 if(items.get(position).isMarkAsFinalised() && !items.get(position).isSentToServer()){
                     holder.status.setText("F");
                     edit.setVisibility(View.VISIBLE);

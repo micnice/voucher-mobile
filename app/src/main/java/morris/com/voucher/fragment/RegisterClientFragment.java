@@ -132,14 +132,23 @@ public class RegisterClientFragment extends BaseFragment  {
 
        bundle = getArguments();
 
-        if(bundle!= null &&bundle.getString("updateClient")!=null && bundle.getString("updateClient").equals("updateIdData")){
-            updateData = database.identificationDataDAO().getByClientId(bundle.getString("idDataId"));
+
+        maritalStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getMaritalStatuses()));
+
+        educationStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getEducationalStatuses()));
+
+
+        if(bundle!= null &&bundle.getString("updateClient")!=null && bundle.getString("updateClient").equals("updateIdData".trim())){
+            updateData = database.identificationDataDAO().getByClientId(Integer.parseInt(bundle.getString("idDataId")));
+
             if(updateData!=null){
                 lmp.setText(updateData.getLmp());
                 firstName.setText(updateData.getFirstName());
                 lastName.setText(updateData.getLastName());
-                maritalStatus.setSelection(MaritalStatus.get(updateData.getMaritalStatus()).getCode()+1);
-                educationStatus.setSelection(EducationStatus.get(updateData.getMaritalStatus()).getCode()+1);
+                int mStatusPosition = Integer.parseInt(String.valueOf(MaritalStatus.get(updateData.getMaritalStatus()).getCode()));
+                maritalStatus.setSelection(mStatusPosition+1);
+                int eduStatusPosition = Integer.parseInt(String.valueOf(EducationStatus.get(updateData.getEducationStatus()).getCode()));
+                educationStatus.setSelection(eduStatusPosition+1);
                 birthDate.setText(updateData.getBirthDate());
                 parity.setText(updateData.getParity().toString());
                 identificationNumber.setText(updateData.getIdentificationNumber());
@@ -149,11 +158,6 @@ public class RegisterClientFragment extends BaseFragment  {
             }
         }
 
-
-
-        maritalStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getMaritalStatuses()));
-
-        educationStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getEducationalStatuses()));
 
 
         setDOB.setOnClickListener(new View.OnClickListener() {
@@ -234,7 +238,7 @@ public class RegisterClientFragment extends BaseFragment  {
     void saveLocalInstance() {
         if (validate()) {
             IdentificationData identificationData = new IdentificationData();
-           if( bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+           if( bundle!= null && bundle.getString("updateClient")!=null&&bundle.getString("updateClient").equals("updateIdData")){
                identificationData = updateData;
 
            }else {
@@ -261,7 +265,7 @@ public class RegisterClientFragment extends BaseFragment  {
                 identificationData.setMarkAsFinalised(Boolean.TRUE);
             }
 
-            if( bundle!= null && bundle.getString("updateClient").equals("updateIdData")){
+            if( bundle!= null && bundle.getString("updateClient")!=null && bundle.getString("updateClient").equals("updateIdData")){
                 database.identificationDataDAO().updateIdentificationData(identificationData);
             }else {
 

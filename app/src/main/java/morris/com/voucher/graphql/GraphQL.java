@@ -15,9 +15,9 @@ public class GraphQL {
 
     public static final String BASE_URL =
 
-    "http://192.168.43.250:2508/graphql/";
+    //"http://192.168.43.250:2508/graphql/";
 
-  //  "http://192.168.100.7:2508/graphql";
+   "http://192.168.1.128:2508/graphql";
 
     private static ApolloClient apolloClient;
 

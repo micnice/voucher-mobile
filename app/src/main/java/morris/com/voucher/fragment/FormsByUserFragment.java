@@ -276,7 +276,6 @@ public class FormsByUserFragment extends BaseFragment {
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
                             waiting.setVisibility(ProgressBar.GONE);
-                            Toast.makeText(context, "No Connection To Server.", Toast.LENGTH_LONG).show();
                         }
                     });
 

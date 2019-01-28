@@ -28,18 +28,19 @@ android {
          applicationId "morris.com.voucher"
         minSdkVersion 15
         targetSdkVersion 26
+        resConfigs "en"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
                 ext.enableCrashlytics = false
                 ext.alwaysUpdateBuildId = false
+            release {
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
 
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-        }
     }
 
     dexOptions {

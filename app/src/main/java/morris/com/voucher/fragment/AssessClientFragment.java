@@ -95,7 +95,7 @@ public class AssessClientFragment extends BaseFragment {
             requestPermissions();
         }
 
-
+        bundle = getArguments();
         longitude = view.findViewById(R.id.longitude);
         latitude = view.findViewById(R.id.latitude);
         markAsFinalised = view.findViewById(R.id.markAsFinalised);
@@ -108,7 +108,7 @@ public class AssessClientFragment extends BaseFragment {
         part6 = view.findViewById(R.id.part6);
         part7 = view.findViewById(R.id.part7);
         part8 = view.findViewById(R.id.part8);
-        part9 = view.findViewById(R.id.part8);
+        part9 = view.findViewById(R.id.part9);
         part10 = view.findViewById(R.id.part10);
         part11 = view.findViewById(R.id.part11);
         clientFirstName = view.findViewById(R.id.clientFirstName);
@@ -127,63 +127,72 @@ public class AssessClientFragment extends BaseFragment {
                 clientLastName.setText(clientAssessment.getLname());
                 clientFirstName.setText(clientAssessment.getFname());
                 clientIdNumber.setText(clientAssessment.getIdNumber());
+                assessment.setId(clientAssessment.getId());
+                assessment.setFname(clientFirstName.getText().toString());
+                assessment.setLname(clientLastName.getText().toString());
+                assessment.setIdNumber(clientIdNumber.getText().toString());
+                assessment.setClientId(clientAssessment.getClientId());
 
                 if (clientAssessment.isPart1()) {
-                    view.findViewById(R.id.part1_1).setSelected(true);
+                    part1.check(R.id.part1_1);
                 } else {
-                    view.findViewById(R.id.part1_0).setSelected(true);
+                    part1.check(R.id.part1_0);
                 }
                 if (clientAssessment.isPart2()) {
-                    view.findViewById(R.id.part2_1).setSelected(true);
+                    part2.check(R.id.part2_1);
                 } else {
-                    view.findViewById(R.id.part2_0).setSelected(true);
+                    part2.check(R.id.part2_0);
                 }
                 if (clientAssessment.isPart3()) {
-                    view.findViewById(R.id.part3_1).setSelected(true);
+                    part3.check(R.id.part3_1);
                 } else {
-                    view.findViewById(R.id.part3_0).setSelected(true);
+                    part3.check(R.id.part3_0);
                 }
                 if (clientAssessment.isPart4()) {
-                    view.findViewById(R.id.part4_1).setSelected(true);
+                    part4.check(R.id.part4_1);
                 } else {
-                    view.findViewById(R.id.part4_0).setSelected(true);
+                    part4.check(R.id.part4_0);
                 }
                 if (clientAssessment.isPart5()) {
-                    view.findViewById(R.id.part5_1).setSelected(true);
+                    part5.check(R.id.part5_1);
                 } else {
-                    view.findViewById(R.id.part5_0).setSelected(true);
+                    part5.check(R.id.part5_0);
                 }
                 if (clientAssessment.isPart6()) {
-                    view.findViewById(R.id.part6_1).setSelected(true);
+                    part6.check(R.id.part6_1);
                 } else {
-                    view.findViewById(R.id.part6_0).setSelected(true);
+                    part6.check(R.id.part6_0);
                 }
                 if (clientAssessment.isPart7()) {
-                    view.findViewById(R.id.part7_1).setSelected(true);
+                    part7.check(R.id.part7_1);
                 } else {
-                    view.findViewById(R.id.part7_0).setSelected(true);
+                    part7.check(R.id.part7_0);
                 }
                 if (clientAssessment.isPart8()) {
-                    view.findViewById(R.id.part8_1).setSelected(true);
+                    part8.check(R.id.part8_1);
                 } else {
-                    view.findViewById(R.id.part8_0).setSelected(true);
+                    part8.check(R.id.part8_0);
                 }
                 if (clientAssessment.isPart9()) {
-                    view.findViewById(R.id.part9_1).setSelected(true);
+                    part9.check(R.id.part9_1);
                 } else {
-                    view.findViewById(R.id.part9_0).setSelected(true);
+                    part9.check(R.id.part9_0);
                 }
                 if (clientAssessment.isPart10()) {
-                    view.findViewById(R.id.part10_1).setSelected(true);
+                    part10.check(R.id.part10_1);
                 } else {
-                    view.findViewById(R.id.part10_0).setSelected(true);
+                    part10.check(R.id.part10_0);
                 }
                 if (clientAssessment.isPart11()) {
-                    view.findViewById(R.id.part11_1).setSelected(true);
+                    part11.check(R.id.part11_1);
                 } else {
-                    view.findViewById(R.id.part11_0).setSelected(true);
+                    part11.check(R.id.part11_0);
                 }
-                pregnancyStatus.setSelection(PregnancyStatus.get(clientAssessment.getPregnancyStatus()).getCode() + 1);
+
+                int pregStatusPosition = Integer.parseInt(String.valueOf(PregnancyStatus.get(clientAssessment.getPregnancyStatus()).getCode()));
+
+                 pregnancyStatus.setSelection(pregStatusPosition+1);
+
                 markAsFinalised.setChecked(clientAssessment.isMarkAsFinalised());
                 latitude.setText(clientAssessment.getLatitude());
                 longitude.setText(clientAssessment.getLongitude());
@@ -269,21 +278,7 @@ public class AssessClientFragment extends BaseFragment {
                     }
 
                 });
-                part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        try {
-                            RadioButton radioButton = view.findViewById(part6.getCheckedRadioButtonId());
-                            if (radioButton.getId()==view.findViewById(R.id.part6_1).getId()){
-                                assessment.setPart6(Boolean.TRUE);
-                            }
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });
                 part6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -365,7 +360,7 @@ public class AssessClientFragment extends BaseFragment {
                         try {
                             RadioButton radioButton = view.findViewById(part11.getCheckedRadioButtonId());
                             if (radioButton.getId()==view.findViewById(R.id.part11_1).getId()){
-                                assessment.setPart10(Boolean.TRUE);
+                                assessment.setPart11(Boolean.TRUE);
                             }
 
                         } catch (Exception e) {
@@ -383,24 +378,26 @@ public class AssessClientFragment extends BaseFragment {
 
                 if (validate()) {
 
-                    if (bundle.getString("update") == null || !bundle.getString("update").equals("update")) {
+
+                    if (bundle==null ||bundle.getString("update") == null || !bundle.getString("update").equals("update")) {
 
                         Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
                         assessment.setClientId(bundle.getString("clientId"));
                         assessment.setDateAssesed(new SimpleDateFormat("d/M/yyyy").format(date));
                         assessment.setFname(bundle.getString("fname"));
                         assessment.setLname(bundle.getString("lname"));
-                        assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
-                        assessment.setLatitude(latitude.getText().toString());
-                        assessment.setLongitude(longitude.getText().toString());
+                        assessment.setIdNumber(bundle.getString("idNumber"));
                     }
                     if (markAsFinalised.isChecked()) {
                         assessment.setMarkAsFinalised(Boolean.TRUE);
                     }
-                    if (bundle.getString("update") != null || bundle.getString("update").equals("update")) {
+                    assessment.setLatitude(latitude.getText().toString());
+                    assessment.setLongitude(longitude.getText().toString());
+                    assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
+
+                    if (bundle!=null && bundle.getString("update") != null && bundle.getString("update").equals("update")) {
                         database.clientAssessmentDAO().updateClientAssessmentData(assessment);
                     } else {
-
                         database.clientAssessmentDAO().saveClientAssessmentData(assessment);
                         AssessmentDataFromServer assessmentDataFromServer =
                                 database.assessmentDataFromServerDAO().getByIdFromServer(bundle.getString("clientId"));
@@ -408,13 +405,14 @@ public class AssessClientFragment extends BaseFragment {
                         database.assessmentDataFromServerDAO().updateAssessmentDataFromServer(assessmentDataFromServer);
                     }
 
-                    Bundle bundle = new Bundle();
+                    Bundle newbundle = new Bundle();
                     Fragment fragment = new FormsByUserFragment();
-                    bundle.putString("item", "assessment");
-                    fragment.setArguments(bundle);
+                    newbundle.putString("item", "assessment");
+                    fragment.setArguments(newbundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.register_client_holder, fragment).addToBackStack(null).commit();
 
+                    bundle = new Bundle();
                 }
             }
 

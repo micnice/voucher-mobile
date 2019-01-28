@@ -158,7 +158,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
 
                        @Override
                        public void onFailure(@Nonnull ApolloException e) {
-                           Toast.makeText(context, "No Connection To Server.", Toast.LENGTH_LONG).show();
+                         e.printStackTrace();
                        }
                    });
                }
