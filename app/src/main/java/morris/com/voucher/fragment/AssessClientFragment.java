@@ -653,11 +653,18 @@ public class AssessClientFragment extends BaseFragment {
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
             manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
+                try {
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 12344);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
 
                 }
-                getActivity().startService(locationIntent);
+                try {
+                    getActivity().startService(locationIntent);
+                }catch (Exception ex){
+                ex.printStackTrace();
+                }
 
             }
         }
@@ -667,14 +674,16 @@ public class AssessClientFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == 12344) {
             try {
                 if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
                 } else {
-
+                    System.out.println("$$$$--I AM HERE");
                    getActivity(). startService(locationIntent);
                 }
+                System.out.println("&&&===%%%"+locationSettings.locationServiceRunning());
 
             } catch (Exception ex) {
 

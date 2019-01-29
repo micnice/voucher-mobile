@@ -27,8 +27,11 @@ import android.widget.Toast;
 
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.fragment.AccountingFormsFragment;
 import morris.com.voucher.fragment.AccountingFragment;
+import morris.com.voucher.fragment.AssessmentsByUserFragment;
 import morris.com.voucher.fragment.FormsByUserFragment;
+import morris.com.voucher.fragment.SaleIdentificationDataFragment;
 import morris.com.voucher.location.LocationSettings;
 import morris.com.voucher.location.LocationTracker;
 
@@ -277,11 +280,31 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         return query;
     }
     public void showSearchFragment(String searchQuery) {
-        FormsByUserFragment searchResultsFragment = new FormsByUserFragment();
+
         Bundle bundle = getCurrentFragmentBundle();
-        bundle.putString("searchQuery", searchQuery);
-        searchResultsFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+        if(bundle!=null &&bundle.getString("current")!=null &&(bundle.getString("current").equals("registration")||bundle.getString("current").equals("assessment"))) {
+            FormsByUserFragment searchResultsFragment = new FormsByUserFragment();
+            bundle.putString("searchQuery", searchQuery);
+            searchResultsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+        }else if(bundle!=null &&bundle.getString("current")!=null &&bundle.getString("current").equals("claim")){
+             SaleIdentificationDataFragment searchResultsFragment = new SaleIdentificationDataFragment();
+            bundle.putString("searchQuery", searchQuery);
+            searchResultsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+        }
+        else if(bundle!=null &&bundle.getString("current")!=null &&bundle.getString("current").equals("sale")){
+            AccountingFormsFragment searchResultsFragment = new AccountingFormsFragment();
+            bundle.putString("searchQuery", searchQuery);
+            searchResultsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+        }
+        else if(bundle!=null &&bundle.getString("current")!=null &&bundle.getString("current").equals("assess")){
+            AssessmentsByUserFragment searchResultsFragment = new AssessmentsByUserFragment();
+            bundle.putString("searchQuery", searchQuery);
+            searchResultsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, searchResultsFragment).commit();
+        }
 
     }
 

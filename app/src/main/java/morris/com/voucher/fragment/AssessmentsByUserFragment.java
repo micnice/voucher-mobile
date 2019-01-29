@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 
 import morris.com.voucher.CreateBeneficiaryAssessmentMutation;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.AssessmentsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
@@ -70,7 +71,11 @@ public class AssessmentsByUserFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         syncData = view.findViewById(R.id.syncData);
         statusHeader = view.findViewById(R.id.statusHeader);
-
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        System.out.println("%%%--%%%-"+dashBoard);
+        Bundle currentBundle = new Bundle();
+        currentBundle.putString("current","assess");
+        dashBoard.setCurrentFragmentBundle(currentBundle);
 
 
 
@@ -86,9 +91,9 @@ public class AssessmentsByUserFragment extends BaseFragment {
            List<ClientAssessment> searchList = new ArrayList<>();
            String search = bundle.getString("searchQuery").trim();
                for (ClientAssessment data : dataList) {
-                   if (data.getIdNumber().toLowerCase().contains(search.toLowerCase())
-                           || data.getFname().toLowerCase().contains(search.toLowerCase())
-                           || data.getLname().toLowerCase().contains(search.toLowerCase())) {
+                   if (data.getIdNumber()!=null &&data.getIdNumber().toLowerCase().contains(search.toLowerCase())
+                           || data.getFname()!=null && data.getFname().toLowerCase().contains(search.toLowerCase())
+                           || data.getLname()!=null &&data.getLname().toLowerCase().contains(search.toLowerCase())) {
                        searchList.add(data);
                    }
                }

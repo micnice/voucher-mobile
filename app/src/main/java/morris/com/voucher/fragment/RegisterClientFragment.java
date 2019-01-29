@@ -97,7 +97,7 @@ public class RegisterClientFragment extends BaseFragment  {
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
         }
-
+        bundle = getArguments();
 
         if(bundle== null ||bundle.getString("updateClient")==null) {
             locationIntent = new Intent(getActivity().getApplicationContext(), LocationTracker.class);
@@ -126,7 +126,7 @@ public class RegisterClientFragment extends BaseFragment  {
         saveData = view.findViewById(R.id.saveData);
         markAsFinalised = view.findViewById(R.id.markAsFinalised);
 
-       bundle = getArguments();
+
 
 
         maritalStatus.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , getMaritalStatuses()));

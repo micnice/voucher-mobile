@@ -115,9 +115,9 @@ public class FormsByUserFragment extends BaseFragment {
 
            } else {
                for (IdentificationData data : dataList) {
-                   if (data.getIdentificationNumber().toLowerCase().contains(search.toLowerCase())
-                           || data.getFirstName().toLowerCase().contains(search.toLowerCase())
-                           || data.getLastName().toLowerCase().contains(search.toLowerCase())) {
+                   if (data.getIdentificationNumber()!=null &&data.getIdentificationNumber().toLowerCase().contains(search.toLowerCase())
+                           ||data.getFirstName()!=null && data.getFirstName().toLowerCase().contains(search.toLowerCase())
+                           || data.getLastName()!=null && data.getLastName().toLowerCase().contains(search.toLowerCase())) {
                        searchList.add(data);
                    }
                }
@@ -236,8 +236,7 @@ public class FormsByUserFragment extends BaseFragment {
                        .identificationNumber(data.getIdentificationNumber())
                             .parity(data.getParity())
                             .longitude(data.getLongitude())
-                            .dataCollectionDate(data.getDateRegistered())
-                            .latitude(data.getLatitude())
+                            .dataCollectionDate(data.getDateRegistered()).latitude(data.getLatitude())
                             .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryIdentificationMutation.Data>() {
                         @Override
                         public void onResponse(@Nonnull Response<CreateBeneficiaryIdentificationMutation.Data> response) {

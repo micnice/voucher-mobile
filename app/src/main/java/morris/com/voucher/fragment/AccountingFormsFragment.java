@@ -1,5 +1,6 @@
 package morris.com.voucher.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,10 +22,13 @@ import javax.annotation.Nonnull;
 
 import morris.com.voucher.IdentificationAssessedAndPassedQuery;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.AccountingClientsAdapter;
+import morris.com.voucher.adapter.AssessmentsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AccountingClient;
+import morris.com.voucher.model.ClientAssessment;
 
 /**
  * Created by morris on 2018/12/29.
@@ -39,6 +43,7 @@ public class AccountingFormsFragment extends BaseFragment {
     AccountingClientsAdapter adapter;
     private LinearLayoutManager layoutManager;
     public VoucherDataBase database;
+    Bundle bundle;
 
     private int itemSaved;
 
@@ -62,10 +67,30 @@ public class AccountingFormsFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         getData = view.findViewById(R.id.getFormAccountingData);
-
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        Bundle currentBundle = new Bundle();
+        currentBundle.putString("current","sale");
+         dashBoard.setCurrentFragmentBundle(currentBundle);
         database = VoucherDataBase.getDatabase(context);
         dataList = database.accountingClientDAO().getAll();
         adapter = new AccountingClientsAdapter(dataList);
+
+        bundle = getArguments();
+
+        if(bundle!=null &&bundle.getString("searchQuery")!=null) {
+            List<AccountingClient> searchList = new ArrayList<>();
+            String search = bundle.getString("searchQuery").trim();
+            for (AccountingClient data : dataList) {
+                if (data.getIdNumber()!=null &&data.getIdNumber().toLowerCase().contains(search.toLowerCase())
+                        || data.getLastName()!=null && data.getLastName().toLowerCase().contains(search.toLowerCase())
+                        || data.getFirstName()!=null && data.getFirstName().toLowerCase().contains(search.toLowerCase())) {
+                    searchList.add(data);
+                }
+            }
+            dataList = searchList;
+            adapter = new AccountingClientsAdapter(dataList);
+
+        }
 
         recyclerView.setAdapter(adapter);
 
