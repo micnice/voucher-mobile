@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.apollographql.apollo.ApolloCall;
@@ -22,6 +23,7 @@ import javax.annotation.Nonnull;
 
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherClaimsBySaleIdQuery;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.RedeemClaimFragment;
 import morris.com.voucher.graphql.GraphQL;
@@ -100,11 +102,9 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
             viewSale= view.findViewById(R.id.viewSale);
             saleId = view.findViewById(R.id.saleIdStub);
 
-
             viewSale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Bundle bundle = new Bundle();
                     bundle.putString("sdFirstName", firstName.getText().toString());
                     bundle.putString("sdLastName",lastName.getText().toString() );
@@ -144,6 +144,8 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
 
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
+                            DashboardActivity dashBoard = (DashboardActivity)activity;
+                            dashBoard.noNetworkNotice();
 
                         }
                     });

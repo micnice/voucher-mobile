@@ -45,7 +45,15 @@ android:alpha="0.95"
             android:textColor="@color/forest_green"
             android:textSize="15dp"
             />
+        <ProgressBar
+            android:id="@+id/makeSaleProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:visibility="invisible"
 
+            />
 
     </LinearLayout>
 

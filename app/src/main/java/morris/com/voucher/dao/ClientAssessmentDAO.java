@@ -34,6 +34,9 @@ public interface ClientAssessmentDAO {
     @Delete
     void  deleteClientAssessmentData(ClientAssessment data);
 
+    @Query("Delete from ClientAssessment where fname is null")
+    void  deleteWithNullValues();
+
     @Query("Delete from ClientAssessment where 1")
     void  deleteAll();
 

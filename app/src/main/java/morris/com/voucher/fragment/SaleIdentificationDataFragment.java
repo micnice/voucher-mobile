@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -22,11 +23,9 @@ import javax.annotation.Nonnull;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherSaleIdentificationListQuery;
 import morris.com.voucher.activity.DashboardActivity;
-import morris.com.voucher.adapter.AssessmentsByUserAdapter;
 import morris.com.voucher.adapter.SaleIdentificationDataAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
-import morris.com.voucher.model.ClientAssessment;
 import morris.com.voucher.model.SaleIdentificationData;
 
 /**
@@ -43,6 +42,7 @@ public class SaleIdentificationDataFragment extends BaseFragment {
     private LinearLayoutManager layoutManager;
     public VoucherDataBase database;
     Bundle bundle;
+    ProgressBar waiting;
 
     private int itemSaved;
 
@@ -66,6 +66,8 @@ public class SaleIdentificationDataFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         getData = view.findViewById(R.id.getSaleIdentificationData);
+        waiting = view.findViewById(R.id.saleProgressBar);
+        waiting.setVisibility(ProgressBar.GONE);
         DashboardActivity dashBoard = (DashboardActivity)getActivity();
         Bundle currentBundle = new Bundle();
         currentBundle.putString("current","claim");
@@ -101,7 +103,7 @@ public class SaleIdentificationDataFragment extends BaseFragment {
         getData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+              waiting.setVisibility(ProgressBar.VISIBLE);
                 GraphQL.getApolloClient().query(VoucherSaleIdentificationListQuery.builder().build()).enqueue(new ApolloCall.Callback<VoucherSaleIdentificationListQuery.Data>() {
 
                     @Override
@@ -153,6 +155,12 @@ public class SaleIdentificationDataFragment extends BaseFragment {
                                 else {
                                     Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
                                 }
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        waiting.setVisibility(ProgressBar.GONE);
+                                    }
+                                });
                             }
                         });
 
@@ -160,6 +168,14 @@ public class SaleIdentificationDataFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
+                        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                        dashBoard.noNetworkNotice();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                waiting.setVisibility(ProgressBar.GONE);
+                            }
+                        });
 
                     }
                 });

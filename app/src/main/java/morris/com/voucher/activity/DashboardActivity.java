@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public static DashboardActivity dashboardActivity;
     public static boolean gpsOn = false;
     private Intent locationIntent;
+    Snackbar snackbar;
     private Bundle currentFragmentBundle;
     LocationManager manager = null;
     LocationSettings locationSettings = new LocationSettings(this);
@@ -75,7 +77,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
         dashboardTabs.addTab(dashboardTabs.newTab().setText("Assessment"));
         dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
-
+        snackbar = Snackbar.make(findViewById(R.id.content_dashboard), "", Snackbar.LENGTH_INDEFINITE);
         context = DashboardActivity.this;
         activity = DashboardActivity.this;
         dashboardActivity = this;
@@ -315,5 +317,19 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     public void setCurrentFragmentBundle(Bundle currentFragmentBundle) {
         this.currentFragmentBundle = currentFragmentBundle;
+    }
+
+    public void noNetworkNotice(){
+
+        if(!snackbar.isShown()) {
+            snackbar.setText("Server Not Accessible. Check your connection");
+            snackbar.setAction("Dismiss", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
     }
 }

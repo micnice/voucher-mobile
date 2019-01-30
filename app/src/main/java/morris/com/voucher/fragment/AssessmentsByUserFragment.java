@@ -72,7 +72,6 @@ public class AssessmentsByUserFragment extends BaseFragment {
         syncData = view.findViewById(R.id.syncData);
         statusHeader = view.findViewById(R.id.statusHeader);
         DashboardActivity dashBoard = (DashboardActivity)getActivity();
-        System.out.println("%%%--%%%-"+dashBoard);
         Bundle currentBundle = new Bundle();
         currentBundle.putString("current","assess");
         dashBoard.setCurrentFragmentBundle(currentBundle);
@@ -113,9 +112,16 @@ public class AssessmentsByUserFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
              waiting.setVisibility(ProgressBar.VISIBLE);
+              //database.clientAssessmentDAO().deleteWithNullValues();
                 List<ClientAssessment> assessments = database.clientAssessmentDAO().getAllFinalisedNotSentToServer();
 
                 if(assessments.isEmpty()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            waiting.setVisibility(ProgressBar.GONE);
+                        }
+                    });
                     Toast.makeText(context, "No Finalised Forms Available", Toast.LENGTH_LONG).show();
                 }else{
                for(ClientAssessment data:assessments){
@@ -152,13 +158,28 @@ public class AssessmentsByUserFragment extends BaseFragment {
                                    recycledAssessmentsByUser.setArguments(newBundle);
                                    getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, recycledAssessmentsByUser)
                                            .addToBackStack(null).commit();
+                                   getActivity().runOnUiThread(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           waiting.setVisibility(ProgressBar.GONE);
+                                       }
+                                   });
                                }
                            });
                        }
 
                        @Override
-                       public void onFailure(@Nonnull ApolloException e) {
-                         e.printStackTrace();
+                       public void onFailure(@Nonnull ApolloException e)
+                       {
+                           DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                           dashBoard.noNetworkNotice();
+                           getActivity().runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   waiting.setVisibility(ProgressBar.GONE);
+                               }
+                           });
+
                        }
                    });
                }
@@ -166,7 +187,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
 
 
                 }
-                waiting.setVisibility(ProgressBar.GONE);
+
             }
 
         });

@@ -1,6 +1,5 @@
 package morris.com.voucher.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -24,11 +24,9 @@ import morris.com.voucher.IdentificationAssessedAndPassedQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.AccountingClientsAdapter;
-import morris.com.voucher.adapter.AssessmentsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.AccountingClient;
-import morris.com.voucher.model.ClientAssessment;
 
 /**
  * Created by morris on 2018/12/29.
@@ -39,6 +37,7 @@ public class AccountingFormsFragment extends BaseFragment {
    public  static AccountingFormsFragment accountingFormsFragment;
     private RecyclerView recyclerView;
     Button getData;
+    ProgressBar waiting;
     private List<AccountingClient> dataList = new ArrayList<>();
     AccountingClientsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -67,6 +66,8 @@ public class AccountingFormsFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         getData = view.findViewById(R.id.getFormAccountingData);
+        waiting = view.findViewById(R.id.accountProgressBar);
+        waiting.setVisibility(ProgressBar.GONE);
         DashboardActivity dashBoard = (DashboardActivity)getActivity();
         Bundle currentBundle = new Bundle();
         currentBundle.putString("current","sale");
@@ -100,7 +101,7 @@ public class AccountingFormsFragment extends BaseFragment {
         getData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            waiting.setVisibility(ProgressBar.VISIBLE);
                 GraphQL.getApolloClient().query(IdentificationAssessedAndPassedQuery.builder().build()).enqueue(new ApolloCall.Callback<IdentificationAssessedAndPassedQuery.Data>() {
 
                     @Override
@@ -109,46 +110,59 @@ public class AccountingFormsFragment extends BaseFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                List<IdentificationAssessedAndPassedQuery.IdentificationAssessedAndPassed> dataList= response.data().identificationAssessedAndPassed();
+                                List<IdentificationAssessedAndPassedQuery.IdentificationAssessedAndPassed> dataList = response.data().identificationAssessedAndPassed();
                                 database.accountingClientDAO().deleteAllWithoutSale();
-                                if(!dataList.isEmpty()) {
+                                if (!dataList.isEmpty()) {
 
                                     for (IdentificationAssessedAndPassedQuery.IdentificationAssessedAndPassed data : dataList) {
-                                           AccountingClient client = new AccountingClient();
-                                           client.setClientId(data.id());
-                                           client.setFirstName(data.firstName());
-                                           client.setLastName(data.lastName());
-                                           client.setIdNumber(data.identificationNumber());
-                                           client.setPovertyScore(Long.valueOf(data.povertyScore().toString()));
-                                           database.accountingClientDAO().saveAccountingClientData(client);
-                                            itemSaved =itemSaved+1;
+                                        AccountingClient client = new AccountingClient();
+                                        client.setClientId(data.id());
+                                        client.setFirstName(data.firstName());
+                                        client.setLastName(data.lastName());
+                                        client.setIdNumber(data.identificationNumber());
+                                        client.setPovertyScore(Long.valueOf(data.povertyScore().toString()));
+                                        database.accountingClientDAO().saveAccountingClientData(client);
+                                        itemSaved = itemSaved + 1;
 
                                     }
 
-                                    if(itemSaved!=0){
+                                    if (itemSaved != 0) {
                                         Bundle bundle = new Bundle();
-                                        Toast.makeText(context, itemSaved+" New Forms Updated From Server.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, itemSaved + " New Forms Updated From Server.", Toast.LENGTH_LONG).show();
                                         AccountingFormsFragment accountingFormsFragment = new AccountingFormsFragment();
                                         accountingFormsFragment.setArguments(bundle);
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, accountingFormsFragment)
                                                 .addToBackStack(null).commit();
 
-                                    }else {
+                                    } else {
                                         Toast.makeText(context, "Phone DataBase Is Up To Date With Server.", Toast.LENGTH_LONG).show();
                                     }
 
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
                                 }
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        waiting.setVisibility(ProgressBar.GONE);
+                                    }
+                                });
+
                             }
                         });
-
                     }
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
 
+                        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                        dashBoard.noNetworkNotice();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                waiting.setVisibility(ProgressBar.GONE);
+                            }
+                        });
                     }
                 });
             }

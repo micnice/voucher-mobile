@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import javax.annotation.Nonnull;
 import morris.com.voucher.CreateVoucherSaleMutation;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherListDataQuery;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.dto.VoucherSetDto;
 import morris.com.voucher.graphql.GraphQL;
@@ -47,6 +49,7 @@ public class SaleVoucherFragment extends BaseFragment {
     TextView clientIdNumber,clientLastName,clientFirstName;
     Button saveData;
     Bundle bundle;
+    ProgressBar waiting;
     Context context;
     Spinner voucherSetSpinner;
     VoucherDataBase database;
@@ -108,11 +111,14 @@ public class SaleVoucherFragment extends BaseFragment {
                             }
 
 
+
                         }
 
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
-                            e.printStackTrace();
+                            DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                            dashBoard.noNetworkNotice();
+
                         }
                     });
 
@@ -128,6 +134,7 @@ public class SaleVoucherFragment extends BaseFragment {
     }
 
     private void getVoucherSets(){
+        waiting.setVisibility(ProgressBar.VISIBLE);
         GraphQL.getApolloClient().query(VoucherListDataQuery.builder().build()).enqueue(new ApolloCall.Callback<VoucherListDataQuery.Data>() {
 
 
@@ -150,17 +157,16 @@ public class SaleVoucherFragment extends BaseFragment {
                             }
                             voucherSetSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom_color , responseSet));
                         }
-
                     }
                 });
             }
 
             @Override
             public void onFailure(@Nonnull ApolloException e) {
-               e.printStackTrace();
+
+                DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                dashBoard.noNetworkNotice();
             }
-
-
         });
 
     }

@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import morris.com.voucher.CreateBeneficiaryIdentificationMutation;
 import morris.com.voucher.IdentificationNotAssessedQuery;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
@@ -177,7 +178,6 @@ public class FormsByUserFragment extends BaseFragment {
                                             itemSaved =itemSaved+1;
                                         }
                                     }
-                                    ;
                                     if(itemSaved!=0){
                                         Bundle bundle = new Bundle();
                                         bundle.putString("item", "assessment");
@@ -188,30 +188,43 @@ public class FormsByUserFragment extends BaseFragment {
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, formsByUserFragment)
                                                 .addToBackStack(null).commit();
 
-                                        waiting.setVisibility(ProgressBar.GONE);
+
                                     }else {
                                         Toast.makeText(context, "Phone DataBase Is Up To Date With Server.", Toast.LENGTH_LONG).show();
-                                        waiting.setVisibility(ProgressBar.GONE);
                                     }
 
                                 }
                                 else {
                                     Toast.makeText(context, "No New Forms From Server.", Toast.LENGTH_LONG).show();
-                                    waiting.setVisibility(ProgressBar.GONE);
                                 }
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        waiting.setVisibility(ProgressBar.GONE);
+                                    }
+                                });
                             }
+
                         });
 
                     }
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-                        waiting.setVisibility(ProgressBar.GONE);
+                        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                        dashBoard.noNetworkNotice();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                waiting.setVisibility(ProgressBar.GONE);
+                            }
+                        });
                     }
                 });
-                waiting.setVisibility(ProgressBar.GONE);
+
             }
         });
+
         syncData.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -221,6 +234,12 @@ public class FormsByUserFragment extends BaseFragment {
 
             if(syncDataList.isEmpty()){
                 Toast.makeText(context, "No Finalised Forms Available", Toast.LENGTH_LONG).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        waiting.setVisibility(ProgressBar.GONE);
+                    }
+                });
             }
             else{
 
@@ -246,12 +265,18 @@ public class FormsByUserFragment extends BaseFragment {
                                data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
                                data.setSentToServer(Boolean.TRUE);
                                database.identificationDataDAO().updateIdentificationData(data);
-                                    waiting.setVisibility(ProgressBar.GONE);
                                     FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
                                     Bundle newBundle = new Bundle();
                                     recycledFormsByUser.setArguments(newBundle);
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.register_client_holder, recycledFormsByUser)
                                             .addToBackStack(null).commit();
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            waiting.setVisibility(ProgressBar.GONE);
+                                        }
+                                    });
+
                                 }
                             });
 
@@ -259,7 +284,14 @@ public class FormsByUserFragment extends BaseFragment {
 
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
-                            waiting.setVisibility(ProgressBar.GONE);
+                            DashboardActivity dashBoard = (DashboardActivity)getActivity();
+                            dashBoard.noNetworkNotice();
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    waiting.setVisibility(ProgressBar.GONE);
+                                }
+                            });
                         }
                     });
 
@@ -269,7 +301,8 @@ public class FormsByUserFragment extends BaseFragment {
 
 
             }
-                waiting.setVisibility(ProgressBar.GONE);
+
+               // waiting.setVisibility(ProgressBar.GONE);
             }
 
 
