@@ -79,7 +79,9 @@ public class SaleVoucherFragment extends BaseFragment {
         clientLastName = view.findViewById(R.id.clientLName);
         clientIdNumber = view.findViewById(R.id.clientIdNum);
         saveData = view.findViewById(R.id.saveSaleData);
+        waiting=view.findViewById(R.id.makeSaleProgressBar);
         getVoucherSets();
+
         clientLastName.setText(bundle.getString("accountingLName"));
         clientFirstName.setText(bundle.getString("accountingFName"));
         clientIdNumber.setText(bundle.getString("accountingIdNumber"));

@@ -254,28 +254,34 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         inflater.inflate(R.menu.menu_dashboard, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setIconifiedByDefault(true);
+
+            searchView.setIconifiedByDefault(true);
+
         topMenu = menu;
 
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getSearchbarQuery();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-                return false;
-            }
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    getSearchbarQuery();
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
 
-                return false;
+                @Override
+                public boolean onQueryTextChange(String newText) {
 
-            }
-        });
-        return true;
-    }
+                    return false;
+
+                }
+            });
+
+            return true;
+        }
+
+
     public String getSearchbarQuery() {
         String query = searchView.getQuery().toString();
         showSearchFragment(query);

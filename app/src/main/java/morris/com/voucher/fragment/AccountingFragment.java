@@ -57,7 +57,9 @@ public class AccountingFragment extends BaseFragment {
 
         sellVoucher = view.findViewById(R.id.sellVoucher);
         claimVoucher = view.findViewById(R.id.claimVoucher);
-       getActivity().findViewById(R.id.search).setVisibility(View.GONE);
+        if(getActivity().findViewById(R.id.search)!=null) {
+            getActivity().findViewById(R.id.search).setVisibility(View.GONE);
+        }
 
         accountingFragment = this;
 
