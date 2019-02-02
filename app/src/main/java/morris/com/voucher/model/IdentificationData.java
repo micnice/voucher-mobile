@@ -24,6 +24,8 @@ public class IdentificationData {
     private String identificationNumber;
     private String latitude;
     private String longitude;
+    private String phoneNumber;
+    private String edd;
     private boolean sentToServer=Boolean.FALSE;
     private boolean markAsFinalised = Boolean.FALSE;
 
@@ -31,7 +33,7 @@ public class IdentificationData {
 
     public IdentificationData(String lmp, String firstName, String lastName, String maritalStatus,
                               String birthDate, String educationStatus, Long parity,
-                              String identificationNumber, String latitude, String longitude) {
+                              String identificationNumber, String latitude, String longitude,String phoneNumber) {
         this.lmp = lmp;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,6 +44,7 @@ public class IdentificationData {
         this.identificationNumber = identificationNumber;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -174,6 +177,19 @@ public class IdentificationData {
         this.dateRegistered = dateRegistered;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
+    public String getEdd() {
+        return edd;
+    }
+
+    public void setEdd(String edd) {
+        this.edd = edd;
+    }
 }

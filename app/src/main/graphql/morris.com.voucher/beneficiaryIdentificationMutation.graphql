@@ -10,6 +10,7 @@ mutation createBeneficiaryIdentificationMutation(
     $latitude: String
     $longitude: String
     $dataCollectionDate: String
+    $phoneNumber: String
 
 ){createBeneficiaryIdentification(beneficiaryIdentificationInput:{
    firstName:$firstName
@@ -23,6 +24,7 @@ mutation createBeneficiaryIdentificationMutation(
    latitude:$latitude,
    longitude:$longitude,
    dataCollectionDate:$dataCollectionDate
+   phoneNumber:$phoneNumber
  }){
    id
    firstName
@@ -30,5 +32,6 @@ mutation createBeneficiaryIdentificationMutation(
    identificationNumber
    birthDate
    maritalStatus
+   edd
  }
  }

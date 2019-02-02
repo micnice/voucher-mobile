@@ -255,7 +255,9 @@ public class FormsByUserFragment extends BaseFragment {
                        .identificationNumber(data.getIdentificationNumber())
                             .parity(data.getParity())
                             .longitude(data.getLongitude())
-                            .dataCollectionDate(data.getDateRegistered()).latitude(data.getLatitude())
+                            .dataCollectionDate(data.getDateRegistered())
+                            .latitude(data.getLatitude())
+                            .phoneNumber(data.getPhoneNumber())
                             .build()).enqueue(new ApolloCall.Callback<CreateBeneficiaryIdentificationMutation.Data>() {
                         @Override
                         public void onResponse(@Nonnull Response<CreateBeneficiaryIdentificationMutation.Data> response) {
@@ -264,6 +266,7 @@ public class FormsByUserFragment extends BaseFragment {
                                 public void run() {
                                data.setIdFromServer(response.data().createBeneficiaryIdentification().id());
                                data.setSentToServer(Boolean.TRUE);
+                               data.setEdd(response.data().createBeneficiaryIdentification().edd());
                                database.identificationDataDAO().updateIdentificationData(data);
                                     FormsByUserFragment recycledFormsByUser = new FormsByUserFragment();
                                     Bundle newBundle = new Bundle();

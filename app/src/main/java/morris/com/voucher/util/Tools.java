@@ -68,6 +68,8 @@ public class Tools {
         return ageS;
     }
 
-    public static String ZIMBABWE="^(\\d{2}-\\d{6,10}-?\\w{1}-?\\d{2})$";
+    public static String ZIMBABWE="^(\\d{2}-\\d{6,10}-?\\w{1}\\d{2})$";
+
+    public static String PHONENUMBER ="^07[1-9]{1}\\d{7,8}";
 
 }

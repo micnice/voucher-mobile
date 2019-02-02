@@ -1,0 +1,9 @@
+mutation twentyDollarVoucherMutation(
+ $saleId:ID
+){
+createTwentyDollarOTP(saleId:$saleId)
+{
+saleId
+oTP
+}
+}

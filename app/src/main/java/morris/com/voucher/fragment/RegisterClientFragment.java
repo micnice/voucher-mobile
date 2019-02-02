@@ -59,7 +59,7 @@ public class RegisterClientFragment extends BaseFragment  {
     Toolbar toolbar;
     BroadcastReceiver lastKnownLocationReceiver;
     EditText lmp,firstName,lastName,birthDate,parity,
-    identificationNumber,latitude,longitude;
+    identificationNumber,latitude,longitude,phoneNumber;
     Bundle bundle;
     Context context;
     Activity activity;
@@ -122,6 +122,7 @@ public class RegisterClientFragment extends BaseFragment  {
         latitude = view.findViewById(R.id.latitude);
         longitude = view.findViewById(R.id.longitude);
         lmpDatePicker = view.findViewById(R.id.lmpPicker);
+        phoneNumber = view.findViewById(R.id.phoneNumber);
         setDOB = view.findViewById(R.id.dobPicker);
         saveData = view.findViewById(R.id.saveData);
         markAsFinalised = view.findViewById(R.id.markAsFinalised);
@@ -150,6 +151,7 @@ public class RegisterClientFragment extends BaseFragment  {
                 identificationNumber.setText(updateData.getIdentificationNumber());
                 latitude.setText(updateData.getLatitude());
                 longitude.setText(updateData.getLongitude());
+                phoneNumber.setText(updateData.getPhoneNumber());
                 markAsFinalised.setChecked(updateData.isMarkAsFinalised());
             }
         }
@@ -256,6 +258,7 @@ public class RegisterClientFragment extends BaseFragment  {
             identificationData.setLatitude(latitude.getText().toString());
             identificationData.setLongitude(longitude.getText().toString());
             identificationData.setLmp(lmp.getText().toString());
+            identificationData.setPhoneNumber(phoneNumber.getText().toString());
             identificationData.setParity(Long.valueOf(parity.getText().toString()));
             if (markAsFinalised.isChecked()) {
                 identificationData.setMarkAsFinalised(Boolean.TRUE);
@@ -432,7 +435,6 @@ public class RegisterClientFragment extends BaseFragment  {
                 return false;
             }
 
-            System.out.println("#####-LMPAge--"+lmpAge);
             if(Tools.getDateFromString(lmp.getText().toString()).after(new Date())){
                 lmp.requestFocus();
                 lmp.setError("LMP Can not Be A Future Date",error_indicator);
@@ -450,7 +452,11 @@ public class RegisterClientFragment extends BaseFragment  {
                 return false;
             }
 
-
+            if(!phoneNumber.getText().toString().trim().matches(Tools.PHONENUMBER)){
+                phoneNumber.requestFocus();
+                phoneNumber.setError("Invalid Zimbabwean Phone Number");
+                return false;
+            }
 
             if(longitude.getText().toString().trim().equals("Loading Longitude...".trim())){
                 longitude.requestFocus();

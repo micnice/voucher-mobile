@@ -125,6 +125,7 @@ public class SaleIdentificationDataAdapter extends RecyclerView.Adapter<SaleIden
                                             Claim claim = new Claim();
                                             claim.setClaimId(data.id());
                                             claim.setRedeemStatusFromServer(data.redeemed());
+                                            claim.setHasOTP(data.hasOTP());
                                             claim.setVoucherTypeName(data.voucherType().name());
                                             database.claimDAO().saveClaim(claim);
                                         }

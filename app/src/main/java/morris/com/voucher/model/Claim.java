@@ -16,6 +16,7 @@ public class Claim {
     String voucherTypeName;
     String providerId;
     Boolean redeemed = Boolean.FALSE;
+    Boolean hasOTP = Boolean.FALSE;
     Boolean redeemStatusFromServer;
 
     public String getClaimId() {
@@ -64,5 +65,13 @@ public class Claim {
 
     public void setRedeemStatusFromServer(Boolean redeemStatusFromServer) {
         this.redeemStatusFromServer = redeemStatusFromServer;
+    }
+
+    public Boolean getHasOTP() {
+        return hasOTP;
+    }
+
+    public void setHasOTP(Boolean hasOTP) {
+        this.hasOTP = hasOTP;
     }
 }

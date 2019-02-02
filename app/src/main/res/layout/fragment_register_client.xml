@@ -109,6 +109,13 @@ android:alpha="0.95"
                 android:enabled="false"
                 android:hint="Set Client LMP" />
 
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lmp"
+                android:hint="Enter Phone eg 07...." />
+
 
             <EditText
                 android:id="@+id/latitude"
@@ -118,7 +125,7 @@ android:alpha="0.95"
                 android:enabled="false"
                 android:layout_marginTop="10dp"
                 android:text="Loading Latitude..."
-                android:layout_below="@id/lmp"
+                android:layout_below="@id/phoneNumber"
                 android:hint="Loading Latitude" />
 
             <EditText
