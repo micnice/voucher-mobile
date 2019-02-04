@@ -99,61 +99,56 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
            redeemed = view.findViewById(R.id.claimRedeemedStub);
             redeemedSwitch = view.findViewById(R.id.redeemedSwitch);
 
-           redeemedSwitch.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                           if (isChecked) {
-                               Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                               claim.setRedeemed(Boolean.TRUE);
 
-                               if(claim.getVoucherTypeName().equals("$10 Token")){
-                                   GraphQL.getApolloClient().mutate(TenDollarVoucherMutation.builder()
-                                           .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TenDollarVoucherMutation.Data>() {
+                                                     redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                             if (buttonView.isPressed()) {
+                                                                 if (isChecked) {
+                                                                     Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                                                                     claim.setRedeemed(Boolean.TRUE);
 
-                                       @Override
-                                       public void onResponse(@Nonnull Response<TenDollarVoucherMutation.Data> response) {
-                                           activity.runOnUiThread(new Runnable() {
-                                               @Override
-                                               public void run() {
-                                                   getConfirmationTenDialog(response.data().createTenDollarOTP().oTP(), buttonView.getContext(),claim);
-                                               }
-                                           });
+                                                                     if (claim.getVoucherTypeName().equals("$10 Token")) {
+                                                                         GraphQL.getApolloClient().mutate(TenDollarVoucherMutation.builder()
+                                                                                 .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TenDollarVoucherMutation.Data>() {
 
-                                       }
+                                                                             @Override
+                                                                             public void onResponse(@Nonnull Response<TenDollarVoucherMutation.Data> response) {
+                                                                                 activity.runOnUiThread(new Runnable() {
+                                                                                     @Override
+                                                                                     public void run() {
+                                                                                         getConfirmationTenDialog(response.data().createTenDollarOTP().oTP(), buttonView.getContext(), claim);
+                                                                                     }
+                                                                                 });
 
-                                       @Override
-                                       public void onFailure(@Nonnull ApolloException e) {
-                                           activity.runOnUiThread(new Runnable() {
-                                               @Override
-                                               public void run() {
-                                                   Toast.makeText(buttonView.getContext(),
-                                                           "Failed To Access Server!", Toast.LENGTH_LONG).show();
-                                                   claim.setRedeemed(Boolean.FALSE);
-                                                   database.claimDAO().updateClaim(claim);
-                                                   redeemedSwitch.setChecked(Boolean.FALSE);
-                                               }
-                                           });
+                                                                             }
 
-                                       }
-                                   });
-                               }else {
-                                   database.claimDAO().updateClaim(claim);
-                               }
+                                                                             @Override
+                                                                             public void onFailure(@Nonnull ApolloException e) {
+                                                                                 activity.runOnUiThread(new Runnable() {
+                                                                                     @Override
+                                                                                     public void run() {
+                                                                                         Toast.makeText(buttonView.getContext(),
+                                                                                                 "Failed To Access Server!", Toast.LENGTH_LONG).show();
+                                                                                         claim.setRedeemed(Boolean.FALSE);
+                                                                                         database.claimDAO().updateClaim(claim);
+                                                                                         redeemedSwitch.setChecked(Boolean.FALSE);
+                                                                                     }
+                                                                                 });
 
-                           } else {
-                               Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                               claim.setRedeemed(Boolean.FALSE);
-                               database.claimDAO().updateClaim(claim);
-                           }
-                       }
-                   });
+                                                                             }
+                                                                         });
+                                                                     } else {
+                                                                         database.claimDAO().updateClaim(claim);
+                                                                     }
 
-
-               }
-           });
-
+                                                                 } else {
+                                                                     Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                                                                     claim.setRedeemed(Boolean.FALSE);
+                                                                     database.claimDAO().updateClaim(claim);
+                                                                 }
+                                                             }
+                                                         }
+                                                     });
 
         }
 

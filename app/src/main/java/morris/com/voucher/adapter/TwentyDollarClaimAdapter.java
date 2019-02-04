@@ -101,52 +101,54 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
             redeemedSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                            if (isChecked) {
-                                GraphQL.getApolloClient().mutate(TwentyDollarVoucherMutation.builder()
-                                        .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TwentyDollarVoucherMutation.Data>() {
 
-                                    @Override
-                                    public void onResponse(@Nonnull Response<TwentyDollarVoucherMutation.Data> response) {
-                                        activity.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                getConfirmationTwentyDialog(response.data().createTwentyDollarOTP().oTP(), buttonView.getContext(), claim);
-
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onFailure(@Nonnull ApolloException e) {
-                                        activity.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(buttonView.getContext(),
-                                                        "Failed To Access Server!", Toast.LENGTH_LONG).show();
-                                                claim.setRedeemed(Boolean.FALSE);
-                                                database.claimDAO().updateClaim(claim);
-                                                redeemedSwitch.setChecked(Boolean.FALSE);
-                                            }
-                                        });
-
-                                    }
-                                });
-
-
-                            } else {
-                                claim.setRedeemed(Boolean.FALSE);
-                                database.claimDAO().updateClaim(claim);
-                            }
-
-                        }
-                    });
                 }
             });
+            redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                    if (buttonView.isPressed()) {
+                        if (isChecked) {
+                            GraphQL.getApolloClient().mutate(TwentyDollarVoucherMutation.builder()
+                                    .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TwentyDollarVoucherMutation.Data>() {
 
+                                @Override
+                                public void onResponse(@Nonnull Response<TwentyDollarVoucherMutation.Data> response) {
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            getConfirmationTwentyDialog(response.data().createTwentyDollarOTP().oTP(), buttonView.getContext(), claim);
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(@Nonnull ApolloException e) {
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(buttonView.getContext(),
+                                                    "Failed To Access Server!", Toast.LENGTH_LONG).show();
+                                            claim.setRedeemed(Boolean.FALSE);
+                                            database.claimDAO().updateClaim(claim);
+                                            redeemedSwitch.setChecked(Boolean.FALSE);
+                                        }
+                                    });
+
+                                }
+                            });
+
+
+                        } else {
+                            claim.setRedeemed(Boolean.FALSE);
+                            database.claimDAO().updateClaim(claim);
+                        }
+
+                    }
+                }
+                });
             }
     }
 
@@ -180,6 +182,7 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
 
 
     private void getConfirmationTwentyDialog(String codeFromServer,Context newContext,Claim claim){
+        System.out.println("&&&&&---"+codeFromServer);
         final EditText input = new EditText(newContext);
          AlertDialog.Builder alertDialog = new AlertDialog.Builder(newContext);
         alertDialog.setTitle("VERIFICATION $20 CODE");
@@ -193,7 +196,7 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String  vcode = input.getText().toString();
-                        if (vcode.trim().compareTo(codeFromServer) == 0) {
+                        if (vcode.trim().compareTo(codeFromServer.trim()) == 0) {
 
                             Toast.makeText(newContext,
                                     "Code Verified", Toast.LENGTH_LONG).show();
