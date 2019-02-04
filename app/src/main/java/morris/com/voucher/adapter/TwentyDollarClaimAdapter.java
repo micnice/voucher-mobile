@@ -98,52 +98,55 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
             redeemed = view.findViewById(R.id.twenty_claimRedeemedStub);
             redeemedSwitch = view.findViewById(R.id.twenty_redeemedSwitch);
 
-
-            redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            redeemedSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                        if (isChecked) {
-                            GraphQL.getApolloClient().mutate(TwentyDollarVoucherMutation.builder()
-                                    .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TwentyDollarVoucherMutation.Data>() {
+                public void onClick(View v) {
+                    redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                            if (isChecked) {
+                                GraphQL.getApolloClient().mutate(TwentyDollarVoucherMutation.builder()
+                                        .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TwentyDollarVoucherMutation.Data>() {
 
-                                @Override
-                                public void onResponse(@Nonnull Response<TwentyDollarVoucherMutation.Data> response) {
-                                    activity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (getConfirmationTwentyDialog(response.data().createTwentyDollarOTP().oTP(), buttonView.getContext())) {
-                                                claim.setRedeemed(Boolean.TRUE);
-                                                database.claimDAO().updateClaim(claim);
+                                    @Override
+                                    public void onResponse(@Nonnull Response<TwentyDollarVoucherMutation.Data> response) {
+                                        activity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                getConfirmationTwentyDialog(response.data().createTwentyDollarOTP().oTP(), buttonView.getContext(), claim);
+
                                             }
+                                        });
+                                    }
 
-                                        }
-                                    });
+                                    @Override
+                                    public void onFailure(@Nonnull ApolloException e) {
+                                        activity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(buttonView.getContext(),
+                                                        "Failed To Access Server!", Toast.LENGTH_LONG).show();
+                                                claim.setRedeemed(Boolean.FALSE);
+                                                database.claimDAO().updateClaim(claim);
+                                                redeemedSwitch.setChecked(Boolean.FALSE);
+                                            }
+                                        });
 
-                                }
-
-                                @Override
-                                public void onFailure(@Nonnull ApolloException e) {
-                                    activity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(buttonView.getContext(),
-                                                    "Failed To Access Server!", Toast.LENGTH_LONG).show();
-                                            redeemedSwitch.setChecked(Boolean.FALSE);
-                                        }
-                                    });
-
-                                }
-                            });
+                                    }
+                                });
 
 
-                        } else {
-                            claim.setRedeemed(Boolean.FALSE);
-                            database.claimDAO().updateClaim(claim);
+                            } else {
+                                claim.setRedeemed(Boolean.FALSE);
+                                database.claimDAO().updateClaim(claim);
+                            }
+
                         }
+                    });
+                }
+            });
 
-                    }
-                });
             }
     }
 
@@ -175,10 +178,9 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
         this.context = context;
     }
 
-  Boolean twentyConfirmed = Boolean.FALSE;
-    private Boolean getConfirmationTwentyDialog(String codeFromServer,Context newContext){
-        final EditText input = new EditText(newContext);
 
+    private void getConfirmationTwentyDialog(String codeFromServer,Context newContext,Claim claim){
+        final EditText input = new EditText(newContext);
          AlertDialog.Builder alertDialog = new AlertDialog.Builder(newContext);
         alertDialog.setTitle("VERIFICATION $20 CODE");
         alertDialog.setMessage("Enter Verification Code");
@@ -190,18 +192,21 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
         alertDialog.setPositiveButton("VERIFY",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("PPPP=="+codeFromServer);
                         String  vcode = input.getText().toString();
                         if (vcode.trim().compareTo(codeFromServer) == 0) {
+
                             Toast.makeText(newContext,
                                     "Code Verified", Toast.LENGTH_LONG).show();
-                            twentyConfirmed = Boolean.TRUE;
+                            claim.setRedeemed(Boolean.TRUE);
+                            database.claimDAO().updateClaim(claim);
+                            redeemedSwitch.setClickable(Boolean.FALSE);
 
                         } else {
                             Toast.makeText(newContext,
                                     "Wrong Code!", Toast.LENGTH_LONG).show();
                             redeemedSwitch.setChecked(Boolean.FALSE);
-                            twentyConfirmed = Boolean.FALSE;
+                            claim.setRedeemed(Boolean.FALSE);
+                            database.claimDAO().updateClaim(claim);
                         }
                     }
 
@@ -211,13 +216,13 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         redeemedSwitch.setChecked(Boolean.FALSE);
-                        twentyConfirmed = Boolean.FALSE;
+                        claim.setRedeemed(Boolean.FALSE);
+                        database.claimDAO().updateClaim(claim);
                         dialog.cancel();
                     }
                 });
         alertDialog.show();
 
-        return twentyConfirmed;
 
     }
 

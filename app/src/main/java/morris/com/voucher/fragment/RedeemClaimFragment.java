@@ -34,7 +34,6 @@ import morris.com.voucher.ProviderListByCityIdQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.RedeemVoucherClaimMutation;
 import morris.com.voucher.adapter.RedeemClaimAdapter;
-import morris.com.voucher.adapter.TenDollarClaimAdapter;
 import morris.com.voucher.adapter.TwentyDollarClaimAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.dto.GenericDto;
@@ -59,7 +58,6 @@ public class RedeemClaimFragment extends BaseFragment {
     ArrayList<GenericDto> providerList = new ArrayList<>();
     RedeemClaimAdapter redeemClaimAdapter;
     TwentyDollarClaimAdapter twentyDollarClaimAdapter;
-    TenDollarClaimAdapter tenDollarClaimAdapter;
     Toolbar toolbar;
     TextView clientFirstName;
     TextView clientLastName;
@@ -96,7 +94,7 @@ public class RedeemClaimFragment extends BaseFragment {
         dataListMain = database.claimDAO().getAll();
         List<Claim> trimmedData = new ArrayList<>();
         for(Claim c:dataListMain){
-            if(!c.getHasOTP()){
+            if(!c.getVoucherTypeName().equals("$20 Token")){
                 trimmedData.add(c);
             }
         }
@@ -112,14 +110,6 @@ public class RedeemClaimFragment extends BaseFragment {
         twentyDollarClaimAdapter= new TwentyDollarClaimAdapter(dataListTwenty);
         twentyRecycler.setAdapter(twentyDollarClaimAdapter);
 
-        //Ten RecyclerView
-        tenRecycler = view.findViewById(R.id.ten_recycler);
-        tenRecycler.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(context);
-        tenRecycler.setLayoutManager(layoutManager);
-        dataListTen = database.claimDAO().getByVoucherName("$10 Token");
-        tenDollarClaimAdapter= new TenDollarClaimAdapter(dataListTen);
-        tenRecycler.setAdapter(tenDollarClaimAdapter);
 
         redeemClaimFragment = this;
 
@@ -135,7 +125,6 @@ public class RedeemClaimFragment extends BaseFragment {
         providerSpinner = view.findViewById(R.id.provider);
         saveData = view.findViewById(R.id.saveClaim);
         getCityList();
-
 
 
         clientLastName.setText(bundle.getString("sdLastName"));

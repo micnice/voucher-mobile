@@ -6,20 +6,30 @@ import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import morris.com.voucher.R;
+import morris.com.voucher.TenDollarVoucherMutation;
 import morris.com.voucher.database.VoucherDataBase;
+import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.Claim;
 
 /**
@@ -89,20 +99,60 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
            redeemed = view.findViewById(R.id.claimRedeemedStub);
             redeemedSwitch = view.findViewById(R.id.redeemedSwitch);
 
-            redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                   Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                       claim.setRedeemed(Boolean.TRUE);
-                       database.claimDAO().updateClaim(claim);
+           redeemedSwitch.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                           if (isChecked) {
+                               Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                               claim.setRedeemed(Boolean.TRUE);
 
-                    } else {
-                        Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                        claim.setRedeemed(Boolean.FALSE);
-                        database.claimDAO().updateClaim(claim);
-                    }
-                }
-            });
+                               if(claim.getVoucherTypeName().equals("$10 Token")){
+                                   GraphQL.getApolloClient().mutate(TenDollarVoucherMutation.builder()
+                                           .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TenDollarVoucherMutation.Data>() {
+
+                                       @Override
+                                       public void onResponse(@Nonnull Response<TenDollarVoucherMutation.Data> response) {
+                                           activity.runOnUiThread(new Runnable() {
+                                               @Override
+                                               public void run() {
+                                                   getConfirmationTenDialog(response.data().createTenDollarOTP().oTP(), buttonView.getContext(),claim);
+                                               }
+                                           });
+
+                                       }
+
+                                       @Override
+                                       public void onFailure(@Nonnull ApolloException e) {
+                                           activity.runOnUiThread(new Runnable() {
+                                               @Override
+                                               public void run() {
+                                                   Toast.makeText(buttonView.getContext(),
+                                                           "Failed To Access Server!", Toast.LENGTH_LONG).show();
+                                                   claim.setRedeemed(Boolean.FALSE);
+                                                   database.claimDAO().updateClaim(claim);
+                                                   redeemedSwitch.setChecked(Boolean.FALSE);
+                                               }
+                                           });
+
+                                       }
+                                   });
+                               }else {
+                                   database.claimDAO().updateClaim(claim);
+                               }
+
+                           } else {
+                               Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
+                               claim.setRedeemed(Boolean.FALSE);
+                               database.claimDAO().updateClaim(claim);
+                           }
+                       }
+                   });
+
+
+               }
+           });
 
 
         }
@@ -136,5 +186,51 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
     }
 
 
+    private void getConfirmationTenDialog(String codeFromServer,Context newContext,Claim claim){
+        final EditText input = new EditText(newContext);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(newContext);
+        alertDialog.setTitle("VERIFICATION $10 CODE");
+        alertDialog.setMessage("Enter Verification Code");
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+
+        alertDialog.setPositiveButton("VERIFY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String  vcode = input.getText().toString();
+                        if (vcode.trim().compareTo(codeFromServer) == 0) {
+                            Toast.makeText(newContext,
+                                    "Code Verified", Toast.LENGTH_LONG).show();
+                            claim.setRedeemed(Boolean.TRUE);
+                            database.claimDAO().updateClaim(claim);
+                            redeemedSwitch.setClickable(Boolean.FALSE);
+
+                        } else {
+                            Toast.makeText(newContext,
+                                    "Wrong Code!", Toast.LENGTH_LONG).show();
+                            redeemedSwitch.setChecked(Boolean.FALSE);
+                            claim.setRedeemed(Boolean.FALSE);
+                            database.claimDAO().updateClaim(claim);
+                        }
+                    }
+
+                });
+
+        alertDialog.setNegativeButton("CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        redeemedSwitch.setChecked(Boolean.FALSE);
+                        claim.setRedeemed(Boolean.FALSE);
+                        database.claimDAO().updateClaim(claim);
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+
+    }
 
 }
