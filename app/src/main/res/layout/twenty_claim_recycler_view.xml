@@ -17,22 +17,21 @@
             >
 
             <TextView
-                android:id="@+id/recycler_voucher_type"
+                android:id="@+id/twenty_recycler_voucher_type"
                 android:layout_weight="3"
-                android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textColor="@color/colorBlack" />
             <TextView
-                android:id="@+id/claimRedeemedStub"
+                android:id="@+id/twenty_claimRedeemedStub"
                 android:layout_weight="0"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
 
                 />
             <TextView
-                android:id="@+id/claimIdStub"
+                android:id="@+id/twenty_claimIdStub"
                 android:layout_weight="0"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
@@ -41,16 +40,17 @@
 
 
             <Switch
-                android:id="@+id/redeemedSwitch"
+                android:id="@+id/twenty_redeemedSwitch"
                 android:layout_weight="2"
                 android:gravity="right"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/SwitchTheme"
                 android:switchMinWidth="70dp"
                 android:checked="false"
                />
+
+
 
         </TableRow>
     </TableLayout>

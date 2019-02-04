@@ -33,8 +33,6 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
     public Switch redeemedSwitch;
     public VoucherDataBase database;
     private Context context;
-    Boolean verified = Boolean.FALSE;
-
     public RedeemClaimAdapter(List<Claim> dataList) {
         this.items = dataList;
 
@@ -91,61 +89,13 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
            redeemed = view.findViewById(R.id.claimRedeemedStub);
             redeemedSwitch = view.findViewById(R.id.redeemedSwitch);
 
-
             redeemedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                    Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
-                   if(!claim.getHasOTP()) {
                        claim.setRedeemed(Boolean.TRUE);
                        database.claimDAO().updateClaim(claim);
-                   }else{
-                       activity.runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               final EditText input = new EditText(buttonView.getContext());
-                               AlertDialog.Builder alertDialog = new AlertDialog.Builder(buttonView.getContext());
-                               alertDialog.setTitle("VERIFICATION CODE");
-                               alertDialog.setMessage("Enter Verification Code");
-                               LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                                       LinearLayout.LayoutParams.MATCH_PARENT,
-                                       LinearLayout.LayoutParams.MATCH_PARENT);
-                               input.setLayoutParams(lp);
-                               alertDialog.setView(input);
-                               alertDialog.setPositiveButton("VERIFY",
-                                       new DialogInterface.OnClickListener() {
-                                           public void onClick(DialogInterface dialog, int which) {
-                                               String  vcode = input.getText().toString();
-                                               if (vcode.trim().compareTo("F1012") == 0) {
-                                                   Toast.makeText(getContext(),
-                                                           "Code Verified", Toast.LENGTH_SHORT).show();
-                                                   verified =Boolean.TRUE;
 
-                                               } else {
-                                                   Toast.makeText(getContext(),
-                                                           "Wrong Code!", Toast.LENGTH_SHORT).show();
-                                                   verified =Boolean.FALSE;
-                                               }
-                                           }
-
-                                       });
-
-                               alertDialog.setNegativeButton("CANCEL",
-                                       new DialogInterface.OnClickListener() {
-                                           public void onClick(DialogInterface dialog, int which) {
-                                               verified =Boolean.FALSE;
-                                               dialog.cancel();
-                                           }
-                                       });
-                             AlertDialog show = alertDialog.create();
-                               show.show();
-
-
-                           }
-                       });
-
-
-                   }
                     } else {
                         Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
                         claim.setRedeemed(Boolean.FALSE);
@@ -183,49 +133,6 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-
-    private Boolean getConfirmationCodeDialog(String codeFromServer){
-
-        final EditText input = new EditText(getContext());
-    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-    alertDialog.setTitle("VERIFICATION CODE");
-    alertDialog.setMessage("Enter Verification Code");
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        alertDialog.setView(input);
-        alertDialog.setPositiveButton("VERIFY",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                      String  vcode = input.getText().toString();
-                        if (vcode.trim().compareTo(codeFromServer.trim()) == 0) {
-                                Toast.makeText(getContext(),
-                                        "Code Verified", Toast.LENGTH_SHORT).show();
-                                verified =Boolean.TRUE;
-
-                            } else {
-                                Toast.makeText(getContext(),
-                                        "Wrong Code!", Toast.LENGTH_SHORT).show();
-                            verified =Boolean.FALSE;
-                            }
-                        }
-
-                });
-
-        alertDialog.setNegativeButton("CANCEL",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        verified =Boolean.FALSE;
-                        dialog.cancel();
-                    }
-                });
-        alertDialog.show();
-
-        System.out.println("###---"+verified);
-        return verified;
     }
 
 

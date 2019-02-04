@@ -68,10 +68,10 @@
         android:layout_below="@id/staticData"
         android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          android:padding="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -127,14 +127,31 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="LinearLayoutManager"
+                android:orientation="horizontal"
                 tools:listitem="@layout/single_claim_recycler_view" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ten_recycler"
+                    android:layout_marginTop="0dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="LinearLayoutManager"
+                    android:layout_marginBottom="0dp"
+                    tools:listitem="@layout/ten_claim_recycler_view" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/twenty_recycler"
+                    android:layout_marginTop="0dp"
+                    android:layout_width="fill_parent"
+                    app:layoutManager="LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/twenty_claim_recycler_view" />
+            </LinearLayout>
         </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
 
     </LinearLayout>
     </LinearLayout>

@@ -20,6 +20,10 @@ public interface ClaimDAO {
     @Query("select * from Claim")
     List<Claim> getAll();
 
+    @Query("select * from Claim where voucherTypeName=:voucherName")
+    List<Claim> getByVoucherName(String voucherName);
+
+
     @Query("select * from Claim where redeemed=1 ")
     List<Claim> getAllRedeemed();
 

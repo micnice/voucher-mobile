@@ -17,6 +17,7 @@ public class Claim {
     String providerId;
     Boolean redeemed = Boolean.FALSE;
     Boolean hasOTP = Boolean.FALSE;
+    String  saleId;
     Boolean redeemStatusFromServer;
 
     public String getClaimId() {
@@ -73,5 +74,13 @@ public class Claim {
 
     public void setHasOTP(Boolean hasOTP) {
         this.hasOTP = hasOTP;
+    }
+
+    public String getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
 }

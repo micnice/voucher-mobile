@@ -6,6 +6,9 @@ query voucherClaimsBySaleIdQuery(
     voucherType{
       name
     }
+    sales{
+    id
+    }
     redeemed
     hasOTP
   }

@@ -34,6 +34,8 @@ import morris.com.voucher.ProviderListByCityIdQuery;
 import morris.com.voucher.R;
 import morris.com.voucher.RedeemVoucherClaimMutation;
 import morris.com.voucher.adapter.RedeemClaimAdapter;
+import morris.com.voucher.adapter.TenDollarClaimAdapter;
+import morris.com.voucher.adapter.TwentyDollarClaimAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.dto.GenericDto;
 import morris.com.voucher.graphql.GraphQL;
@@ -47,11 +49,17 @@ public class RedeemClaimFragment extends BaseFragment {
 
     public  static RedeemClaimFragment redeemClaimFragment;
     private RecyclerView recyclerView;
+    private RecyclerView twentyRecycler;
+    private RecyclerView tenRecycler;
     private LinearLayoutManager layoutManager;
-    private List<Claim> dataList = new ArrayList<>();
+    private List<Claim> dataListMain = new ArrayList<>();
+    private List<Claim> dataListTen = new ArrayList<>();
+    private List<Claim> dataListTwenty = new ArrayList<>();
     ArrayList<GenericDto> cityList = new ArrayList<>();
     ArrayList<GenericDto> providerList = new ArrayList<>();
-    RedeemClaimAdapter adapter;
+    RedeemClaimAdapter redeemClaimAdapter;
+    TwentyDollarClaimAdapter twentyDollarClaimAdapter;
+    TenDollarClaimAdapter tenDollarClaimAdapter;
     Toolbar toolbar;
     TextView clientFirstName;
     TextView clientLastName;
@@ -79,17 +87,39 @@ public class RedeemClaimFragment extends BaseFragment {
         context = getContext();
 
         Context context = view.getContext();
+        //Main Recycler View
         recyclerView = view.findViewById(R.id.recycler_single_claim);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-
         database = VoucherDataBase.getDatabase(context);
-        dataList = database.claimDAO().getAll();
-        adapter = new RedeemClaimAdapter(dataList);
+        dataListMain = database.claimDAO().getAll();
+        List<Claim> trimmedData = new ArrayList<>();
+        for(Claim c:dataListMain){
+            if(!c.getHasOTP()){
+                trimmedData.add(c);
+            }
+        }
+        redeemClaimAdapter = new RedeemClaimAdapter(trimmedData);
+        recyclerView.setAdapter(redeemClaimAdapter);
 
-        recyclerView.setAdapter(adapter);
+        //Twenty RecyclerView
+        twentyRecycler = view.findViewById(R.id.twenty_recycler);
+        twentyRecycler.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        twentyRecycler.setLayoutManager(layoutManager);
+        dataListTwenty = database.claimDAO().getByVoucherName("$20 Token");
+        twentyDollarClaimAdapter= new TwentyDollarClaimAdapter(dataListTwenty);
+        twentyRecycler.setAdapter(twentyDollarClaimAdapter);
 
+        //Ten RecyclerView
+        tenRecycler = view.findViewById(R.id.ten_recycler);
+        tenRecycler.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        tenRecycler.setLayoutManager(layoutManager);
+        dataListTen = database.claimDAO().getByVoucherName("$10 Token");
+        tenDollarClaimAdapter= new TenDollarClaimAdapter(dataListTen);
+        tenRecycler.setAdapter(tenDollarClaimAdapter);
 
         redeemClaimFragment = this;
 
