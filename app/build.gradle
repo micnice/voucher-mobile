@@ -80,7 +80,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.0'
     // ViewModel and LiveData
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-    // rxjava2 to use the Observables stuff
+    implementation 'com.koushikdutta.ion:ion:2.1.7'
+    implementation  'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.apollographql.android:converter-pojo:0.1.0'
     //converts retrofit responses to pojos (ApolloConverterFactory)
     implementation('com.jakewharton:butterknife:8.8.1') {

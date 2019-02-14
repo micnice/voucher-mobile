@@ -131,6 +131,7 @@ public class AssessmentsByUserFragment extends BaseFragment {
                     .dateAssessed(data.getDateAssesed())
                     .latitude(data.getLatitude())
                     .longitude(data.getLongitude())
+                           .assessedBy(data.getAssessedBy())
                      .pat1(data.isPart1())
                       .pat2(data.isPart2())
                       .pat3(data.isPart3())

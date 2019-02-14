@@ -149,6 +149,7 @@ public class RedeemClaimFragment extends BaseFragment {
                         GraphQL.getApolloClient().mutate(RedeemVoucherClaimMutation.builder()
                                 .serviceProvider(getIdFromName(providerSpinner.getSelectedItem().toString(),providerList))
                                 .id(data.getClaimId())
+                                .processedBy(data.getProcessedBy())
                                 .build()).enqueue(new ApolloCall.Callback<RedeemVoucherClaimMutation.Data>() {
                             @Override
                             public void onResponse(@Nonnull Response<RedeemVoucherClaimMutation.Data> response) {

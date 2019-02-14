@@ -11,6 +11,7 @@ mutation createBeneficiaryIdentificationMutation(
     $longitude: String
     $dataCollectionDate: String
     $phoneNumber: String
+    $dataCollectedBy: String
 
 ){createBeneficiaryIdentification(beneficiaryIdentificationInput:{
    firstName:$firstName
@@ -25,6 +26,7 @@ mutation createBeneficiaryIdentificationMutation(
    longitude:$longitude,
    dataCollectionDate:$dataCollectionDate
    phoneNumber:$phoneNumber
+   dataCollectedBy: $dataCollectedBy
  }){
    id
    firstName

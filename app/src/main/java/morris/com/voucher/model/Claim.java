@@ -18,6 +18,7 @@ public class Claim {
     Boolean redeemed = Boolean.FALSE;
     Boolean hasOTP = Boolean.FALSE;
     String  saleId;
+    String processedBy;
     Boolean redeemStatusFromServer;
 
     public String getClaimId() {
@@ -82,5 +83,13 @@ public class Claim {
 
     public void setSaleId(String saleId) {
         this.saleId = saleId;
+    }
+
+    public String getProcessedBy() {
+        return processedBy;
+    }
+
+    public void setProcessedBy(String processedBy) {
+        this.processedBy = processedBy;
     }
 }

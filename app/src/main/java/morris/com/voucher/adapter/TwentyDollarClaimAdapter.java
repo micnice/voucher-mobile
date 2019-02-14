@@ -24,8 +24,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
 import morris.com.voucher.TwentyDollarVoucherMutation;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.Claim;
@@ -41,6 +43,7 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
     public Switch redeemedSwitch;
     public VoucherDataBase database;
     private Context context;
+    private SharedViewModel sharedViewModel;
 
     public TwentyDollarClaimAdapter(List<Claim> dataList) {
         this.items = dataList;
@@ -92,6 +95,8 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
             super(view);
             mView = view;
             AppCompatActivity activity = (AppCompatActivity) mView.getContext();
+            DashboardActivity dashBoard = (DashboardActivity) activity;
+            sharedViewModel = dashBoard.getSharedViewModel();
 
             voucherType = view.findViewById(R.id.twenty_recycler_voucher_type);
             claimId = view.findViewById(R.id.twenty_claimIdStub);
@@ -110,6 +115,11 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
                     Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
                     if (buttonView.isPressed()) {
                         if (isChecked) {
+                            String redeemedBy="";
+                            if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null && sharedViewModel.getLoginDetails().getValue()!=null){
+                                redeemedBy=sharedViewModel.getLoginDetails().getValue().getUserName();
+                            }
+                            claim.setProcessedBy(redeemedBy);
                             GraphQL.getApolloClient().mutate(TwentyDollarVoucherMutation.builder()
                                     .saleId(claim.getSaleId()).build()).enqueue(new ApolloCall.Callback<TwentyDollarVoucherMutation.Data>() {
 
@@ -182,7 +192,7 @@ public class TwentyDollarClaimAdapter extends RecyclerView.Adapter<TwentyDollarC
 
 
     private void getConfirmationTwentyDialog(String codeFromServer,Context newContext,Claim claim){
-        System.out.println("&&&&&---"+codeFromServer);
+
         final EditText input = new EditText(newContext);
          AlertDialog.Builder alertDialog = new AlertDialog.Builder(newContext);
         alertDialog.setTitle("VERIFICATION $20 CODE");

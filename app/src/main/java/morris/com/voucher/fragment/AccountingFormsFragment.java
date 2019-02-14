@@ -1,5 +1,6 @@
 package morris.com.voucher.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import morris.com.voucher.IdentificationAssessedAndPassedQuery;
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
 import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.AccountingClientsAdapter;
@@ -69,12 +71,15 @@ public class AccountingFormsFragment extends BaseFragment {
         waiting = view.findViewById(R.id.accountProgressBar);
         waiting.setVisibility(ProgressBar.GONE);
         DashboardActivity dashBoard = (DashboardActivity)getActivity();
+
         Bundle currentBundle = new Bundle();
         currentBundle.putString("current","sale");
          dashBoard.setCurrentFragmentBundle(currentBundle);
         database = VoucherDataBase.getDatabase(context);
         dataList = database.accountingClientDAO().getAll();
         adapter = new AccountingClientsAdapter(dataList);
+
+
 
         bundle = getArguments();
 

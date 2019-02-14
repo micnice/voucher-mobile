@@ -1,8 +1,9 @@
 mutation redeemVoucherClaimMutation(
  $serviceProvider: ID
  $id: ID
+ $processedBy: String
 ){
-redeemClaim(serviceProvider:$serviceProvider,id:$id)
+redeemClaim(serviceProvider:$serviceProvider,id:$id,processedBy:$processedBy)
 {
 id
 }

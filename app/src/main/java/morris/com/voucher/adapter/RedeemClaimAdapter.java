@@ -26,8 +26,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
 import morris.com.voucher.TenDollarVoucherMutation;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.graphql.GraphQL;
 import morris.com.voucher.model.Claim;
@@ -43,6 +45,7 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
     public Switch redeemedSwitch;
     public VoucherDataBase database;
     private Context context;
+    private SharedViewModel sharedViewModel;
     public RedeemClaimAdapter(List<Claim> dataList) {
         this.items = dataList;
 
@@ -73,6 +76,7 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
         View v =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_claim_recycler_view, parent, false);
 
+
         database =VoucherDataBase.getDatabase(parent.getContext());
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -86,6 +90,7 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
         public final TextView voucherType;
         public final TextView claimId;
         public final TextView redeemed;
+
         public Claim mItem;
 
 
@@ -93,6 +98,9 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
             super(view);
             mView = view;
             AppCompatActivity activity = (AppCompatActivity) mView.getContext();
+            DashboardActivity dashBoard = (DashboardActivity) activity;
+            sharedViewModel = dashBoard.getSharedViewModel();
+
 
            voucherType = view.findViewById(R.id.recycler_voucher_type);
            claimId = view.findViewById(R.id.claimIdStub);
@@ -104,8 +112,13 @@ public class RedeemClaimAdapter extends RecyclerView.Adapter<RedeemClaimAdapter.
                                                          public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                              if (buttonView.isPressed()) {
                                                                  if (isChecked) {
+                                                                     String redeemedBy="";
+                                                                     if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null && sharedViewModel.getLoginDetails().getValue()!=null){
+                                                                         redeemedBy=sharedViewModel.getLoginDetails().getValue().getUserName();
+                                                                     }
                                                                      Claim claim = database.claimDAO().getByClaimId(claimId.getText().toString());
                                                                      claim.setRedeemed(Boolean.TRUE);
+                                                                     claim.setProcessedBy(redeemedBy);
 
                                                                      if (claim.getVoucherTypeName().equals("$10 Token")) {
                                                                          GraphQL.getApolloClient().mutate(TenDollarVoucherMutation.builder()

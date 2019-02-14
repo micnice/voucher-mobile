@@ -31,6 +31,7 @@ import java.util.TimeZone;
 import javax.annotation.Nonnull;
 
 import morris.com.voucher.CreateVoucherSaleMutation;
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
 import morris.com.voucher.VoucherListDataQuery;
 import morris.com.voucher.activity.DashboardActivity;
@@ -51,6 +52,7 @@ public class SaleVoucherFragment extends BaseFragment {
     Bundle bundle;
     ProgressBar waiting;
     Context context;
+    private SharedViewModel sharedViewModel;
     Spinner voucherSetSpinner;
     VoucherDataBase database;
     ArrayList<VoucherSetDto> voucherSetDtoArrayList = new ArrayList<>();
@@ -81,7 +83,8 @@ public class SaleVoucherFragment extends BaseFragment {
         saveData = view.findViewById(R.id.saveSaleData);
         waiting=view.findViewById(R.id.makeSaleProgressBar);
         getVoucherSets();
-
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        sharedViewModel = dashBoard.getSharedViewModel();
         clientLastName.setText(bundle.getString("accountingLName"));
         clientFirstName.setText(bundle.getString("accountingFName"));
         clientIdNumber.setText(bundle.getString("accountingIdNumber"));
@@ -91,13 +94,15 @@ public class SaleVoucherFragment extends BaseFragment {
             public void onClick(View view) {
                 //TODO GET THE CURRENTLY LOGGED IN USER AND USE ON SOLD BY
                 if (validate()) {
-
+                    String soldBy="";
+                    if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null && sharedViewModel.getLoginDetails().getValue()!=null){
+                        soldBy=sharedViewModel.getLoginDetails().getValue().getUserName();
+                    }
                     Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
-                    System.out.println("$$$$$-----" + new SimpleDateFormat("d/M/yyyy").format(currentDate));
                     GraphQL.getApolloClient().mutate(CreateVoucherSaleMutation.builder()
                             .beneficiaryIdentityId(bundle.getString("accountingClientId"))
                             .saleDate(new SimpleDateFormat("d/M/yyyy").format(currentDate))
-                            .soldBy("mbaradza")
+                            .soldBy(soldBy)
                             .voucherSet(getVoucherSetFromName(voucherSetSpinner.getSelectedItem().toString()))
                             .build()).enqueue(new ApolloCall.Callback<CreateVoucherSaleMutation.Data>() {
 

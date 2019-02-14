@@ -19,6 +19,7 @@ public class ClientAssessment {
     String dateAssesed;
     String idFromServer;
     String pregnancyStatus;
+    String assessedBy;
     private String latitude;
     private String longitude;
     boolean markAsFinalised = Boolean.FALSE;
@@ -221,5 +222,11 @@ public class ClientAssessment {
         this.pregnancyStatus = pregnancyStatus;
     }
 
+    public String getAssessedBy() {
+        return assessedBy;
+    }
 
+    public void setAssessedBy(String assessedBy) {
+        this.assessedBy = assessedBy;
+    }
 }

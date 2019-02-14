@@ -36,7 +36,9 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.TimeZone;
 
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.enums.PregnancyStatus;
 import morris.com.voucher.location.LocationSettings;
@@ -59,6 +61,7 @@ public class AssessClientFragment extends BaseFragment {
     TextView clientIdNumber,longitude,latitude;
     Button saveData;
     Bundle bundle;
+    private SharedViewModel sharedViewModel;
     LocationManager manager = null;
     private Intent locationIntent;
     ClientAssessment clientAssessment;
@@ -90,6 +93,8 @@ public class AssessClientFragment extends BaseFragment {
         toolbar = view.findViewById(R.id.toolbar);
         database = VoucherDataBase.getDatabase(context);
         ClientAssessment assessment = new ClientAssessment();
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        sharedViewModel = dashBoard.getSharedViewModel();
 
         bundle =getArguments();
 
@@ -409,9 +414,14 @@ public class AssessClientFragment extends BaseFragment {
                     if (markAsFinalised.isChecked()) {
                         assessment.setMarkAsFinalised(Boolean.TRUE);
                     }
+
+                    if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null && sharedViewModel.getLoginDetails().getValue()!=null){
+                        assessment.setAssessedBy(sharedViewModel.getLoginDetails().getValue().getUserName());
+                    }
                     assessment.setLatitude(latitude.getText().toString());
                     assessment.setLongitude(longitude.getText().toString());
                     assessment.setPregnancyStatus(pregnancyStatus.getSelectedItem().toString());
+
 
                     if (bundle!=null && bundle.getString("update") != null && bundle.getString("update").equals("update")) {
                         database.clientAssessmentDAO().updateClientAssessmentData(assessment);

@@ -15,6 +15,7 @@ mutation createBeneficiaryAssessmentMutation(
   $latitude: String
   $longitude: String
   $dateAssessed:String
+  $assessedBy: String
 
 ){createPovertyBeneficiaryAssessmentTool(povertyBeneficiaryAssessmentToolInput:{
   beneficiaryIdentityId:$beneficiaryIdentityId,
@@ -32,7 +33,8 @@ mutation createBeneficiaryAssessmentMutation(
    pat10:$pat10,
    pat11:$pat11,
    latitude:$latitude,
-   longitude:$longitude
+   longitude:$longitude,
+   assessedBy:$assessedBy
 
 
  }){

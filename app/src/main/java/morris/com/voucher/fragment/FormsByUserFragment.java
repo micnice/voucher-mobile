@@ -249,6 +249,7 @@ public class FormsByUserFragment extends BaseFragment {
                     .firstName(data.getFirstName())
                      .lastName(data.getLastName())
                      .birthDate(data.getBirthDate())
+                            .dataCollectedBy(data.getCreatedBy())
                      .lmp(data.getLmp())
                       .educationStatus(EducationStatus.valueOf(morris.com.voucher.enums.EducationStatus.get(data.getEducationStatus()).toString()))
                       .maritalStatus(MaritalStatus.valueOf(morris.com.voucher.enums.MaritalStatus.get(data.getMaritalStatus()).toString()))

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -26,6 +31,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.fragment.AccountingFormsFragment;
@@ -44,10 +53,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public static Context context;
     public static Activity activity;
     public Menu topMenu;
+   private SharedViewModel sharedViewModel;
     public static SearchView searchView;
     public static DashboardActivity dashboardActivity;
     public static boolean gpsOn = false;
     private Intent locationIntent;
+    public static int numberOfTabs;
     Snackbar snackbar;
     private Bundle currentFragmentBundle;
     LocationManager manager = null;
@@ -72,22 +83,60 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         getSupportActionBar().setHomeButtonEnabled(true);
 
         dashboardTabs = findViewById(R.id.dashboard_tabs);
+        sharedViewModel = LoginActivity.getViewModelToOtherActivities();
 
 
-        dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
-        dashboardTabs.addTab(dashboardTabs.newTab().setText("Assessment"));
-        dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
+
+
+
+
         snackbar = Snackbar.make(findViewById(R.id.content_dashboard), "", Snackbar.LENGTH_INDEFINITE);
         context = DashboardActivity.this;
         activity = DashboardActivity.this;
         dashboardActivity = this;
         database = VoucherDataBase.getDatabase(this);
-        Fragment formsByUserFragment = new FormsByUserFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("current","registration");
-        formsByUserFragment.setArguments(bundle);
-        setCurrentFragmentBundle(bundle);
-        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+
+        if((sharedViewModel!=null) &&(sharedViewModel.getLoginDetails()!=null)
+                &&(sharedViewModel.getLoginDetails().getValue()!=null)&& !sharedViewModel.getLoginDetails().getValue().getRoles().isEmpty()){
+
+            if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("ADMINISTRATION")
+                    || sharedViewModel.getLoginDetails().getValue().getRoles().contains("BENEFICIARY_IDENTIFIER")) {
+                if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("ADMINISTRATION")){
+                    dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
+                    dashboardTabs.addTab(dashboardTabs.newTab().setText("Assessment"));
+                    dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
+                    numberOfTabs=3;
+                }else{
+                    dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
+                    numberOfTabs=1;
+                }
+                Fragment formsByUserFragment = new FormsByUserFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("current", "registration");
+                formsByUserFragment.setArguments(bundle);
+                setCurrentFragmentBundle(bundle);
+                getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+            }else if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("BENEFICIARY_ASSESSOR")){
+                dashboardTabs.addTab(dashboardTabs.newTab().setText("Assessment"));
+                dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
+                numberOfTabs=2;
+                Fragment formsByUserFragment1 = new FormsByUserFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("current", "assessment");
+                bundle1.putString("item", "assessment");
+                formsByUserFragment1.setArguments(bundle1);
+                setCurrentFragmentBundle(bundle1);
+                getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment1).commit();
+
+            }else if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("DATA_ENTRY_CLERK")){
+                dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
+                Fragment accountingFragment = new AccountingFragment();
+                getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+
+            }
+        }
+
+
         dashboardTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             public void onTabSelected(TabLayout.Tab tab) {
@@ -96,22 +145,39 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 int stab = tab.getPosition();
 
                 if (stab == 0) {
-                    Bundle bundle = new Bundle();
-                    Fragment formsByUserFragment = new FormsByUserFragment();
-                    bundle.putString("current","registration");
-                    formsByUserFragment.setArguments(bundle);
-                    setCurrentFragmentBundle(bundle);
-                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
-                    return;
-                } else if (stab == 1) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("item", "assessment");
-                    bundle.putString("current","assessment");
-                    setCurrentFragmentBundle(bundle);
-                    FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
-                    formsByUserFragment.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
 
+                    if(numberOfTabs==2){
+                        Bundle bundle = new Bundle();
+                        Fragment formsByUserFragment = new FormsByUserFragment();
+                        bundle.putString("item", "assessment");
+                        bundle.putString("current","assessment");
+                        formsByUserFragment.setArguments(bundle);
+                        setCurrentFragmentBundle(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                        return;
+                    }else {
+                        Bundle bundle = new Bundle();
+                        Fragment formsByUserFragment = new FormsByUserFragment();
+                        bundle.putString("current", "registration");
+                        formsByUserFragment.setArguments(bundle);
+                        setCurrentFragmentBundle(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                        return;
+                    }
+                } else if (stab == 1) {
+                    if(numberOfTabs==2){
+                        Fragment accountingFragment = new AccountingFragment();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("item", "assessment");
+                        bundle.putString("current", "assessment");
+                        setCurrentFragmentBundle(bundle);
+                        FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
+                        formsByUserFragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                    }
                 } else {
                     Fragment accountingFragment = new AccountingFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
@@ -128,22 +194,39 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 int stab = tab.getPosition();
 
                 if (stab == 0) {
-                    Bundle bundle = new Bundle();
-                    Fragment formsByUserFragment = new FormsByUserFragment();
-                    bundle.putString("current","registration");
-                    formsByUserFragment.setArguments(bundle);
-                    setCurrentFragmentBundle(bundle);
-                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
-                    return;
-                } else if (stab == 1) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("item", "assessment");
-                    bundle.putString("current","assessment");
-                    setCurrentFragmentBundle(bundle);
-                    FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
-                    formsByUserFragment.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
 
+                    if(numberOfTabs==2){
+                        Bundle bundle = new Bundle();
+                        Fragment formsByUserFragment = new FormsByUserFragment();
+                        bundle.putString("item", "assessment");
+                        bundle.putString("current","assessment");
+                        formsByUserFragment.setArguments(bundle);
+                        setCurrentFragmentBundle(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                        return;
+                    }else {
+                        Bundle bundle = new Bundle();
+                        Fragment formsByUserFragment = new FormsByUserFragment();
+                        bundle.putString("current", "registration");
+                        formsByUserFragment.setArguments(bundle);
+                        setCurrentFragmentBundle(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                        return;
+                    }
+                } else if (stab == 1) {
+                    if(numberOfTabs==2){
+                        Fragment accountingFragment = new AccountingFragment();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("item", "assessment");
+                        bundle.putString("current", "assessment");
+                        setCurrentFragmentBundle(bundle);
+                        FormsByUserFragment formsByUserFragment = new FormsByUserFragment();
+                        formsByUserFragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
+                    }
                 } else {
                     Fragment accountingFragment = new AccountingFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
@@ -338,4 +421,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             snackbar.show();
         }
     }
+    public SharedViewModel getSharedViewModel(){
+        return sharedViewModel;
+    }
+
+
 }
+

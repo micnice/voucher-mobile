@@ -38,7 +38,9 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.TimeZone;
 
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.enums.EducationStatus;
 import morris.com.voucher.enums.MaritalStatus;
@@ -70,6 +72,7 @@ public class RegisterClientFragment extends BaseFragment  {
     Button setDOB,saveData,lmpDatePicker;
     CheckBox markAsFinalised;
     String age,lmpAge;
+    private SharedViewModel sharedViewModel;
     private Calendar calendar;
     private int year, month, day;
     public VoucherDataBase database;
@@ -98,6 +101,8 @@ public class RegisterClientFragment extends BaseFragment  {
             requestPermissions();
         }
         bundle = getArguments();
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        sharedViewModel = dashBoard.getSharedViewModel();
 
         if(bundle== null ||bundle.getString("updateClient")==null) {
             locationIntent = new Intent(getActivity().getApplicationContext(), LocationTracker.class);
@@ -243,14 +248,15 @@ public class RegisterClientFragment extends BaseFragment  {
                Date currentDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+2:00")).getTime();
                identificationData.setDateRegistered(new SimpleDateFormat("d/M/yyyy").format(currentDate));
 
-               identificationData.setCreatedBy("mbaradza");
+               if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null && sharedViewModel.getLoginDetails().getValue()!=null){
+                   identificationData.setCreatedBy(sharedViewModel.getLoginDetails().getValue().getUserName());
+               }
+
            }
 
 
             identificationData.setBirthDate(birthDate.getText().toString());
-            //TODO USE LOGGED IN USER
-
-            identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
+           identificationData.setEducationStatus(educationStatus.getSelectedItem().toString());
             identificationData.setFirstName(firstName.getText().toString());
             identificationData.setLastName(lastName.getText().toString());
             identificationData.setMaritalStatus(maritalStatus.getSelectedItem().toString());

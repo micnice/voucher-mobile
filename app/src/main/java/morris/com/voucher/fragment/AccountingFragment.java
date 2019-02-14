@@ -14,7 +14,9 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+import morris.com.voucher.MutableViewModel.SharedViewModel;
 import morris.com.voucher.R;
+import morris.com.voucher.activity.DashboardActivity;
 import morris.com.voucher.adapter.FormsByUserAdapter;
 import morris.com.voucher.database.VoucherDataBase;
 import morris.com.voucher.model.IdentificationData;
@@ -27,6 +29,7 @@ public class AccountingFragment extends BaseFragment {
 
    public  static AccountingFragment accountingFragment;
     private RecyclerView recyclerView;
+    private SharedViewModel sharedViewModel;
     Button sellVoucher,claimVoucher;
     private List<IdentificationData> dataList = new ArrayList<>();
     FormsByUserAdapter adapter;
@@ -39,6 +42,7 @@ public class AccountingFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
     }
@@ -54,11 +58,23 @@ public class AccountingFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_accounting, container, false);
         Context context = view.getContext();
+        DashboardActivity dashBoard = (DashboardActivity)getActivity();
+        sharedViewModel = dashBoard.getSharedViewModel();
 
         sellVoucher = view.findViewById(R.id.sellVoucher);
         claimVoucher = view.findViewById(R.id.claimVoucher);
         if(getActivity().findViewById(R.id.search)!=null) {
             getActivity().findViewById(R.id.search).setVisibility(View.GONE);
+        }
+        if(sharedViewModel!=null && sharedViewModel.getLoginDetails()!=null &&sharedViewModel.getLoginDetails().getValue()!=null
+                &&!sharedViewModel.getLoginDetails().getValue().getRoles().isEmpty()){
+            if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("BENEFICIARY_ASSESSOR")){
+                claimVoucher.setVisibility(View.GONE);
+            }
+            if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("DATA_ENTRY_CLERK")){
+                sellVoucher.setVisibility(View.GONE);
+            }
+
         }
 
         accountingFragment = this;
