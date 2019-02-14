@@ -108,7 +108,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     numberOfTabs=3;
                 }else{
                     dashboardTabs.addTab(dashboardTabs.newTab().setText("Data Entry"));
-                    numberOfTabs=1;
+                    numberOfTabs=0;
                 }
                 Fragment formsByUserFragment = new FormsByUserFragment();
                 Bundle bundle = new Bundle();
@@ -130,6 +130,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
             }else if(sharedViewModel.getLoginDetails().getValue().getRoles().contains("DATA_ENTRY_CLERK")){
                 dashboardTabs.addTab(dashboardTabs.newTab().setText("Accounting"));
+                numberOfTabs=1;
                 Fragment accountingFragment = new AccountingFragment();
                 getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
 
@@ -155,7 +156,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         setCurrentFragmentBundle(bundle);
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
-                    }else {
+                    }else if(numberOfTabs==0) {
                         Bundle bundle = new Bundle();
                         Fragment formsByUserFragment = new FormsByUserFragment();
                         bundle.putString("current", "registration");
@@ -164,12 +165,18 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
                     }
+                    else if(numberOfTabs==1){
+                        Fragment accountingFragment = new AccountingFragment();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+
+                    }
+
                 } else if (stab == 1) {
                     if(numberOfTabs==2){
                         Fragment accountingFragment = new AccountingFragment();
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
 
-                    }else {
+                    }else if(numberOfTabs==3) {
                         Bundle bundle = new Bundle();
                         bundle.putString("item", "assessment");
                         bundle.putString("current", "assessment");
@@ -204,7 +211,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         setCurrentFragmentBundle(bundle);
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
-                    }else {
+                    }else if(numberOfTabs==0) {
                         Bundle bundle = new Bundle();
                         Fragment formsByUserFragment = new FormsByUserFragment();
                         bundle.putString("current", "registration");
@@ -213,12 +220,18 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
                     }
+                    else if(numberOfTabs==1){
+                        Fragment accountingFragment = new AccountingFragment();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
+
+                    }
+
                 } else if (stab == 1) {
                     if(numberOfTabs==2){
                         Fragment accountingFragment = new AccountingFragment();
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, accountingFragment).commit();
 
-                    }else {
+                    }else if(numberOfTabs==3) {
                         Bundle bundle = new Bundle();
                         bundle.putString("item", "assessment");
                         bundle.putString("current", "assessment");
