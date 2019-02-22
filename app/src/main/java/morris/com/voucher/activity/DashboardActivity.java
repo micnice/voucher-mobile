@@ -156,7 +156,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         setCurrentFragmentBundle(bundle);
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
-                    }else if(numberOfTabs==0) {
+                    }else if(numberOfTabs==0 || numberOfTabs ==3) {
                         Bundle bundle = new Bundle();
                         Fragment formsByUserFragment = new FormsByUserFragment();
                         bundle.putString("current", "registration");
@@ -201,7 +201,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 int stab = tab.getPosition();
 
                 if (stab == 0) {
-
+                    System.out.println("%%%%%-"+numberOfTabs);
                     if(numberOfTabs==2){
                         Bundle bundle = new Bundle();
                         Fragment formsByUserFragment = new FormsByUserFragment();
@@ -211,7 +211,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         setCurrentFragmentBundle(bundle);
                         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.register_client_holder, formsByUserFragment).commit();
                         return;
-                    }else if(numberOfTabs==0) {
+                    }else if(numberOfTabs==0 ||numberOfTabs ==3) {
                         Bundle bundle = new Bundle();
                         Fragment formsByUserFragment = new FormsByUserFragment();
                         bundle.putString("current", "registration");
